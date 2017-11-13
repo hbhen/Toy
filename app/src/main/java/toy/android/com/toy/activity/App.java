@@ -14,5 +14,6 @@ public class App extends Application {
         super.onCreate();
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+        //在这里做个试验
     }
 }

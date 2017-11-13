@@ -198,7 +198,7 @@ public class MyReceiver extends BroadcastReceiver {
                     DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
 
                 } else if (cmd.equals("TOYSP")) {
-                    //设置时间
+
                     ToastUtil.showToast(context,params.toString());
                     Log.i(TAG, "onReceive: params"+params.toString());
                 }
