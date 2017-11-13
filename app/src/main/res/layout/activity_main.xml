@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <Button
+        android:id="@+id/play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="play"
+        />
+
+    <Button
+        android:id="@+id/stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="stop"
+        />
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="next"
+        />
+
+    <Button
+        android:id="@+id/pre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="pre"
+        />
+
+    <Button
+        android:id="@+id/pause"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="pause"
+        />
+
+</LinearLayout>

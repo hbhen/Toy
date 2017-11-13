@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        multiDexEnabled true
+//        applicationId "com.example.meetingsdkdemo"
+        minSdkVersion 15
+        targetSdkVersion 22
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile project(':sdktest_android')
+    compile files('libs/hockeysdk-android.jar')
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile project(':outInterFace')
+}

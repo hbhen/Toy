@@ -1,0 +1,134 @@
+[
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\translucent_zoom_exit.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\translucent_zoom_exit.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\abc_slide_in_bottom.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\translucent_zoom_in.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\translucent_zoom_in.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\scale_in.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\scale_in.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\no_anim.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\no_anim.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\abc_fade_in.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_fade_in.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\abc_slide_out_top.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_out_top.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\slide_down.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\slide_down.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\abc_shrink_fade_out_from_bottom.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\push_bottom_in_2.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\push_bottom_in_2.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\push_bottom_in.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\push_bottom_in.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\abc_popup_exit.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_popup_exit.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\slide_right.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\slide_right.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\abc_slide_out_bottom.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_out_bottom.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\abc_grow_fade_in_from_bottom.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\icon_anim_fade_out.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\icon_anim_fade_out.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\translucent_zoom_out.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\translucent_zoom_out.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\push_up_in.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\push_up_in.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\slide_left.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\slide_left.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\scale_out.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\scale_out.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\slide_right_away.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\slide_right_away.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\slide_in_up.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\slide_in_up.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\abc_fade_out.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_fade_out.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\fade_ins.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\fade_ins.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\slide_left_away.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\slide_left_away.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\slide_up.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\slide_up.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\slide_out_down.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\slide_out_down.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\push_up_out.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\push_up_out.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\abc_popup_enter.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_popup_enter.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\icon_anim_fade_in.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\icon_anim_fade_in.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\no_anim_show.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\no_anim_show.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\push_buttom_out.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\whitePad\\unspecified\\res\\anim\\push_buttom_out.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\release\\anim\\abc_slide_in_top.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_in_top.xml"
+    }
+]
