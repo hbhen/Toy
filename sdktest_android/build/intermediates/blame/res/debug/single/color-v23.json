@@ -1,7 +1,15 @@
 [
     {
+        "merged": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_spinner.xml",
+        "source": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_tint_spinner.xml"
+    },
+    {
         "merged": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_spinner.xml",
         "source": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_tint_spinner.xml"
+    },
+    {
+        "merged": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_btn_checkable.xml",
+        "source": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_tint_btn_checkable.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_btn_colored_borderless_text_material.xml",
@@ -16,6 +24,22 @@
         "source": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_tint_default.xml"
     },
     {
+        "merged": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
+        "source": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_color_highlight_material.xml"
+    },
+    {
+        "merged": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_switch_track.xml",
+        "source": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_tint_switch_track.xml"
+    },
+    {
+        "merged": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_btn_colored_borderless_text_material.xml",
+        "source": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_btn_colored_borderless_text_material.xml"
+    },
+    {
+        "merged": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_switch_thumb.xml",
+        "source": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_tint_switch_thumb.xml"
+    },
+    {
         "merged": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_edittext.xml",
         "source": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_tint_edittext.xml"
     },
@@ -24,8 +48,20 @@
         "source": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_tint_switch_thumb.xml"
     },
     {
+        "merged": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_seek_thumb.xml",
+        "source": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_tint_seek_thumb.xml"
+    },
+    {
+        "merged": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_edittext.xml",
+        "source": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_tint_edittext.xml"
+    },
+    {
         "merged": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
         "source": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_color_highlight_material.xml"
+    },
+    {
+        "merged": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_default.xml",
+        "source": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_tint_default.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_seek_thumb.xml",

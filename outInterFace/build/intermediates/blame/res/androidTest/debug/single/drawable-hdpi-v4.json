@@ -1,5 +1,9 @@
 [
     {
+        "merged": "J:\\AndroidPro\\Toy\\outInterFace\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "J:\\AndroidPro\\Toy\\outInterFace\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+    },
+    {
         "merged": "D:\\AndroidPro\\Toy\\outInterFace\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
         "source": "D:\\AndroidPro\\Toy\\outInterFace\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
     }
