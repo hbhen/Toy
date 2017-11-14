@@ -1,5 +1,9 @@
 [
     {
+        "merged": "D:\\AndroidProject\\Toy\\outInterFace\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\activity_main.xml",
+        "source": "D:\\AndroidProject\\Toy\\outInterFace\\build\\intermediates\\bundles\\debug\\res\\layout\\activity_main.xml"
+    },
+    {
         "merged": "D:\\AndroidPro\\Toy\\outInterFace\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\activity_main.xml",
         "source": "D:\\AndroidPro\\Toy\\outInterFace\\build\\intermediates\\bundles\\debug\\res\\layout\\activity_main.xml"
     },
