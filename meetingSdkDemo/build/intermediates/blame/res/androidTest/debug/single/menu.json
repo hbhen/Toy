@@ -4,6 +4,10 @@
         "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\outInterFace\\unspecified\\res\\menu\\main.xml"
     },
     {
+        "merged": "D:\\AndroidProject\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\androidTest\\debug\\menu\\test.xml",
+        "source": "D:\\AndroidProject\\Toy\\meetingSdkDemo\\build\\intermediates\\bundles\\debug\\res\\menu\\test.xml"
+    },
+    {
         "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\androidTest\\debug\\menu\\test.xml",
         "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\bundles\\debug\\res\\menu\\test.xml"
     },
@@ -14,5 +18,9 @@
     {
         "merged": "J:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\androidTest\\debug\\menu\\test.xml",
         "source": "J:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\bundles\\debug\\res\\menu\\test.xml"
+    },
+    {
+        "merged": "D:\\AndroidProject\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\androidTest\\debug\\menu\\main.xml",
+        "source": "D:\\AndroidProject\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\Toy\\outInterFace\\unspecified\\res\\menu\\main.xml"
     }
 ]
