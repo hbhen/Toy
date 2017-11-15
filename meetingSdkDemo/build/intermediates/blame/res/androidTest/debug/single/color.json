@@ -32,12 +32,12 @@
         "source": "J:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\switch_thumb_material_light.xml"
     },
     {
-        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\switch_thumb_material_light.xml",
-        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\switch_thumb_material_light.xml"
-    },
-    {
         "merged": "D:\\AndroidProject\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\switch_thumb_material_dark.xml",
         "source": "D:\\AndroidProject\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\switch_thumb_material_dark.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\switch_thumb_material_light.xml",
+        "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color\\switch_thumb_material_light.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\abc_primary_text_disable_only_material_light.xml",
