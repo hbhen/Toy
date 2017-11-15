@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="J:\AndroidPro\Toy\outInterFace\src\main\shaders"/></dataSet><dataSet config="debug"><source path="J:\AndroidPro\Toy\outInterFace\src\debug\shaders"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="D:\AndroidProject\Toy\outInterFace\src\main\shaders"/></dataSet><dataSet config="debug"><source path="D:\AndroidProject\Toy\outInterFace\src\debug\shaders"/></dataSet></merger>
