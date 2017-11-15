@@ -16,7 +16,7 @@ public class VideoService2 extends IntentService {
      *
      * @param name Used to name the worker thread, important only for debugging.
      */
-    public VideoService2(String name) {
+    public VideoService2() {
         super("video");
     }
 
