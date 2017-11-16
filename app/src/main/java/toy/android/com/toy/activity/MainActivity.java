@@ -12,6 +12,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
@@ -59,6 +60,8 @@ public class MainActivity extends BaseActivity {
     public final static int CAMERA = 2;
     public static final int RECORD_AUDIO = 4;
 
+    PowerManager.WakeLock wakeLock = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +73,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         checkPhonePermission();
         JPushInterface.initCrashHandler(this);
+        acquireWakeLock();
         checkNetState();
         mRid = JPushInterface.getRegistrationID(getApplicationContext());
         Log.i("1212321", "jpushisstop: " + JPushInterface.isPushStopped(this));
@@ -77,7 +81,19 @@ public class MainActivity extends BaseActivity {
         Log.i(TAG, "onCreate: ++++" + JPushInterface.isPushStopped(this));
         ToyLogin(mDeviceId);
     }
-
+    //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
+    private void acquireWakeLock()
+    {
+        if (null == wakeLock)
+        {
+            PowerManager pm = (PowerManager)this.getSystemService(Context.POWER_SERVICE);
+            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK|PowerManager.ON_AFTER_RELEASE, "PostLocationService");
+            if (null != wakeLock)
+            {
+                wakeLock.acquire();
+            }
+        }
+    }
     private void checkNetState() {
         //开服务,去后台,不断的循环判断网络状态;
         Intent intent=new Intent();

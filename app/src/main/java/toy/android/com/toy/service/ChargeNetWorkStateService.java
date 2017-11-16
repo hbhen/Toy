@@ -19,9 +19,7 @@ public class ChargeNetWorkStateService extends Service {
     private ConnectivityManager connectivityManager;
     private NetworkInfo info;
 
-//    public ChargeNetWorkStateService() {
-//        super("network");
-//    }
+
 
     @Nullable
     @Override
@@ -29,9 +27,7 @@ public class ChargeNetWorkStateService extends Service {
         return null;
     }
 
-//    @Override
-//    protected void onHandleIntent(Intent intent) {
-//    }
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -66,26 +62,12 @@ public class ChargeNetWorkStateService extends Service {
                     String name = info.getTypeName();
                     Log.d(TAG, "当前网络名称：" + name);
                     //doSomething()
+
                 } else {
                     Log.d(TAG, "没有可用网络");
                     //doSomething()
-//                    try {
-//                        Thread.sleep(50000);
-//                        Log.i(TAG, "onReceive: ????");
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    final Handler handler = new Handler();
-//                    handler.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            try {
-//                                Log.i(TAG, "run: " + Thread.currentThread());
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    }, 1000);
+                    Intent intent1 = new Intent();
+                    intent1.setClass(context,WifiKeyListenerService.class);
 
                 }
             }

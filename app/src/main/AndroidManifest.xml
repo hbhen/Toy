@@ -22,6 +22,7 @@
     <uses-permission android:name="toy.android.com.toy.permission.JPUSH_MESSAGE"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.DEVICE_POWER"/>
 
     <application
         android:name=".activity.App"
@@ -136,6 +137,7 @@
         <service android:name=".service.VideoService2"></service>
         <service android:name=".service.ControlPlayService"></service>
         <service android:name=".service.ChargeNetWorkStateService"/>
+        <service android:name=".service.WifiKeyListenerService"/>
 
         <activity
             android:name=".activity.VideoActivity"
