@@ -13,15 +13,7 @@ public class VideoService2 extends IntentService {
     private static final String TAG = "video";
     private static final String TAGD = "circle";
 
-<<<<<<< HEAD
 
-=======
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
-     */
->>>>>>> refs/remotes/origin/master
     public VideoService2() {
         super("video");
     }
