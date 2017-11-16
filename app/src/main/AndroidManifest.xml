@@ -133,7 +133,9 @@
             android:value="d29f488c77126c88b886f4c5"/>
 
         <service android:name=".service.VideoService"></service>
+        <service android:name=".service.VideoService2"></service>
         <service android:name=".service.ControlPlayService"></service>
+        <service android:name=".service.ChargeNetWorkStateService"/>
 
         <activity
             android:name=".activity.VideoActivity"

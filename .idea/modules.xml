@@ -3,16 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Toy.iml" filepath="$PROJECT_DIR$/Toy.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Toy.iml" filepath="$PROJECT_DIR$/Toy.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/meetingSdkDemo/meetingSdkDemo.iml" filepath="$PROJECT_DIR$/meetingSdkDemo/meetingSdkDemo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/meetingSdkDemo/meetingSdkDemo.iml" filepath="$PROJECT_DIR$/meetingSdkDemo/meetingSdkDemo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/outInterFace/outInterFace.iml" filepath="$PROJECT_DIR$/outInterFace/outInterFace.iml" />
       <module fileurl="file://$PROJECT_DIR$/outInterFace/outInterFace.iml" filepath="$PROJECT_DIR$/outInterFace/outInterFace.iml" />
       <module fileurl="file://$PROJECT_DIR$/sdktest_android/sdktest_android.iml" filepath="$PROJECT_DIR$/sdktest_android/sdktest_android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sdktest_android/sdktest_android.iml" filepath="$PROJECT_DIR$/sdktest_android/sdktest_android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/whitePad/whitePad.iml" filepath="$PROJECT_DIR$/whitePad/whitePad.iml" />
       <module fileurl="file://$PROJECT_DIR$/whitePad/whitePad.iml" filepath="$PROJECT_DIR$/whitePad/whitePad.iml" />
     </modules>
   </component>

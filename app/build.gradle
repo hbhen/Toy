@@ -54,4 +54,5 @@ dependencies {
     //    compile files('libs/jcore-android-1.1.6.jar')
     compile project(':outInterFace')
     compile project(':sdktest_android')
+    compile 'com.orhanobut:logger:2.1.1'
 }

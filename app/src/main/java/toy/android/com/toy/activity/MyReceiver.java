@@ -21,6 +21,7 @@ import toy.android.com.toy.utils.ToastUtil;
 
 public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "JPush";
+    private static final String TAGD = "circle";
     Intent controlMusicIntent = new Intent();
     private String mRoomId;
 
@@ -122,35 +123,38 @@ public class MyReceiver extends BroadcastReceiver {
 
                 //语音视频通话
                 else if (cmd.equals("contact_toy")) {
-//                    ListenerManager.getInstance().sendBroadCast("contact_toy", params);
                     String method = params.getString("method");
                     mRoomId = params.getString("room");
                     Log.i(TAG, "method: " + method);
-                    int videoControlMethod = Integer.parseInt(method);
-                    switch (videoControlMethod) {
-                        case 1://连接房间
-                            intent.setClass(context, VideoService.class);
-                            intent.putExtra("method", 1);
-                            intent.putExtra("roomid", mRoomId);
-                            context.startService(intent);
-                            Log.i("context", "video" + videoControlMethod);
-//                            //把房间号传到videoactivity里面去
-                            ToastUtil.showToast(context, "开始通话" + mRoomId);
-                            Log.i(TAG, "开始通话" + mRoomId);
-                            break;
-                        case 2://关闭通话
-                            Log.i("context", "video" + videoControlMethod);
-                            ToastUtil.showToast(context, "关闭通话" + mRoomId);
-                            Log.i(TAG, "关闭通话" + mRoomId);
-                            break;
-                        case 3:
-                            Log.i("context", "video" + videoControlMethod);
-                            ToastUtil.showToast(context, "未知" + mRoomId);
-                            Log.i(TAG, "未知" + mRoomId);
-                            break;
-                        default:
-                            break;
-                    }
+//                    switch (videoControlMethod) {
+//                        case 1://连接房间
+                    intent.setClass(context, VideoService.class);
+//                            intent.putExtra("method", 1);
+//                            intent.putExtra("roomid", mRoomId);
+//                            context.startService(intent);
+//                            Log.i("context", "video" + videoControlMethod);
+////                            //把房间号传到videoactivity里面去
+//                            ToastUtil.showToast(context, "开始通话" + mRoomId);
+//                            Log.i(TAG, "开始通话" + mRoomId);
+//                            break;
+                    intent.putExtra("method", method);
+                    intent.putExtra("roomid", mRoomId);
+                    context.startService(intent);
+                    ToastUtil.showToast(context, "通话" + mRoomId);
+                    Log.d(TAGD, "(MyReceiver)onReceive: went" + method);
+//                        case 2://关闭通话
+//                            Log.i("context", "video" + videoControlMethod);
+//                            ToastUtil.showToast(context, "关闭通话" + mRoomId);
+//                            Log.i(TAG, "关闭通话" + mRoomId);
+//                            break;
+//                        case 3:
+//                            Log.i("context", "video" + videoControlMethod);
+//                            ToastUtil.showToast(context, "未知" + mRoomId);
+//                            Log.i(TAG, "未知" + mRoomId);
+//                            break;
+//                        default:
+//                            break;
+//                    }
                 }
                 //控制录音
                 else if (cmd.equals("recordvolume")) {
@@ -158,7 +162,6 @@ public class MyReceiver extends BroadcastReceiver {
                     String methodString = params.getString("method");
                     String recordUrl = params.getString("url");
                     int methodInt = Integer.parseInt(methodString);
-
                     switch (methodInt) {
                         case 1://播放
                             controlMusicIntent.putExtra("method", methodString);
@@ -199,8 +202,8 @@ public class MyReceiver extends BroadcastReceiver {
 
                 } else if (cmd.equals("TOYSP")) {
 
-                    ToastUtil.showToast(context,params.toString());
-                    Log.i(TAG, "onReceive: params"+params.toString());
+                    ToastUtil.showToast(context, params.toString());
+                    Log.i(TAG, "onReceive: params" + params.toString());
                 }
 
             } catch (JSONException e) {

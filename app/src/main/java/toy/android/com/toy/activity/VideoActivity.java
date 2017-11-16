@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
+
 import net.hockeyapp.android.CrashManagerListener;
 import net.hockeyapp.android.Strings;
 
@@ -39,6 +41,7 @@ import static android.R.attr.name;
 public class VideoActivity extends AppCompatActivity implements SessionInterface {
 
     private static final String TAG = "videoaa";
+    private static final String TAGD = "circle";
     //错误的信息 wrongmessage
     static public int WEIYI_VIDEO_OUT_SLOW = 1;
     static public int WEIYI_VIDEO_OUT_DISCONNECT = 2;
@@ -72,32 +75,42 @@ public class VideoActivity extends AppCompatActivity implements SessionInterface
     public static final int CAMERA_OK = 0;
     private Intent mIntent;
     public static int RECORD_AUDIO_OK = 1;
+    private String mMethod;
+    private Intent mIntent1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         AtyContainer.getInstance().addActivity(this);
-        if (getIntent().getIntExtra("method", 0) == 1) {
-            Session.getInstance().registerListener(this);
-        }
-        usefront = hasfront = Session.getInstance().Init(this, "demo", "", true);
-        boolean hasFrontCamera = Session.getInstance().hasFrontCamera();
-        mCameraInfo = Session.getInstance().getCameraInfo();
-        checkForCrashes();
+        Log.d(TAGD, "(VideoActivity)onCreate: went");
         mIntent = getIntent();
-
+        mMethod = getIntent().getStringExtra("method");
         mRoomid = mIntent.getStringExtra("roomid");
         Log.i(TAG, "onCreate: mRoomid:" + mRoomid);
-        Log.i(TAG, "onCreate: hasfrontcamera:" + hasFrontCamera);
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_OK);
+        if (mMethod.equals("1")) {
+            Log.d(TAGD, "判断 onCreate: method 1  went");
+            Session.getInstance().registerListener(this);
+            usefront = hasfront = Session.getInstance().Init(this, "demo", "", true);
+            boolean hasFrontCamera = Session.getInstance().hasFrontCamera();
+            mCameraInfo = Session.getInstance().getCameraInfo();
+            checkForCrashes();
+
+            Log.i(TAG, "onCreate: hasfrontcamera:" + hasFrontCamera);
+            if (Build.VERSION.SDK_INT >= 23) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_OK);
+                } else {
+                    Start(false, 0);
+                }
             } else {
                 Start(false, 0);
             }
         } else {
-            Start(false, 0);
+            Log.d(TAGD, "判断 onCreate: method 2  went");
+            leaveMeeting();
+            stopService(mIntent);
+            finish();
         }
 //        Log.i(TAG, "onCreate: ????");
 //        Log.i(TAG, "onCreate: permission  !=");
@@ -201,8 +214,10 @@ public class VideoActivity extends AppCompatActivity implements SessionInterface
     }
 
     //在连接的走的方法
+
     @Override
     public void onConnect(int status, int quality) {
+        Log.d(TAGD, "(VideoActivity)onConnect: went");
         log("onConnect " + status + " " + quality);
         Log.i(TAG, "onConnect: went:" + status + ": :" + quality);
         MeetingUser meetingUser = new MeetingUser();
@@ -245,7 +260,7 @@ public class VideoActivity extends AppCompatActivity implements SessionInterface
 
     @Override
     public void onDisConnect(int status) {
-
+        Log.d(TAGD, "(VideoActivity)onDisConnect: went");
         log("onDisconnect " + status);
         Log.i(TAG, "onDisConnect: ??" + status);
         _myPeerID = 0;
@@ -404,6 +419,8 @@ public class VideoActivity extends AppCompatActivity implements SessionInterface
     }
 
     private static void onConnect(Activity activity, int nRet) {
+        Log.d(TAGD, "(VideoActivity)onConnect: went");
+        Logger.d("(VideoActivity)onConnect: went");
         Log.e("emm", "check meeting failed and result=" + nRet);
         if (activity == null) {
             return;
@@ -433,6 +450,11 @@ public class VideoActivity extends AppCompatActivity implements SessionInterface
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        leaveMeeting();
+
+    }
+
+    private void leaveMeeting() {
         Session.getInstance().LeaveMeeting();
         _myPeerID = 0;
         uid = 0;
@@ -446,7 +468,6 @@ public class VideoActivity extends AppCompatActivity implements SessionInterface
         Log.i(TAG, "onRequestPermissionsResult: start??");
         switch (requestCode) {
             case CAMERA_OK:
-
                 Log.i(TAG, "camra_ok: start??");
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     ToastUtil.showToast(this, "打开摄像头");
@@ -461,11 +482,38 @@ public class VideoActivity extends AppCompatActivity implements SessionInterface
         }
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAGD, "(VideoActivity)onStart: went");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAGD, "(VideoActivity)onResume: went");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAGD, "(VideoActivity)onPause: went");
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAGD, "(VideoActivity)onStop: went");
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        this.stopService(mIntent);
-        AtyContainer.getInstance().removeActivity(this);
-
+        stopService(mIntent);
+        finish();
+        Log.d(TAGD, "(VideoActivity)onDestroy: went");
     }
 }

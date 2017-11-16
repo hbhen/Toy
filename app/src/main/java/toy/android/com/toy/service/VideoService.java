@@ -13,6 +13,7 @@ import toy.android.com.toy.activity.VideoActivity;
  */
 public class VideoService extends Service {
     private static final String TAG = "video";
+    private static final String TAGD = "circle";
     Intent controlIntent;
 
     @Nullable
@@ -24,37 +25,40 @@ public class VideoService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG, "onCreate:(video) went");
+        Log.d(TAGD, "(videoservice)onCreate: went");
     }
 
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
-        final String roomid = intent.getStringExtra("roomid");
+        String roomid = intent.getStringExtra("roomid");
+        String method = intent.getStringExtra("method");
+//        Log.d(TAGD, "(videoservice)onStartCommand: went1方法是" + method);
         controlIntent = intent;
-        if (controlIntent.getIntExtra("method",0)==1){
-            Log.i(TAG, "onCreate:(video) went1");
+//        controlIntent.putExtra("roomid", roomid);
+//        controlIntent.putExtra("method", method);
+//        controlIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        controlIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        controlIntent.setClass(VideoService.this, VideoActivity.class);
+//        startActivity(controlIntent);
+//        Log.d(TAGD, "(videoservice)onStartCommand: went2方法是" + method);
+        if (method.equals("1")) {
+            Log.d(TAGD, "(videoservice)onStartCommand: went方法是" + method);
             controlIntent.putExtra("roomid", roomid);
-            controlIntent.putExtra("method", 1);
-            controlIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            controlIntent.putExtra("method", "1");
+            controlIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             controlIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             controlIntent.setClass(VideoService.this, VideoActivity.class);
             startActivity(controlIntent);
-        }else{
-            Log.i(TAG, "onCreate:(video) went1");
+        } else if (method.equals("2")) {
             controlIntent.putExtra("roomid", roomid);
-            controlIntent.putExtra("method", 2);
+            controlIntent.putExtra("method", "2");
+            controlIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            controlIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            controlIntent.setClass(VideoService.this, VideoActivity.class);
+            startActivity(controlIntent);
+//            stopSelf();
+            Log.d(TAGD, "(videoservice)onStartCommand: went方法是" + method);
         }
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                controlIntent=intent;
-//                controlIntent.putExtra("roomid",roomid);
-//                controlIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                controlIntent.setClass(VideoService.this, VideoActivity.class);
-//                startActivity(controlIntent);
-//
-//            }
-//        }).run();
         return START_STICKY;//需要不需要意外情况以后再次连接??现在是设置的需要连接!!
     }
 
@@ -62,5 +66,6 @@ public class VideoService extends Service {
     public void onDestroy() {
         super.onDestroy();
         stopService(controlIntent);
+        Log.d(TAGD, "(videoservice)onDestroy: went");
     }
 }

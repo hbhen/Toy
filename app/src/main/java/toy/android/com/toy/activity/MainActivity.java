@@ -37,6 +37,7 @@ import toy.android.com.toy.bean.ToyLoginReqBean;
 import toy.android.com.toy.bean.ToyLoginResBean;
 import toy.android.com.toy.interf.MyInterface;
 import toy.android.com.toy.internet.Constants;
+import toy.android.com.toy.service.ChargeNetWorkStateService;
 import toy.android.com.toy.utils.ToastUtil;
 
 
@@ -69,11 +70,19 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         checkPhonePermission();
         JPushInterface.initCrashHandler(this);
+        checkNetState();
         mRid = JPushInterface.getRegistrationID(getApplicationContext());
         Log.i("1212321", "jpushisstop: " + JPushInterface.isPushStopped(this));
         Log.i("devid", mRid);
         Log.i(TAG, "onCreate: ++++" + JPushInterface.isPushStopped(this));
         ToyLogin(mDeviceId);
+    }
+
+    private void checkNetState() {
+        //开服务,去后台,不断的循环判断网络状态;
+        Intent intent=new Intent();
+        intent.setClass(this,ChargeNetWorkStateService.class);
+        startService(intent);
     }
 
     private void checkPhonePermission() {
