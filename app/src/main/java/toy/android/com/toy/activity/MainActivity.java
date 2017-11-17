@@ -94,6 +94,7 @@ public class MainActivity extends BaseActivity {
             }
         }
     }
+
     private void checkNetState() {
         //开服务,去后台,不断的循环判断网络状态;
         Intent intent=new Intent();

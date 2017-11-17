@@ -27,8 +27,6 @@ public class ChargeNetWorkStateService extends Service {
         return null;
     }
 
-
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
