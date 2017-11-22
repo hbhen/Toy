@@ -1,27 +1,27 @@
 [
     {
-        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple.xml",
-        "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_screen_simple.xml"
-    },
-    {
         "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\notification_action_tombstone.xml",
         "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\notification_action_tombstone.xml"
+    },
+    {
+        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple.xml",
+        "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_screen_simple.xml"
     },
     {
         "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_bar.xml",
         "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_action_mode_bar.xml"
     },
     {
-        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_big_media_narrow.xml",
-        "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\notification_template_big_media_narrow.xml"
+        "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple.xml",
+        "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_screen_simple.xml"
     },
     {
         "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_bar_title_item.xml",
         "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_action_bar_title_item.xml"
     },
     {
-        "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple.xml",
-        "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_screen_simple.xml"
+        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_big_media_narrow.xml",
+        "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\notification_template_big_media_narrow.xml"
     },
     {
         "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_checkbox.xml",
@@ -36,12 +36,12 @@
         "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\notification_template_media.xml"
     },
     {
-        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\layout_text.xml",
-        "source": "D:\\AndroidProject\\Toy\\whitePad\\src\\main\\res\\layout\\layout_text.xml"
-    },
-    {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_media_custom.xml",
         "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\notification_template_media_custom.xml"
+    },
+    {
+        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\layout_text.xml",
+        "source": "D:\\AndroidProject\\Toy\\whitePad\\src\\main\\res\\layout\\layout_text.xml"
     },
     {
         "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\abc_alert_dialog_button_bar_material.xml",
@@ -76,16 +76,16 @@
         "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_search_dropdown_item_icons_2line.xml"
     },
     {
-        "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\activity_main.xml",
-        "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\Toy\\outInterFace\\unspecified\\res\\layout\\activity_main.xml"
+        "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple.xml",
+        "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_screen_simple.xml"
     },
     {
         "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\notification_media_action.xml",
         "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\notification_media_action.xml"
     },
     {
-        "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple.xml",
-        "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_screen_simple.xml"
+        "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\activity_main.xml",
+        "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\Toy\\outInterFace\\unspecified\\res\\layout\\activity_main.xml"
     },
     {
         "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_radio.xml",

@@ -12,12 +12,12 @@
         "source": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_search_dropdown_item_icons_2line.xml"
     },
     {
-        "merged": "D:\\AndroidProject\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\notification_template_part_chronometer.xml",
-        "source": "D:\\AndroidProject\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\notification_template_part_chronometer.xml"
-    },
-    {
         "merged": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_list_menu_item_radio.xml",
         "source": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_list_menu_item_radio.xml"
+    },
+    {
+        "merged": "D:\\AndroidProject\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\notification_template_part_chronometer.xml",
+        "source": "D:\\AndroidProject\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\notification_template_part_chronometer.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_dialog_title_material.xml",
@@ -76,12 +76,12 @@
         "source": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_list_menu_item_checkbox.xml"
     },
     {
-        "merged": "D:\\AndroidProject\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_select_dialog_material.xml",
-        "source": "D:\\AndroidProject\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_select_dialog_material.xml"
-    },
-    {
         "merged": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\notification_template_big_media_custom.xml",
         "source": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\notification_template_big_media_custom.xml"
+    },
+    {
+        "merged": "D:\\AndroidProject\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_select_dialog_material.xml",
+        "source": "D:\\AndroidProject\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_select_dialog_material.xml"
     },
     {
         "merged": "D:\\AndroidProject\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\select_dialog_multichoice_material.xml",

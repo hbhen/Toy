@@ -60,12 +60,12 @@
         "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_action_menu_layout.xml"
     },
     {
-        "merged": "D:\\AndroidProject\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\debug\\layout\\notification_media_action.xml",
-        "source": "D:\\AndroidProject\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\notification_media_action.xml"
-    },
-    {
         "merged": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_bar_title_item.xml",
         "source": "D:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_action_bar_title_item.xml"
+    },
+    {
+        "merged": "D:\\AndroidProject\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\debug\\layout\\notification_media_action.xml",
+        "source": "D:\\AndroidProject\\Toy\\meetingSdkDemo\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\notification_media_action.xml"
     },
     {
         "merged": "D:\\AndroidProject\\Toy\\meetingSdkDemo\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_bar_title_item.xml",

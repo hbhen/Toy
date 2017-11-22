@@ -72,12 +72,12 @@
         "source": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-mdpi-v4\\abc_scrubber_control_to_pressed_mtrl_000.png"
     },
     {
-        "merged": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\notification_bg_normal_pressed.9.png",
-        "source": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-mdpi-v4\\notification_bg_normal_pressed.9.png"
-    },
-    {
         "merged": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\abc_scrubber_primary_mtrl_alpha.9.png",
         "source": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-mdpi-v4\\abc_scrubber_primary_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\notification_bg_normal_pressed.9.png",
+        "source": "J:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-mdpi-v4\\notification_bg_normal_pressed.9.png"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\abc_list_pressed_holo_light.9.png",

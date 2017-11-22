@@ -8,12 +8,12 @@
         "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_fade_in.xml"
     },
     {
-        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_left_away.xml",
-        "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_left_away.xml"
-    },
-    {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_down.xml",
         "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_down.xml"
+    },
+    {
+        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_left_away.xml",
+        "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_left_away.xml"
     },
     {
         "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\icon_anim_fade_out.xml",
@@ -60,12 +60,12 @@
         "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\anim\\push_buttom_out.xml"
     },
     {
-        "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
-        "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
-    },
-    {
         "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\translucent_zoom_in.xml",
         "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\anim\\translucent_zoom_in.xml"
+    },
+    {
+        "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
+        "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
     },
     {
         "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\fade_ins.xml",
@@ -124,12 +124,12 @@
         "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\anim\\scale_in.xml"
     },
     {
-        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\push_up_out.xml",
-        "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\anim\\push_up_out.xml"
-    },
-    {
         "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_popup_exit.xml",
         "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_popup_exit.xml"
+    },
+    {
+        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\push_up_out.xml",
+        "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\anim\\push_up_out.xml"
     },
     {
         "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\scale_in.xml",
@@ -168,12 +168,12 @@
         "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_right_away.xml"
     },
     {
-        "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_slide_in_bottom.xml",
-        "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_in_bottom.xml"
-    },
-    {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\fade_ins.xml",
         "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\anim\\fade_ins.xml"
+    },
+    {
+        "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_slide_in_bottom.xml",
+        "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\anim\\abc_slide_in_bottom.xml"
     },
     {
         "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\push_up_in.xml",
