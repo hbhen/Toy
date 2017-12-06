@@ -1,14 +1,6 @@
 [
     {
-        "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\drawable-v23\\abc_control_background_material.xml",
-        "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-v23\\abc_control_background_material.xml"
-    },
-    {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\drawable-v23\\abc_control_background_material.xml",
         "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-v23\\abc_control_background_material.xml"
-    },
-    {
-        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\drawable-v23\\abc_control_background_material.xml",
-        "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-v23\\abc_control_background_material.xml"
     }
 ]

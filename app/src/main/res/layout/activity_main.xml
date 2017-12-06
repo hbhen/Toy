@@ -41,5 +41,11 @@
         android:layout_height="wrap_content"
         android:text="pause"
         />
+    <Button
+        android:text="@string/jump_to_wifiactivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/jumptoreg"
+        />
 
 </LinearLayout>

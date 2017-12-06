@@ -1,31 +1,7 @@
 [
     {
-        "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21\\notification_template_icon_group.xml",
-        "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_template_icon_group.xml"
-    },
-    {
-        "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21\\notification_action_tombstone.xml",
-        "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_action_tombstone.xml"
-    },
-    {
-        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21\\notification_template_custom_big.xml",
-        "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_template_custom_big.xml"
-    },
-    {
-        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21\\notification_template_icon_group.xml",
-        "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_template_icon_group.xml"
-    },
-    {
-        "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21\\notification_template_custom_big.xml",
-        "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_template_custom_big.xml"
-    },
-    {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21\\notification_action.xml",
         "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_action.xml"
-    },
-    {
-        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21\\notification_action.xml",
-        "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_action.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21\\notification_template_icon_group.xml",
@@ -34,14 +10,6 @@
     {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21\\notification_template_custom_big.xml",
         "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_template_custom_big.xml"
-    },
-    {
-        "merged": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21\\notification_action.xml",
-        "source": "J:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_action.xml"
-    },
-    {
-        "merged": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21\\notification_action_tombstone.xml",
-        "source": "D:\\AndroidProject\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout-v21\\notification_action_tombstone.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v21\\notification_action_tombstone.xml",

@@ -22,53 +22,5 @@
                 }
             }
         ]
-    },
-    {
-        "outputFile": "D:\\AndroidProject\\Toy\\meetingSdkDemo\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 57,
-                    "endOffset": 108
-                },
-                "from": {
-                    "file": "D:\\AndroidProject\\Toy\\meetingSdkDemo\\src\\main\\res\\values-w820dp\\dimens.xml",
-                    "position": {
-                        "startLine": 7,
-                        "startColumn": 4,
-                        "startOffset": 310,
-                        "endColumn": 57,
-                        "endOffset": 363
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "J:\\AndroidPro\\Toy\\meetingSdkDemo\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 57,
-                    "endOffset": 108
-                },
-                "from": {
-                    "file": "J:\\AndroidPro\\Toy\\meetingSdkDemo\\src\\main\\res\\values-w820dp\\dimens.xml",
-                    "position": {
-                        "startLine": 7,
-                        "startColumn": 4,
-                        "startOffset": 310,
-                        "endColumn": 57,
-                        "endOffset": 363
-                    }
-                }
-            }
-        ]
     }
 ]

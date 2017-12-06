@@ -27,7 +27,6 @@ public class MyReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
-//        Log.i(TAG, "onReceive: receiver 走一个");
         Bundle bundle = intent.getExtras();
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
@@ -75,10 +74,10 @@ public class MyReceiver extends BroadcastReceiver {
                             controlMusicIntent.putExtra("method", method);
                             controlMusicIntent.setClass(context, ControlPlayService.class);
                             context.startService(controlMusicIntent);
-//                            /**
-//                             * 1,当前正在播放,停止播放,清除resid
-//                             * 2,当前暂停,停止播放.清除resid
-//                             * */
+                            /**
+                             * 1,当前正在播放,停止播放,清除resid
+                             * 2,当前暂停,停止播放.清除resid
+                             * */
                             break;
                         case 4://切换下一首
                             controlMusicIntent.putExtra("method", method);
@@ -204,6 +203,18 @@ public class MyReceiver extends BroadcastReceiver {
 
                     ToastUtil.showToast(context, params.toString());
                     Log.i(TAG, "onReceive: params" + params.toString());
+
+                } else if (cmd.equals("准备接收网络指令")) {
+                    //开启一个service,等待用户发送指令
+                } else if (cmd.equals("接收指令并比对填充wlan")) {
+                    //1,开启的是声波解码activity,拿到wlan的名称,和密码.
+                    Intent wlanIntent = new Intent();
+                    wlanIntent.setClass(context, WifiActivity.class);
+                    wlanIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(wlanIntent);
+
+                    //2,拿到密码去设置,不对,发出未连接成功声音.对,发出连接成功的声音
+
                 }
 
             } catch (JSONException e) {

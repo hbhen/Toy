@@ -96,6 +96,7 @@
                 <category android:name="toy.android.com.toy"/>
             </intent-filter>
         </activity>
+        <activity android:name=".activity.WifiActivity"></activity>
 
         <!-- Required SDK核心功能-->
         <service
@@ -142,6 +143,11 @@
         <activity
             android:name=".activity.VideoActivity"
             android:launchMode="singleInstance"></activity>
+        <!--<receiver android:name=".activity.MainActivity$BatteryReceiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.BATTERY_CHANGED"/>-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
     </application>
 
 </manifest>

@@ -17,8 +17,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import com.google.gson.Gson;
 
@@ -39,6 +41,7 @@ import toy.android.com.toy.bean.ToyLoginResBean;
 import toy.android.com.toy.interf.MyInterface;
 import toy.android.com.toy.internet.Constants;
 import toy.android.com.toy.service.ChargeNetWorkStateService;
+import toy.android.com.toy.utils.SPUtils;
 import toy.android.com.toy.utils.ToastUtil;
 
 
@@ -51,16 +54,18 @@ public class MainActivity extends BaseActivity {
     private int mVersionCode;
     private int mWifiRssi;
     private String mRid;
-    private BatteryReceiver mBatteryReceiver;
     private int mCurrent;
+
     private int mSystemVoice;
     private String token = "";
-    int count = 0;
     public final static int REQUEST_READ_PHONE_STATE = 1;
     public final static int CAMERA = 2;
     public static final int RECORD_AUDIO = 4;
 
     PowerManager.WakeLock wakeLock = null;
+    private int mCurrentBattery;
+    private String mMic;
+    private int mMusicVoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,25 +76,53 @@ public class MainActivity extends BaseActivity {
         getWindow().addFlags(flagKeepScreenOn);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        boolean isfirstOpen = SPUtils.getBoolean(this, "isfirstOpen", true);
+        if (isfirstOpen) {
+            /*如果是第一次打开玩具,联网,激活玩具
+            * 1   声波联网
+            * 1.1 开机自启动
+            * 1.1.1第一次启动,就去联网做联网的相关操作;
+            *      非第一次启动,判断有没有网络
+            *      有网,就登录,激活;   无网络,做联网的相关操作;
+            * 1.2 联网相关操作
+            * 1.2.1 发出请求联网的提示音,等待联网的信号
+            * 1.2.2 接收联网的信号,将网络信息保存,设置到wifi里
+            *       成功,发出联网成功提示,等待手机给玩具的功能指令
+            *       不成功,重新请求联网,重复1.2.1
+            * 不是第一次启动玩具,判断有无网络,进行相关联网操作
+            *       有网,登录(上传玩具的信息),等待手机传送的指令
+            *       无网,做联网的相关操作
+            * */
+            //1,声波联网
+            Button jumptoreg = (Button) findViewById(R.id.jumptoreg);
+            jumptoreg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, WifiActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
+        //跳转wifiactivity
+
         checkPhonePermission();
         JPushInterface.initCrashHandler(this);
-        acquireWakeLock();
-        checkNetState();
+
+//        acquireWakeLock();
+//        checkNetState();
         mRid = JPushInterface.getRegistrationID(getApplicationContext());
-        Log.i("1212321", "jpushisstop: " + JPushInterface.isPushStopped(this));
-        Log.i("devid", mRid);
-        Log.i(TAG, "onCreate: ++++" + JPushInterface.isPushStopped(this));
+
         ToyLogin(mDeviceId);
+
     }
+
     //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
-    private void acquireWakeLock()
-    {
-        if (null == wakeLock)
-        {
-            PowerManager pm = (PowerManager)this.getSystemService(Context.POWER_SERVICE);
-            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK|PowerManager.ON_AFTER_RELEASE, "PostLocationService");
-            if (null != wakeLock)
-            {
+    private void acquireWakeLock() {
+        if (null == wakeLock) {
+            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "PostLocationService");
+            if (null != wakeLock) {
                 wakeLock.acquire();
             }
         }
@@ -97,14 +130,14 @@ public class MainActivity extends BaseActivity {
 
     private void checkNetState() {
         //开服务,去后台,不断的循环判断网络状态;
-        Intent intent=new Intent();
-        intent.setClass(this,ChargeNetWorkStateService.class);
+        Intent intent = new Intent();
+        intent.setClass(this, ChargeNetWorkStateService.class);
         startService(intent);
     }
 
     private void checkPhonePermission() {
-        Log.i(TAG, "checkPhonePermission: " + "RECORD_AUDIO未启用");
-        Log.i(TAG, "checkPhonePermission: " + "CAMERA未启用");
+        Log.i(TAG, "checkPhonePermission: " + "RECORD_AUDIO权限");
+        Log.i(TAG, "checkPhonePermission: " + "CAMERA权限");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int permissionCheck = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission
                     .READ_PHONE_STATE);
@@ -139,74 +172,18 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void init() {
 
-        WifiManager systemService = (WifiManager) getSystemService(WIFI_SERVICE);
-        //获取wifi信息API
-        WifiInfo connectionInfo = systemService.getConnectionInfo();
-        //wifi信号强度
-        mWifiRssi = connectionInfo.getRssi();
-
-        //获取音量API
-        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        //当前音乐音量
-        int musicVoice = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        //当前通话音量
-        int callVoice = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
-        //当前铃声音量
-        int ringVoice = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-        //当前提示音音量
-        int alarmVoice = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
-        //当前系统音量
-        mSystemVoice = audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM);
-        Log.i(TAG, "onCreate: " + mDeviceId + "--");
-
-        //获取版本信息:
-        PackageManager packageManager = getPackageManager();
-        try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(this.getPackageName(), 0);
-            mVersionCode = packageInfo.versionCode;
-            mVersionName = packageInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+    public class BatteryReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mCurrent = intent.getIntExtra("level", -1);
+            int total = intent.getIntExtra("scale", -1);
+            Log.d(TAG, "onReceive的currentBattery:" + mCurrent + "total:" + total);
+            unregisterReceiver(this);
         }
-
-        //获取当前设备的电量
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.intent.action.BATTERY_CHANGED");
-        Intent intent = new Intent();
-        intent.setAction("");
-        registerReceiver(mBatteryReceiver, intentFilter);
-        sendBroadcast(intent);
     }
 
-    private void initToy(String versionName, int wifiRssi, String rid, String token) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        MyInterface myInterface = retrofit.create(MyInterface.class);
-        ActiveToyReqBean.BODYBean bodyBean = new ActiveToyReqBean.BODYBean("A", "TOY", versionName, mCurrent + "",
-                wifiRssi + "", "", "", mSystemVoice + "", mRid);
-        ActiveToyReqBean activeToyReqBean = new ActiveToyReqBean("REQ", "HEART", "", new SimpleDateFormat
-                ("yyyyMMddHHmmssSSS").format(new Date()), bodyBean, "", token, "1");
-        Gson gson = new Gson();
-        String s = gson.toJson(activeToyReqBean);
-        Call<ActiveToyResBean> activeToyResBeanCall = myInterface.ACTIVE_TOY_RES_BEAN_CALL(s);
-        activeToyResBeanCall.enqueue(new Callback<ActiveToyResBean>() {
-            @Override
-            public void onResponse(Call<ActiveToyResBean> call, Response<ActiveToyResBean> response) {
-                Log.i(TAG, "onResponse:init toy" + response.message());
-                Log.i(TAG, "onResponse:init toy " + response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<ActiveToyResBean> call, Throwable t) {
-                Log.i(TAG, "onFailure: " + t);
-            }
-        });
-    }
-
+    //first step 让玩具和服务器产生关联 激活玩具
     private void ToyLogin(String deviceId) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.baseUrl)
@@ -234,11 +211,97 @@ public class MainActivity extends BaseActivity {
                 Log.i(TAG, "onResponse: toy login" + response.body().getBODY());
                 Log.i(TAG, "onResponse: toy login" + "成功了");
                 token = response.body().getTOKEN();
-                init();
-                initToy(mVersionName, mWifiRssi, mRid, token);
+                SPUtils.putString(MainActivity.this, "token", token);
+                initDeviceInfo();
+                toyHeart(mVersionName, mWifiRssi, mRid, token);
             }
         });
     }
+
+    //初始化玩具的信息 (信号<wifi,4g>,音量<音乐,通话>,电量,麦克风,摄像头)
+    private void initDeviceInfo() {
+
+        WifiManager systemService = (WifiManager) getSystemService(WIFI_SERVICE);
+        //获取wifi信息API
+        WifiInfo connectionInfo = systemService.getConnectionInfo();
+        //wifi信号强度
+        mWifiRssi = connectionInfo.getRssi();
+        Log.d(TAG, "init: wifi" + mWifiRssi);
+
+        //获取音量API
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        //当前音乐音量
+        mMusicVoice = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        //当前通话音量
+        int callVoice = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
+        //当前铃声音量
+        int ringVoice = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+        //当前提示音音量
+        int alarmVoice = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+        //当前系统音量
+        mSystemVoice = audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM);
+        Log.d(TAG, "init: musicvoice=" + mMusicVoice + ";callvoice=" + callVoice + ";ringvoice=" + ringVoice + ";alarmvoice=" + alarmVoice);
+        Log.i(TAG, "onCreate: " + mDeviceId + ";");
+
+        //获取版本信息:
+        PackageManager packageManager = getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(this.getPackageName(), 0);
+            mVersionCode = packageInfo.versionCode;
+            mVersionName = packageInfo.versionName;
+            Log.d(TAG, "init: packinfo:versioncode:" + mVersionCode + ",versionname:" + mVersionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+//        AudioManager audioManager = getSystemService(AUDIO_SERVICE);
+        //判断麦克风是否打开?
+        boolean microphoneMute = audioManager.isMicrophoneMute();
+        if (microphoneMute) {
+            mMic = "1";
+        } else {
+            mMic = "2";
+        }
+        //通过broadcastreceiver获取当前设备的电量
+        BatteryReceiver batteryReceiver = new BatteryReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(batteryReceiver, intentFilter);
+
+    }
+
+    //心跳接口3.4.6
+    private void toyHeart(String versionName, int wifiRssi, String rid, String token) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        MyInterface myInterface = retrofit.create(MyInterface.class);
+        ActiveToyReqBean.BODYBean bodyBean = new ActiveToyReqBean.BODYBean("A", "TOY", versionName, mCurrentBattery + "",
+                wifiRssi + "", mMic, "", mMusicVoice + "", mRid);
+        ActiveToyReqBean activeToyReqBean = new ActiveToyReqBean("REQ", "HEART", "", new SimpleDateFormat
+                ("yyyyMMddHHmmssSSS").format(new Date()), bodyBean, "", token, "1");
+        Gson gson = new Gson();
+        String s = gson.toJson(activeToyReqBean);
+        Log.d(TAG, "toyHeart: 数据信息:" + s.toString());
+        Call<ActiveToyResBean> activeToyResBeanCall = myInterface.ACTIVE_TOY_RES_BEAN_CALL(s);
+        activeToyResBeanCall.enqueue(new Callback<ActiveToyResBean>() {
+            @Override
+            public void onResponse(Call<ActiveToyResBean> call, Response<ActiveToyResBean> response) {
+
+                Log.i(TAG, "onResponse:init toy" + response.message());
+                Log.i(TAG, "onResponse:init toy " + response.body().toString());
+
+            }
+
+            @Override
+            public void onFailure(Call<ActiveToyResBean> call, Throwable t) {
+                Log.i(TAG, "onFailure: " + t);
+            }
+        });
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -262,18 +325,6 @@ public class MainActivity extends BaseActivity {
         super.onPause();
     }
 
-    private class BatteryReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            mCurrent = intent.getExtras().getInt("level");
-            Bundle extras = intent.getExtras();
-
-            int total = intent.getExtras().getInt("scale");
-            Log.i(TAG, "onReceive-- " + "current:" + mCurrent + "total:" + total);
-
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

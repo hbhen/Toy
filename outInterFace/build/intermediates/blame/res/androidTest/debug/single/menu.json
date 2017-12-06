@@ -1,13 +1,5 @@
 [
     {
-        "merged": "D:\\AndroidProject\\Toy\\outInterFace\\build\\intermediates\\res\\merged\\androidTest\\debug\\menu\\main.xml",
-        "source": "D:\\AndroidProject\\Toy\\outInterFace\\build\\intermediates\\bundles\\debug\\res\\menu\\main.xml"
-    },
-    {
-        "merged": "J:\\AndroidPro\\Toy\\outInterFace\\build\\intermediates\\res\\merged\\androidTest\\debug\\menu\\main.xml",
-        "source": "J:\\AndroidPro\\Toy\\outInterFace\\build\\intermediates\\bundles\\debug\\res\\menu\\main.xml"
-    },
-    {
         "merged": "D:\\AndroidPro\\Toy\\outInterFace\\build\\intermediates\\res\\merged\\androidTest\\debug\\menu\\main.xml",
         "source": "D:\\AndroidPro\\Toy\\outInterFace\\build\\intermediates\\bundles\\debug\\res\\menu\\main.xml"
     }

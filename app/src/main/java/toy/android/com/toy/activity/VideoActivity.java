@@ -18,8 +18,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.orhanobut.logger.Logger;
-
 import net.hockeyapp.android.CrashManagerListener;
 import net.hockeyapp.android.Strings;
 
@@ -420,7 +418,7 @@ public class VideoActivity extends AppCompatActivity implements SessionInterface
 
     private static void onConnect(Activity activity, int nRet) {
         Log.d(TAGD, "(VideoActivity)onConnect: went");
-        Logger.d("(VideoActivity)onConnect: went");
+        Log.d(TAG,"(VideoActivity)onConnect: went");
         Log.e("emm", "check meeting failed and result=" + nRet);
         if (activity == null) {
             return;
