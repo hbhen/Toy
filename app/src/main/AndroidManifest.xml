@@ -32,14 +32,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="icon,label,theme">
-        <activity android:name=".activity.MainActivity">
+        <activity
+            android:name=".activity.MainActivity"
+            android:clearTaskOnLaunch="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!-- Required SDK 核心功能-->
+
+        <receiver android:name=".receiver.AutoOpen">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+        <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -52,12 +63,13 @@
                 <action android:name="cn.jpush.android.intent.PUSH_TIME"/>
             </intent-filter>
         </service>
-        <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true">
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY"/>
+
                 <category android:name="toy.android.com.toy"/>
             </intent-filter>
             <intent-filter>
@@ -72,7 +84,7 @@
                 <data android:scheme="package"/>
             </intent-filter>
         </receiver>
-        <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -85,7 +97,7 @@
                 <category android:name="toy.android.com.toy"/>
             </intent-filter>
         </activity>
-        <!-- SDK核心功能-->
+        <!-- SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -96,9 +108,9 @@
                 <category android:name="toy.android.com.toy"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.WifiActivity"></activity>
+        <activity android:name=".activity.WifiActivity"/>
 
-        <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
@@ -106,23 +118,25 @@
         </service>
         <service android:name=".service.TimeService"/>
 
-        <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver"/>
-        <!-- User defined. 用户自定义的广播接收器-->
+        <!-- User defined. 用户自定义的广播接收器 -->
         <receiver
             android:name=".activity.MyReceiver"
             android:enabled="true">
             <intent-filter>
-                <!--Required 用户注册SDK的intent-->
+
+                <!-- Required 用户注册SDK的intent -->
                 <action android:name="cn.jpush.android.intent.REGISTRATION"/>
-                <!--Required 用户接收SDK消息的intent-->
+                <!-- Required 用户接收SDK消息的intent -->
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/>
-                <!--Required 用户接收SDK通知栏信息的intent-->
+                <!-- Required 用户接收SDK通知栏信息的intent -->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/>
-                <!--Required 用户打开自定义通知栏的intent-->
+                <!-- Required 用户打开自定义通知栏的intent -->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/>
                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <action android:name="cn.jpush.android.intent.CONNECTION"/>
+
                 <category android:name="toy.android.com.toy"/>
             </intent-filter>
         </receiver>
@@ -134,20 +148,21 @@
             android:name="JPUSH_APPKEY"
             android:value="d29f488c77126c88b886f4c5"/>
 
-        <service android:name=".service.VideoService"></service>
-        <service android:name=".service.VideoService2"></service>
-        <service android:name=".service.ControlPlayService"></service>
+        <service android:name=".service.VideoService"/>
+        <service android:name=".service.VideoService2"/>
+        <service android:name=".service.ControlPlayService"/>
         <service android:name=".service.ChargeNetWorkStateService"/>
         <service android:name=".service.WifiKeyListenerService"/>
 
         <activity
             android:name=".activity.VideoActivity"
-            android:launchMode="singleInstance"></activity>
-        <!--<receiver android:name=".activity.MainActivity$BatteryReceiver">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.BATTERY_CHANGED"/>-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
+            android:launchMode="singleTask"/>
+
+        <service
+            android:name=".service.KeepLive"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>

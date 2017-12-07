@@ -17,10 +17,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 
 import com.google.gson.Gson;
 
@@ -41,8 +39,8 @@ import toy.android.com.toy.bean.ToyLoginResBean;
 import toy.android.com.toy.interf.MyInterface;
 import toy.android.com.toy.internet.Constants;
 import toy.android.com.toy.service.ChargeNetWorkStateService;
+import toy.android.com.toy.service.KeepLive;
 import toy.android.com.toy.utils.SPUtils;
-import toy.android.com.toy.utils.ToastUtil;
 
 
 public class MainActivity extends BaseActivity {
@@ -76,6 +74,7 @@ public class MainActivity extends BaseActivity {
         getWindow().addFlags(flagKeepScreenOn);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
         boolean isfirstOpen = SPUtils.getBoolean(this, "isfirstOpen", true);
         if (isfirstOpen) {
             /*如果是第一次打开玩具,联网,激活玩具
@@ -94,17 +93,17 @@ public class MainActivity extends BaseActivity {
             *       无网,做联网的相关操作
             * */
             //1,声波联网
-            Button jumptoreg = (Button) findViewById(R.id.jumptoreg);
-            jumptoreg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, WifiActivity.class);
-                    startActivity(intent);
-                }
-            });
+            //跳转wifiactivity
+//            Button jumptoreg = (Button) findViewById(R.id.jumptoreg);
+//            jumptoreg.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(MainActivity.this, WifiActivity.class);
+//                    startActivity(intent);
+//                }
+//            });
         }
 
-        //跳转wifiactivity
 
         checkPhonePermission();
         JPushInterface.initCrashHandler(this);
@@ -112,8 +111,13 @@ public class MainActivity extends BaseActivity {
 //        acquireWakeLock();
 //        checkNetState();
         mRid = JPushInterface.getRegistrationID(getApplicationContext());
+        Intent intent = new Intent();
+        intent.setClass(this, KeepLive.class);
+        intent.putExtra("deviceid", mDeviceId);
+        intent.putExtra("devicecode",mRid);
+        startService(intent);
 
-        ToyLogin(mDeviceId);
+//        ToyLogin(mDeviceId);
 
     }
 
@@ -147,7 +151,7 @@ public class MainActivity extends BaseActivity {
                 Log.i(TAG, "onRequestPermissionsResult: REQUEST_READ_PHONE_STATE" + "请求");
                 TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
                 mDeviceId = telephonyManager.getDeviceId();
-                ToastUtil.showToast(this, "mDeviced" + mDeviceId);
+//                ToastUtil.showToast(this, "mDeviced" + mDeviceId);
                 Log.i(TAG, "deviced---" + mDeviceId);
             }
             if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -165,14 +169,14 @@ public class MainActivity extends BaseActivity {
         } else {
             TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             mDeviceId = telephonyManager.getDeviceId();
-            ToastUtil.showToast(this, "mDeviced" + mDeviceId);
+//            ToastUtil.showToast(this, "mDeviced" + mDeviceId);
             Log.i(TAG, "deviced---" + mDeviceId);
             Log.i(TAG, "checkPhonePermission: " + "RECORD_AUDIO启用3");
             Log.i(TAG, "checkPhonePermission: " + "CAMERA启用3");
         }
     }
 
-
+    //获取当前设备的电量
     public class BatteryReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -198,6 +202,7 @@ public class MainActivity extends BaseActivity {
         String s = gson.toJson(toyLoginReqBean);
         Log.i(TAG, s);
         Call<ToyLoginResBean> toyLoginResBeanCall = anInterface.TOY_LOGIN_RES_BEAN_CALL(s);
+
         toyLoginResBeanCall.enqueue(new Callback<ToyLoginResBean>() {
             @Override
             public void onFailure(Call<ToyLoginResBean> call, Throwable t) {
@@ -206,7 +211,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call<ToyLoginResBean> call, Response<ToyLoginResBean> response) {
-                ToastUtil.showToast(MainActivity.this, response.message());
+//                ToastUtil.showToast(MainActivity.this, response.message());
                 Log.i(TAG, "onResponse: toy login" + response.body().getTOKEN());
                 Log.i(TAG, "onResponse: toy login" + response.body().getBODY());
                 Log.i(TAG, "onResponse: toy login" + "成功了");

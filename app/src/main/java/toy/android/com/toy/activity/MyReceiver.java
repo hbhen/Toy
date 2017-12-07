@@ -18,8 +18,10 @@ import cn.jpush.android.api.JPushInterface;
 import toy.android.com.toy.service.ControlPlayService;
 import toy.android.com.toy.service.VideoService;
 import toy.android.com.toy.utils.ToastUtil;
-
+//拿到myreceiver以后,在里面设置开启各个功能的开关.
 public class MyReceiver extends BroadcastReceiver {
+
+
     private static final String TAG = "JPush";
     private static final String TAGD = "circle";
     Intent controlMusicIntent = new Intent();
@@ -200,9 +202,10 @@ public class MyReceiver extends BroadcastReceiver {
                     DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
 
                 } else if (cmd.equals("TOYSP")) {
-
+                    //设置免打扰时间
                     ToastUtil.showToast(context, params.toString());
                     Log.i(TAG, "onReceive: params" + params.toString());
+                    //
 
                 } else if (cmd.equals("准备接收网络指令")) {
                     //开启一个service,等待用户发送指令
