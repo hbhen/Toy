@@ -13,6 +13,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
@@ -24,6 +25,8 @@ import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 import retrofit2.Call;
@@ -39,7 +42,7 @@ import toy.android.com.toy.bean.ToyLoginResBean;
 import toy.android.com.toy.interf.MyInterface;
 import toy.android.com.toy.internet.Constants;
 import toy.android.com.toy.service.ChargeNetWorkStateService;
-import toy.android.com.toy.service.KeepLive;
+import toy.android.com.toy.service.KeepLiveService;
 import toy.android.com.toy.utils.SPUtils;
 
 
@@ -70,7 +73,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         int flagShowWhenLocked = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
         int flagKeepScreenOn = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-        getWindow().addFlags(flagShowWhenLocked);
+//        getWindow().addFlags(flagShowWhenLocked);
         getWindow().addFlags(flagKeepScreenOn);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
@@ -111,11 +114,19 @@ public class MainActivity extends BaseActivity {
 //        acquireWakeLock();
 //        checkNetState();
         mRid = JPushInterface.getRegistrationID(getApplicationContext());
-        Intent intent = new Intent();
-        intent.setClass(this, KeepLive.class);
-        intent.putExtra("deviceid", mDeviceId);
-        intent.putExtra("devicecode",mRid);
-        startService(intent);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, KeepLiveService.class);
+                intent.putExtra("deviceid", mDeviceId);
+                intent.putExtra("devicecode", mRid);
+                startService(intent);
+                Log.i(TAG, "run: time" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(SystemClock.currentThreadTimeMillis()));
+            }
+        }, 0, 60000);//多级重复一次?
 
 //        ToyLogin(mDeviceId);
 
@@ -217,8 +228,8 @@ public class MainActivity extends BaseActivity {
                 Log.i(TAG, "onResponse: toy login" + "成功了");
                 token = response.body().getTOKEN();
                 SPUtils.putString(MainActivity.this, "token", token);
-                initDeviceInfo();
-                toyHeart(mVersionName, mWifiRssi, mRid, token);
+//                initDeviceInfo();
+//                toyHeart(mVersionName, mWifiRssi, mRid, token);
             }
         });
     }

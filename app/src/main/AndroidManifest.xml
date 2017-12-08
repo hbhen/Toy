@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receiver.AutoOpen">
+        <receiver android:name=".receiver.AutoOpenReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
@@ -159,7 +159,7 @@
             android:launchMode="singleTask"/>
 
         <service
-            android:name=".service.KeepLive"
+            android:name=".service.KeepLiveService"
             android:enabled="true"
             android:exported="true">
         </service>
