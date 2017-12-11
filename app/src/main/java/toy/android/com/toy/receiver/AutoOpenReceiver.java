@@ -22,6 +22,8 @@ public class AutoOpenReceiver extends BroadcastReceiver {
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent1);
             Log.d(TAG, "onReceive: over");
+
         }
     }
+
 }

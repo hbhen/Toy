@@ -77,7 +77,6 @@ public class MainActivity extends BaseActivity {
         getWindow().addFlags(flagKeepScreenOn);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-
         boolean isfirstOpen = SPUtils.getBoolean(this, "isfirstOpen", true);
         if (isfirstOpen) {
             /*如果是第一次打开玩具,联网,激活玩具
@@ -107,7 +106,6 @@ public class MainActivity extends BaseActivity {
 //            });
         }
 
-
         checkPhonePermission();
         JPushInterface.initCrashHandler(this);
 
@@ -121,7 +119,6 @@ public class MainActivity extends BaseActivity {
             public void run() {
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, KeepLiveService.class);
-                intent.putExtra("deviceid", mDeviceId);
                 intent.putExtra("devicecode", mRid);
                 startService(intent);
                 Log.i(TAG, "run: time" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(SystemClock.currentThreadTimeMillis()));

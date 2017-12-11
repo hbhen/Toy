@@ -11,6 +11,7 @@ import android.media.AudioManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -60,10 +61,10 @@ public class KeepLiveService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mDeviceid = intent.getStringExtra("deviceid");
+//        mDeviceid = intent.getStringExtra("deviceid");
         mDevicecode = intent.getStringExtra("devicecode");
         initDeviceInfo();
-        ToyLogin(mDeviceid);
+        ToyLogin();
 
         return START_REDELIVER_INTENT;
     }
@@ -74,13 +75,13 @@ public class KeepLiveService extends Service {
         stopSelf();
     }
 
-    private void ToyLogin(String deviceId) {
+    private void ToyLogin() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         MyInterface anInterface = retrofit.create(MyInterface.class);
-        ToyLoginReqBean.BODYBean bodyBean = new ToyLoginReqBean.BODYBean(deviceId, "", mDevicecode, "A",
+        ToyLoginReqBean.BODYBean bodyBean = new ToyLoginReqBean.BODYBean(mDeviceid, "", mDevicecode, "A",
 //                mVersionName);
                 "1.0");
         ToyLoginReqBean toyLoginReqBean = new ToyLoginReqBean("REQ", "LOG", "", new SimpleDateFormat
@@ -97,7 +98,7 @@ public class KeepLiveService extends Service {
                 Log.i(TAG, "onResponse: toy login" + response.body().getTOKEN());
                 Log.i(TAG, "onResponse: toy login" + response.body().getBODY());
                 Log.i(TAG, "onResponse: toy login" + "成功了");
-                String token = response.body().getTOKEN();
+                String token = response.body().getTOKEN().toString();
                 SPUtils.putString(KeepLiveService.this, "token", token);
                 toyHeart(mVersionName, mWifiRssi, mDevicecode, token);
             }
@@ -111,7 +112,9 @@ public class KeepLiveService extends Service {
 
     //初始化玩具的信息 (信号<wifi,4g>,音量<音乐,通话>,电量,麦克风,摄像头)
     private void initDeviceInfo() {
-
+        //获取deviceid
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        mDeviceid = telephonyManager.getDeviceId();
         WifiManager systemService = (WifiManager) getSystemService(WIFI_SERVICE);
         //获取wifi信息API
         WifiInfo connectionInfo = systemService.getConnectionInfo();

@@ -4,7 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import toy.android.com.toy.activity.VideoActivity;
+import toy.android.com.toy.activity.VideoActivity2;
 
 /**
  * Created by DTC on 2017/10/2816:48.
@@ -34,7 +34,7 @@ public class VideoService2 extends IntentService {
         String roomid = intent.getStringExtra("roomid");
         String method = intent.getStringExtra("method");
         Log.d(TAGD, "onStartCommand: went ");
-        intent.setClass(this, VideoActivity.class);
+        intent.setClass(this, VideoActivity2.class);
         intent.putExtra("roomid", roomid);
         intent.putExtra("method", method);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

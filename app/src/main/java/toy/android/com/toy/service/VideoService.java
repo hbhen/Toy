@@ -6,7 +6,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import toy.android.com.toy.activity.VideoActivity;
+import toy.android.com.toy.activity.VideoActivity2;
 
 /**
  * Created by DTC on 2017/10/2816:48.
@@ -47,14 +47,14 @@ public class VideoService extends Service {
             controlIntent.putExtra("method", "1");
             controlIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             controlIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            controlIntent.setClass(VideoService.this, VideoActivity.class);
+            controlIntent.setClass(VideoService.this, VideoActivity2.class);
             startActivity(controlIntent);
         } else if (method.equals("2")) {
             controlIntent.putExtra("roomid", roomid);
             controlIntent.putExtra("method", "2");
             controlIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             controlIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            controlIntent.setClass(VideoService.this, VideoActivity.class);
+            controlIntent.setClass(VideoService.this, VideoActivity2.class);
             startActivity(controlIntent);
 //            stopSelf();
             Log.d(TAGD, "(videoservice)onStartCommand: went方法是" + method);
