@@ -165,8 +165,15 @@
         </service>
 
         <activity
-            android:name=".activity.VideoActivity2">
+            android:name=".activity.VideoActivity2"
+            android:launchMode="singleTop">
         </activity>
+
+        <service
+            android:name=".service.VideoService3"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>

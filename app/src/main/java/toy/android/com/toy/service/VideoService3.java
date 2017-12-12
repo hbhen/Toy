@@ -1,8 +1,9 @@
 package toy.android.com.toy.service;
 
-import android.app.IntentService;
+import android.app.Service;
 import android.content.Intent;
 import android.hardware.Camera;
+import android.os.IBinder;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -16,12 +17,11 @@ import info.emm.meeting.Session;
 import info.emm.meeting.SessionInterface;
 import toy.android.com.toy.R;
 import toy.android.com.toy.utils.ToastUtil;
-
-/**
- * Created by DTC on 2017/10/2816:48.
- */
-
-public class VideoService2 extends IntentService implements SessionInterface{
+/*
+* Notice: 废弃不用
+* 测试,如果继承Service的时候,程序的运行状态
+* */
+public class VideoService3 extends Service implements SessionInterface {
 
     private static final String TAG = "videoactivity2";
     static public int WEIYI_VIDEO_OUT_SLOW = 1;       //视频发送速度慢
@@ -54,63 +54,19 @@ public class VideoService2 extends IntentService implements SessionInterface{
     private int tvId;
     private String mToken;
     private String mToyid;
-    public VideoService2() {
-        super("video");
+    public VideoService3() {
     }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        // TODO: Return the communication channel to the service.
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "(videoservice2)onCreate: went");
-
-
     }
-
-    @Override
-    protected void onHandleIntent(Intent intent) {
-
-//        Log.d(TAGD, "(videoservice2)onHandleIntent: went");
-//        Log.d(TAGD, "(videoservice2)onHandleIntent: went" + intent.toString());
-//        intent.setClass(this, VideoActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        this.startActivity(intent);
-
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-//        String roomid = intent.getStringExtra("roomid");
-//        String method = intent.getStringExtra("method");
-//        Log.d(TAG, "onStartCommand: went ");
-//        intent.setClass(this, VideoActivity2.class);
-//        intent.putExtra("roomid", roomid);
-//        intent.putExtra("method", method);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        this.startActivity(intent);
-////        return super.onStartCommand(intent, flags, startId);
-        mMethod = intent.getStringExtra("method");
-        Log.d(TAG, "onCreate: mMethod??+"+mMethod);
-        mRoomid = intent.getStringExtra("roomid");
-        mToken = intent.getStringExtra("token");
-        mToyid = intent.getStringExtra("toyId");
-        if (mMethod.equals("1")){
-            ToastUtil.showToast(this,"method:1");
-            Log.d(TAG, "onCreate: method:1");
-            //TODO 开发上线的时候把true改为false :不讲日志写入文件.
-            usefront = hasfront = Session.getInstance().Init(this, "demo", "", true);
-            mCams = Session.getInstance().getCameraInfo();
-            Session.getInstance().setRotate(0);
-            EnterMeeting();
-            //TODO 给textview设置一个当前的音量值,这个值是从网络获取的 ,如果没有获取到就默认给50,这个值需不需要传给玩具再说!
-            Session.getInstance().registerListener(this);
-        }else{
-            ToastUtil.showToast(this,"method:2");
-            Log.d(TAG, "onCreate: method:2");
-            stop();
-            this.stopSelf();
-        }
-        return START_STICKY;
-    }
-
     private void EnterMeeting() {
         Start(false, 0);
     }
@@ -126,6 +82,8 @@ public class VideoService2 extends IntentService implements SessionInterface{
         String meetingId = mRoomid;
         Session.getInstance().setWebHttpServerAddress(ip + ":" + port);
         mUserFlag = "toy";
+        Session.getInstance().switchCamera(usefront);
+//        Session.getInstance().setCameraQuality(_checkHQ.isChecked());
         Session.getInstance().setLoudSpeaker(true);
         Session.getInstance().setCameraQuality(true);
         /*
@@ -394,6 +352,27 @@ public class VideoService2 extends IntentService implements SessionInterface{
         _watchingPeerID = 0;
         _userList.clear();
     }
-
-
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        mMethod = intent.getStringExtra("method");
+        Log.d(TAG, "onCreate: mMethod??+"+mMethod);
+        mRoomid = intent.getStringExtra("roomid");
+        mToken = intent.getStringExtra("token");
+        mToyid = intent.getStringExtra("toyId");
+        if (mMethod.equals("1")){
+            ToastUtil.showToast(this,"method:1");
+            Log.d(TAG, "onCreate: method:1");
+            usefront = hasfront = Session.getInstance().Init(this, "demo", "", true);
+            mCams = Session.getInstance().getCameraInfo();
+            EnterMeeting();
+            //TODO 给textview设置一个当前的音量值,这个值是从网络获取的 ,如果没有获取到就默认给50,这个值需不需要传给玩具再说!
+            Session.getInstance().registerListener(this);
+        }else{
+            ToastUtil.showToast(this,"method:2");
+            Log.d(TAG, "onCreate: method:2");
+            stop();
+            this.stopSelf();
+        }
+        return START_STICKY;
+    }
 }

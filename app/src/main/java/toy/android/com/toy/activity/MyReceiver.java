@@ -16,8 +16,9 @@ import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
 import toy.android.com.toy.service.ControlPlayService;
-import toy.android.com.toy.service.VideoService;
+import toy.android.com.toy.service.VideoService2;
 import toy.android.com.toy.utils.ToastUtil;
+
 //拿到myreceiver以后,在里面设置开启各个功能的开关.
 public class MyReceiver extends BroadcastReceiver {
 
@@ -55,7 +56,7 @@ public class MyReceiver extends BroadcastReceiver {
                             //播放
                             /**
                              * 1,当前没有播放(不是暂停和停止状态),收到1的按钮,拿resid申请播放,要不要后台播放(不要)
-                             * 2,当前正在播放,是同一个resid,则不重新加载resid.其他的resid排队,等播放完上一首,再去申请播放(按时间顺序来排)
+                             * 2,当前正在播放,是同一个resid,则不重新加载resid.其他的resid排队,等播放完上一首,再去申请播放(按时d间顺序来排)
                              * 3,当前没有播放(出于暂停状态),不重新加载resid,继续播放当前的resid
                              */
                             controlMusicIntent.putExtra("method", method);
@@ -129,7 +130,7 @@ public class MyReceiver extends BroadcastReceiver {
                     Log.i(TAG, "method: " + method);
 //                    switch (videoControlMethod) {
 //                        case 1://连接房间
-                    intent.setClass(context, VideoService.class);
+                    intent.setClass(context, VideoService2.class);
 //                            intent.putExtra("method", 1);
 //                            intent.putExtra("roomid", mRoomId);
 //                            context.startService(intent);
@@ -141,7 +142,7 @@ public class MyReceiver extends BroadcastReceiver {
                     intent.putExtra("method", method);
                     intent.putExtra("roomid", mRoomId);
                     context.startService(intent);
-                    ToastUtil.showToast(context, "通话" + mRoomId);
+//                    ToastUtil.showToast(context, "通话" + mRoomId);
                     Log.d(TAGD, "(MyReceiver)onReceive: went" + method);
 //                        case 2://关闭通话
 //                            Log.i("context", "video" + videoControlMethod);

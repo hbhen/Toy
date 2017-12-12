@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.emm.meeting.MeetingUser;
-import info.emm.meeting.MeetingUserMgr;
 import info.emm.meeting.Session;
 import info.emm.meeting.SessionInterface;
 import info.emm.sdk.VideoView;
 import toy.android.com.toy.R;
+import toy.android.com.toy.utils.ToastUtil;
 
 
 public class VideoActivity2 extends AppCompatActivity implements View.OnClickListener, SessionInterface {
@@ -78,6 +78,7 @@ public class VideoActivity2 extends AppCompatActivity implements View.OnClickLis
     private String mBabynameString;
     private int toyId;
     private int tvId;
+    private String mMethod;
 
     public static void launch(Context context, String babyimgString, String babynameString, String roomid, String token, String toyId, String tvId) {
         Intent it = new Intent(context, VideoActivity.class);
@@ -96,7 +97,6 @@ public class VideoActivity2 extends AppCompatActivity implements View.OnClickLis
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_video2);
-        MeetingUserMgr meetingUserMgr = new MeetingUserMgr();
         //TODO  进来的时候还要获取一个玩具的初始音量 现在不加了
         mMy_video = (VideoView) findViewById(R.id.surfaceView5);
 // 其他的视频不显示了
@@ -107,17 +107,29 @@ public class VideoActivity2 extends AppCompatActivity implements View.OnClickLis
         mStopCall = (ImageView) findViewById(R.id.iv_fragment_videocall_stopcall);
         //音量的数字显示
         Intent intent = getIntent();
+        mMethod = intent.getStringExtra("method");
+        Log.d(TAG, "onCreate: mMethod??+"+mMethod);
         mRoomid = intent.getStringExtra("roomid");
         mToken = intent.getStringExtra("token");
         mToyid = intent.getStringExtra("toyId");
-        usefront = hasfront = Session.getInstance().Init(this, "demo", "", true);
-        mCams = Session.getInstance().getCameraInfo();
-        EnterMeeting();
-        //TODO 给textview设置一个当前的音量值,这个值是从网络获取的 ,如果没有获取到就默认给50,这个值需不需要传给玩具再说!
-        mStopCall.setOnClickListener(this);
-        mMy_video.setOnClickListener(this);
-        mOther_video.setOnClickListener(this);
-        Session.getInstance().registerListener(this);
+        if (mMethod.equals("1")){
+            ToastUtil.showToast(this,"method:1");
+            Log.d(TAG, "onCreate: method:1");
+            usefront = hasfront = Session.getInstance().Init(this, "demo", "", true);
+            mCams = Session.getInstance().getCameraInfo();
+            EnterMeeting();
+            //TODO 给textview设置一个当前的音量值,这个值是从网络获取的 ,如果没有获取到就默认给50,这个值需不需要传给玩具再说!
+            mStopCall.setOnClickListener(this);
+            mMy_video.setOnClickListener(this);
+            mOther_video.setOnClickListener(this);
+            Session.getInstance().registerListener(this);
+        }else{
+            ToastUtil.showToast(this,"method:2");
+            Log.d(TAG, "onCreate: method:2");
+            stop();
+            finish();
+        }
+
     }
 
     private void EnterMeeting() {
@@ -157,7 +169,7 @@ public class VideoActivity2 extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_fragment_videocall_stopcall:
-                Stop();
+                stop();
 //                StopCallServer();
                 finish();
                 break;
@@ -260,7 +272,6 @@ public class VideoActivity2 extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onConnect(int status, int i1) {
         Log.d(TAG, "onConnect : ***************");
-
         if (status == 0) {
             int meetingType = Session.getInstance().getMeetingType();
             if (meetingType == 0 || meetingType == 1 || meetingType == 2 || meetingType == 3 || meetingType == 4 || meetingType == 5 || meetingType
@@ -433,18 +444,37 @@ public class VideoActivity2 extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ***************");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ***************");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ***************");
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ***************");
 //        PackageManager packageManager=getPackageManager();
 //        packageManager.setComponentEnabledSetting(new ComponentName("toy.android.com.toy",MyReceiver.class.getName()),PackageManager
-// .COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
-        Stop();
-        //通知服务器,退出
+// .COMPONENT_ENABLED_STATE_DISABLEDPackageManager.DONT_KILL_APP);
+        stop();
+        finish();
+        //通知服务器,退出  需不需要通知???
 //        StopCallServer();
     }
 
-    private void Stop() {
+    private void stop() {
         Log.d(TAG, "Stop: ***************");
         Session.getInstance().StopSpeaking();
         _freeSpeak = false;
