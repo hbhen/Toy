@@ -22,7 +22,6 @@ import toy.android.com.toy.utils.ToastUtil;
 //拿到myreceiver以后,在里面设置开启各个功能的开关.
 public class MyReceiver extends BroadcastReceiver {
 
-
     private static final String TAG = "JPush";
     private static final String TAGD = "circle";
     Intent controlMusicIntent = new Intent();
@@ -158,6 +157,7 @@ public class MyReceiver extends BroadcastReceiver {
 //                            break;
 //                    }
                 }
+
                 //控制录音
                 else if (cmd.equals("recordvolume")) {
                     ListenerManager.getInstance().sendBroadCast("recordvolume", params);

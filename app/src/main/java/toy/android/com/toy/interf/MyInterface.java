@@ -6,6 +6,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 import toy.android.com.toy.bean.ActiveToyResBean;
 import toy.android.com.toy.bean.ToyLoginResBean;
+import toy.android.com.toy.bean.ToyLogoutResBean;
 
 
 /**
@@ -18,4 +19,8 @@ public interface MyInterface {
 
     @GET("heart")
     Call<ActiveToyResBean> ACTIVE_TOY_RES_BEAN_CALL(@Query("params")String params);
+
+    @GET("LOGOUT")
+    Call<ToyLogoutResBean> TOY_LOGOUT_RES_BEAN_CALL(@Query("params")String params);
+
 }

@@ -138,7 +138,8 @@ public class VideoService2 extends IntentService implements SessionInterface{
         * usertype:用户身份:发布者1,观看者2,还有0;
         * paramMap:null即可
         * */
-        Session.getInstance().joinmeeting(ip, port, mUserFlag + uid, meetingId, "", uid, 0, null);
+//        Session.getInstance().joinmeeting(ip, port, mUserFlag + uid, meetingId, "", uid, 0, null);
+        Session.getInstance().joinmeeting(ip, port, mUserFlag, meetingId, "", uid, 0, null);
 
     }
 
@@ -170,7 +171,6 @@ public class VideoService2 extends IntentService implements SessionInterface{
             _watchingPeerID = peerID;
         } else {
             Log.d(TAG, "seeYou: _watchingPeerID!=0");
-
 //            Session.getInstance().PlayVideo(_watchingPeerID, true, mMy_video, 0, 0, 1, 1, 0, false, 1, 0);
             Session.getInstance().requestSpeaking(_watchingPeerID);
             _watchingPeerID = 0;
@@ -229,19 +229,19 @@ public class VideoService2 extends IntentService implements SessionInterface{
         String name = user.getName();
         Log.d(TAG, "onUserIn: name" + name);
         Log.d(TAG, "onUserIn: peerId" + peerId);
-        if (name.contains("phone")) {
+        if (name.equals("phone")) {
             Log.d(TAG, "onUserIn: phone??走");
             toyId = peerId;
 //            seeMe();
             seeYou();
         }
-        if (name.contains("toy")) {
+        if (name.equals("toy")) {
             Log.d(TAG, "onUserIn: toy??走");
             toyId = peerId;
             seeYou();
 //            seeMe();
         }
-        if (name.contains("tv")) {
+        if (name.equals("tv")) {
             Log.d(TAG, "onUserIn: tv??走");
             tvId = peerId;
             seeYou();
@@ -381,6 +381,7 @@ public class VideoService2 extends IntentService implements SessionInterface{
 // .COMPONENT_ENABLED_STATE_DISABLEDPackageManager.DONT_KILL_APP);
         stop();
         this.stopSelf();
+
         //通知服务器,退出  需不需要通知???
 //        StopCallServer();
     }

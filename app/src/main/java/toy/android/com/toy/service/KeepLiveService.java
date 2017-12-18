@@ -28,6 +28,8 @@ import toy.android.com.toy.bean.ActiveToyReqBean;
 import toy.android.com.toy.bean.ActiveToyResBean;
 import toy.android.com.toy.bean.ToyLoginReqBean;
 import toy.android.com.toy.bean.ToyLoginResBean;
+import toy.android.com.toy.bean.ToyLogoutReqBean;
+import toy.android.com.toy.bean.ToyLogoutResBean;
 import toy.android.com.toy.interf.MyInterface;
 import toy.android.com.toy.internet.Constants;
 import toy.android.com.toy.utils.SPUtils;
@@ -43,6 +45,7 @@ public class KeepLiveService extends Service {
     private int mCurrent;
     private int mMusicVoice;
     private int mSystemVoice;
+    private String mToken;
 
 
     public KeepLiveService() {
@@ -57,10 +60,12 @@ public class KeepLiveService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d(TAG, "onCreate(KeepLiveService) went");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "onStartCommand(KeepLiveService) went");
 //        mDeviceid = intent.getStringExtra("deviceid");
         mDevicecode = intent.getStringExtra("devicecode");
         initDeviceInfo();
@@ -71,8 +76,36 @@ public class KeepLiveService extends Service {
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "onDestroy(KeepLiveService) went");
         super.onDestroy();
         stopSelf();
+        toyLogout();
+    }
+
+    private void toyLogout() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        MyInterface myInterface = retrofit.create(MyInterface.class);
+        ToyLogoutReqBean toyLogoutReqBean = new ToyLogoutReqBean("REQ", "LOGOUT", "", new SimpleDateFormat("yyyyMMddHHssSSS").format(new Date()),
+                "", mToken, "1");
+        Gson gson = new Gson();
+        String s = gson.toJson(toyLogoutReqBean);
+        Call<ToyLogoutResBean> toyLogoutResBeanCall = myInterface.TOY_LOGOUT_RES_BEAN_CALL(s);
+        toyLogoutResBeanCall.enqueue(new Callback<ToyLogoutResBean>() {
+            @Override
+            public void onResponse(Call<ToyLogoutResBean> call, Response<ToyLogoutResBean> response) {
+                Log.d(TAG, "onResponse(KeepLiveService): " + response.body().getMSG());
+            }
+
+            @Override
+            public void onFailure(Call<ToyLogoutResBean> call, Throwable t) {
+                Log.d(TAG, "onFailure(KeepLiveService): " + t.toString());
+            }
+        });
+
+
     }
 
     private void ToyLogin() {
@@ -98,9 +131,9 @@ public class KeepLiveService extends Service {
                 Log.i(TAG, "onResponse: toy login" + response.body().getTOKEN());
                 Log.i(TAG, "onResponse: toy login" + response.body().getBODY());
                 Log.i(TAG, "onResponse: toy login" + "成功了");
-                String token = response.body().getTOKEN().toString();
-                SPUtils.putString(KeepLiveService.this, "token", token);
-                toyHeart(mVersionName, mWifiRssi, mDevicecode, token);
+                mToken = response.body().getTOKEN().toString();
+                SPUtils.putString(KeepLiveService.this, "token", mToken);
+                toyHeart(mVersionName, mWifiRssi, mDevicecode, mToken);
             }
 
             @Override
@@ -208,4 +241,5 @@ public class KeepLiveService extends Service {
             }
         });
     }
+
 }
