@@ -70,7 +70,6 @@ public class KeepLiveService extends Service {
         mDevicecode = intent.getStringExtra("devicecode");
         initDeviceInfo();
         ToyLogin();
-
         return START_REDELIVER_INTENT;
     }
 
@@ -98,14 +97,11 @@ public class KeepLiveService extends Service {
             public void onResponse(Call<ToyLogoutResBean> call, Response<ToyLogoutResBean> response) {
                 Log.d(TAG, "onResponse(KeepLiveService): " + response.body().getMSG());
             }
-
             @Override
             public void onFailure(Call<ToyLogoutResBean> call, Throwable t) {
                 Log.d(TAG, "onFailure(KeepLiveService): " + t.toString());
             }
         });
-
-
     }
 
     private void ToyLogin() {

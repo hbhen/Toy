@@ -5,6 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -36,6 +40,7 @@ import toy.android.com.toy.bean.ToyLogoutReqBean;
 import toy.android.com.toy.bean.ToyLogoutResBean;
 import toy.android.com.toy.interf.MyInterface;
 import toy.android.com.toy.internet.Constants;
+import toy.android.com.toy.service.ConnectInternetService;
 import toy.android.com.toy.service.KeepLiveService;
 import toy.android.com.toy.utils.NetWorkUtil;
 import toy.android.com.toy.utils.SPUtils;
@@ -62,6 +67,7 @@ public class MainActivity extends BaseActivity {
     private String mMic;
     private int mMusicVoice;
     private Intent mKeepLiveIntent;
+    private WifiManager mWifiManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,38 +79,71 @@ public class MainActivity extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         boolean isfirstOpen = SPUtils.getBoolean(this, "isfirstOpen", true);
-        if (isfirstOpen) {
-            /*如果是第一次打开玩具,联网,激活玩具
-            * 1   声波联网
-            * 1.1 开机自启动
-            * 1.1.1第一次启动,就去联网做联网的相关操作;
-            *      非第一次启动,判断有没有网络
-            *      有网,就登录,激活;   无网络,做联网的相关操作;
-            * 1.2 联网相关操作
-            * 1.2.1 发出请求联网的提示音,等待联网的信号
-            * 1.2.2 接收联网的信号,将网络信息保存,设置到wifi里
-            *       成功,发出联网成功提示,等待手机给玩具的功能指令
-            *       不成功,重新请求联网,重复1.2.1
-            * 不是第一次启动玩具,判断有无网络,进行相关联网操作
-            *       有网,登录(上传玩具的信息),等待手机传送的指令
-            *       无网,做联网的相关操作
-            * */
-            //1,声波联网
-            //跳转wifiactivity
-//            Button jumptoreg = (Button) findViewById(R.id.jumptoreg);
-//            jumptoreg.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(MainActivity.this, WifiActivity.class);
-//                    startActivity(intent);
+//        if (isfirstOpen) {
+//
+//            /*如果是第一次打开玩具,联网,激活玩具
+//            * 1   声波联网
+//            * 1.1 开机自启动
+//            * 1.1.1第一次启动,就去联网做联网的相关操作;
+//            *      非第一次启动,判断有没有网络
+//            *      有网,就登录,激活;   无网络,做联网的相关操作;
+//            * 1.2 联网相关操作
+//            * 1.2.1 发出请求联网的提示音,等待联网的信号
+//            * 1.2.2 接收联网的信号,将网络信息保存,设置到wifi里
+//            *       成功,发出联网成功提示,等待手机给玩具的功能指令
+//            *       不成功,重新请求联网,重复1.2.1
+//            * 不是第一次启动玩具,判断有无网络,进行相关联网操作
+//            *       有网,登录(上传玩具的信息),等待手机传送的指令
+//            *       无网,做联网的相关操作
+//            * */
+//            //1,声波联网
+//            //用service执行网络声波配置的任务. extends intentservice
+//            //跳转wifiactivity
+////            Button jumptoreg = (Button) findViewById(R.id.jumptoreg);
+////            jumptoreg.setOnClickListener(new View.OnClickListener() {
+////                @Override
+////                public void onClick(View v) {
+////                    Intent intent = new Intent(MainActivity.this, WifiActivity.class);
+////                    startActivity(intent);
+////                }
+////            });
+//            connectWifi();
+//        } else {
+//            //非第一次进入app
+//            //如果wifi不可用
+//            if (!wifiManager.isWifiEnabled()) {
+//                wifiManager.setWifiEnabled(true);
+//                if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLED) {
 //                }
-//            });
-        }
+//            }
+//        }
+        if (!isWifeEnable()) {
+            mWifiManager.setWifiEnabled(true);
+            //打开wifi开关,判断当前的网络是否可用.或者是否有可用的网络
 
+        } else {
+            //如果wifi开关已经打开,那么就判断当前的网络是否连接上.
+            if (isConnectNetWork()) {
+                //如果没有连接上,那么就去判断是什么原因?
+
+                //1,是从来没有设置网络信息
+
+                if (SPUtils.getString(this, "wlanname", "").equals("")) {
+                    Intent intent = new Intent();
+                    intent.setClass(this, ConnectInternetService.class);
+                    startService(intent);
+                }
+                //2,是设置了wifi信息,但是wifi的信息变了(比如名字\wifi密码更换了);
+
+                WifiInfo connectionInfo = mWifiManager.getConnectionInfo();
+                String ssid = connectionInfo.getSSID();
+                String connectionInfoString = connectionInfo.toString();
+                Log.i(TAG, "onCreate: connectionInfoString" + connectionInfoString);
+            }
+        }
         checkPhonePermission();
         JPushInterface.initCrashHandler(this);
-
-//        acquireWakeLock();
+        //        acquireWakeLock();
 //        checkNetState();
         mRid = JPushInterface.getRegistrationID(getApplicationContext());
         if (NetWorkUtil.isWifiConn(this)) {
@@ -120,10 +159,28 @@ public class MainActivity extends BaseActivity {
                 }
             }, 0, 180000);//多级重复一次?
         }
-
-
 //        ToyLogin(mDeviceId);
+    }
 
+    private boolean isConnectNetWork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetworkInfo != null) {
+            return activeNetworkInfo.isAvailable();
+        }
+        return false;
+    }
+
+    private boolean isWifeEnable() {
+        mWifiManager = (WifiManager) this.getSystemService(WIFI_SERVICE);
+        return mWifiManager.isWifiEnabled();
+    }
+
+    //打开服务区设置wifi信息
+    private void connectWifi() {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, ConnectInternetService.class);
+        startService(intent);
     }
 
     //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行

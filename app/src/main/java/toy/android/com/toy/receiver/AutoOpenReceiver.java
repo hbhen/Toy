@@ -9,7 +9,7 @@ import toy.android.com.toy.activity.MainActivity;
 import toy.android.com.toy.utils.ToastUtil;
 
 public class AutoOpenReceiver extends BroadcastReceiver {
-    private static final String TAG = "tag";
+    private static final String TAG = AutoOpenReceiver.class.getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -22,8 +22,6 @@ public class AutoOpenReceiver extends BroadcastReceiver {
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent1);
             Log.d(TAG, "onReceive: over");
-
         }
     }
-
 }
