@@ -110,11 +110,6 @@ public class VideoActivity extends AppCompatActivity implements SessionInterface
             stopService(mIntent);
             finish();
         }
-//        Log.i(TAG, "onCreate: ????");
-//        Log.i(TAG, "onCreate: permission  !=");
-//        Log.i(TAG, "onCreate: permission  ==");
-//        Log.i(TAG, "onCreate: userfront:" + usefront + "--hasfront:" + hasfront);
-//        Log.i(TAG, "onCreate: mCameraInfo:" + mCameraInfo);
     }
 
     private void checkForCrashes() {
@@ -463,16 +458,12 @@ public class VideoActivity extends AppCompatActivity implements SessionInterface
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
             grantResults) {
-        Log.i(TAG, "onRequestPermissionsResult: start??");
         switch (requestCode) {
             case CAMERA_OK:
-                Log.i(TAG, "camra_ok: start??");
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     ToastUtil.showToast(this, "打开摄像头");
-                    Log.i(TAG, "onRequestPermissionsResult: " + "true");
                 } else {
                     ToastUtil.showToast(this, "请检查摄像头权限");
-                    Log.i(TAG, "onRequestPermissionsResult: " + "false");
                 }
                 break;
             default:

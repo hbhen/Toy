@@ -95,7 +95,7 @@ public class KeepLiveService extends Service {
         toyLogoutResBeanCall.enqueue(new Callback<ToyLogoutResBean>() {
             @Override
             public void onResponse(Call<ToyLogoutResBean> call, Response<ToyLogoutResBean> response) {
-                Log.d(TAG, "onResponse(KeepLiveService): " + response.body().getMSG());
+//                Log.d(TAG, "onResponse(KeepLiveService): " + response.body().getMSG());
             }
             @Override
             public void onFailure(Call<ToyLogoutResBean> call, Throwable t) {

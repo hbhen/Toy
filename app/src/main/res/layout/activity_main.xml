@@ -6,46 +6,51 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-
-    <Button
-        android:id="@+id/play"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="play"
+        android:layout_height="match_parent"
+        android:id="@+id/tv_show_wifi"
         />
 
-    <Button
-        android:id="@+id/stop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="stop"
-        />
+    <!--<Button-->
+        <!--android:id="@+id/play"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="play"-->
+        <!--/>-->
 
-    <Button
-        android:id="@+id/next"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="next"
-        />
+    <!--<Button-->
+        <!--android:id="@+id/stop"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="stop"-->
+        <!--/>-->
 
-    <Button
-        android:id="@+id/pre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="pre"
-        />
+    <!--<Button-->
+        <!--android:id="@+id/next"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="next"-->
+        <!--/>-->
 
-    <Button
-        android:id="@+id/pause"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="pause"
-        />
-    <Button
-        android:text="@string/jump_to_wifiactivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/jumptoreg"
-        />
+    <!--<Button-->
+        <!--android:id="@+id/pre"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="pre"-->
+        <!--/>-->
+
+    <!--<Button-->
+        <!--android:id="@+id/pause"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="pause"-->
+        <!--/>-->
+    <!--<Button-->
+        <!--android:text="@string/jump_to_wifiactivity"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/jumptoreg"-->
+        <!--/>-->
 
 </LinearLayout>

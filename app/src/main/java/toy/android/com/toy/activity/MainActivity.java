@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -19,11 +20,14 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,14 +44,15 @@ import toy.android.com.toy.bean.ToyLogoutReqBean;
 import toy.android.com.toy.bean.ToyLogoutResBean;
 import toy.android.com.toy.interf.MyInterface;
 import toy.android.com.toy.internet.Constants;
-import toy.android.com.toy.service.ConnectInternetService;
+import toy.android.com.toy.service.CheckNetWorkStateService;
 import toy.android.com.toy.service.KeepLiveService;
 import toy.android.com.toy.utils.NetWorkUtil;
 import toy.android.com.toy.utils.SPUtils;
+import toy.android.com.toy.utils.ToastUtil;
 
 public class MainActivity extends BaseActivity {
 
-    private final String TAG = "1212321";
+    private final String TAG = "Main";
     public static boolean isForeground = false;
     private String mDeviceId;
     private String mVersionName;
@@ -68,6 +73,9 @@ public class MainActivity extends BaseActivity {
     private int mMusicVoice;
     private Intent mKeepLiveIntent;
     private WifiManager mWifiManager;
+    List list = new ArrayList<>();
+    private ConnectivityManager mConnectivityManager;
+    private TextView mShow_wifi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,73 +86,86 @@ public class MainActivity extends BaseActivity {
         getWindow().addFlags(flagKeepScreenOn);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        boolean isfirstOpen = SPUtils.getBoolean(this, "isfirstOpen", true);
-//        if (isfirstOpen) {
-//
-//            /*如果是第一次打开玩具,联网,激活玩具
-//            * 1   声波联网
-//            * 1.1 开机自启动
-//            * 1.1.1第一次启动,就去联网做联网的相关操作;
-//            *      非第一次启动,判断有没有网络
-//            *      有网,就登录,激活;   无网络,做联网的相关操作;
-//            * 1.2 联网相关操作
-//            * 1.2.1 发出请求联网的提示音,等待联网的信号
-//            * 1.2.2 接收联网的信号,将网络信息保存,设置到wifi里
-//            *       成功,发出联网成功提示,等待手机给玩具的功能指令
-//            *       不成功,重新请求联网,重复1.2.1
-//            * 不是第一次启动玩具,判断有无网络,进行相关联网操作
-//            *       有网,登录(上传玩具的信息),等待手机传送的指令
-//            *       无网,做联网的相关操作
-//            * */
-//            //1,声波联网
-//            //用service执行网络声波配置的任务. extends intentservice
-//            //跳转wifiactivity
-////            Button jumptoreg = (Button) findViewById(R.id.jumptoreg);
-////            jumptoreg.setOnClickListener(new View.OnClickListener() {
-////                @Override
-////                public void onClick(View v) {
-////                    Intent intent = new Intent(MainActivity.this, WifiActivity.class);
-////                    startActivity(intent);
-////                }
-////            });
-//            connectWifi();
-//        } else {
-//            //非第一次进入app
-//            //如果wifi不可用
-//            if (!wifiManager.isWifiEnabled()) {
-//                wifiManager.setWifiEnabled(true);
-//                if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLED) {
-//                }
-//            }
-//        }
-        if (!isWifeEnable()) {
+        mShow_wifi = (TextView) findViewById(R.id.tv_show_wifi);
+        boolean isfirstOpen = SPUtils.getBoolean(this, "isfirstopen", true);
+        mWifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+        mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+
+        //判断是不是第一次进入软件,是第一次,就什么都不干,就等着联网
+        if (isfirstOpen) {
+            Log.i(TAG, "onCreate: 第一次进入app");
+            /*第一次进来,肯定是没有联网的,所以先打开wifi开关(一定).
+            * 1,是跳转到监听声波的接收服务,在联网完成之后再去上传音量,等状态信息(这些信息是要等到toy能联网了才可以执行 .(如果没有联网,那就不能接受到后台发送的指令了,所以还是只能自己轮循联网的指令)
+            * 2,那么在第一次进入app里面需要做什么操作? 播放一段音乐?放一段欢迎的话?
+            *
+            * */
+//            1.播放一段友好的欢迎话语
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.sound_off);
+            mediaPlayer.start();
+
+//            2.直接打开wifi开关
             mWifiManager.setWifiEnabled(true);
-            //打开wifi开关,判断当前的网络是否可用.或者是否有可用的网络
+//            3.打开wifi开关以后,去做联网的操作.(这一步很不和谐,以后,应该是等待联网的指令再联网,也就是通过MyReceiver的指令);
+            Log.i(TAG, "onCreate: 第一次进入app,设置wifi");
+            connectWifi();
 
+            /*如果是第一次打开玩具,联网,激活玩具
+            * 1   声波联网
+            * 1.1 开机自启动
+            * 1.1.1第一次启动,就去联网做联网的相关操作;
+            *      非第一次启动,判断有没有网络
+            *      有网,就登录,激活;   无网络,做联网的相关操作;
+            * 1.2 联网相关操作
+            * 1.2.1 发出请求联网的提示音,等待联网的信号
+            * 1.2.2 接收联网的信号,将网络信息保存,设置到wifi里
+            *       成功,发出联网成功提示,等待手机给玩具的功能指令
+            *       不成功,重新请求联网,重复1.2.1
+            * 不是第一次启动玩具,判断有无网络,进行相关联网操作
+            *       有网,登录(上传玩具的信息),等待手机传送的指令
+            *       无网,做联网的相关操作
+            * */
+            SPUtils.putBoolean(this, "isfirstopen", false);
         } else {
-            //如果wifi开关已经打开,那么就判断当前的网络是否连接上.
-            if (isConnectNetWork()) {
-                //如果没有连接上,那么就去判断是什么原因?
 
-                //1,是从来没有设置网络信息
-
-                if (SPUtils.getString(this, "wlanname", "").equals("")) {
-                    Intent intent = new Intent();
-                    intent.setClass(this, ConnectInternetService.class);
-                    startService(intent);
+            //非第一次进入app
+            Log.i(TAG, "onCreate: 非第一次进入app,wifi是否可用(可用)");
+            if (isWifeEnable()) {
+                //打开wifi开关,判断当前的网络是否可用.或者是否有可用的网络
+                if (isWifiConnect()) {
+                    Log.i(TAG, "onCreate: 非第一次进入app,判断wifi是否连接(连接)");
+                    String ssid = mWifiManager.getConnectionInfo().getSSID();
+                    Log.i(TAG, "onCreate: ssid" + ssid);
+                    ToastUtil.showToast(this, "ssid" + ssid);
+                } else {
+                    Log.i(TAG, "onCreate: 非第一次进入app,判断wifi是否连接(未连接)");
+                    connectWifi();
+                    ToastUtil.showToast(this, "(isWifiConnect)无网络连接1,正在去设置网络");
                 }
-                //2,是设置了wifi信息,但是wifi的信息变了(比如名字\wifi密码更换了);
+            } else {
+                Log.i(TAG, "onCreate: 非第一次进入app,wifi是否可用(不可用)");
+                mWifiManager.setWifiEnabled(true);
 
-                WifiInfo connectionInfo = mWifiManager.getConnectionInfo();
-                String ssid = connectionInfo.getSSID();
-                String connectionInfoString = connectionInfo.toString();
-                Log.i(TAG, "onCreate: connectionInfoString" + connectionInfoString);
+                if (isWifiConnect()) {
+                    Log.i(TAG, "onCreate: " + "有联网");
+                    ToastUtil.showToast(this, "ssid:" + mWifiManager.getConnectionInfo().getSSID());
+                    WifiInfo connectionInfo = mWifiManager.getConnectionInfo();
+                    String ssid = connectionInfo.getSSID();
+                    String connectionInfoString = connectionInfo.toString();
+                    ToastUtil.showToast(this, "ssid是:" + ssid);
+                    Log.i(TAG, "onCreate: connectionInfoString" + connectionInfoString);
+                    ToastUtil.showToast(this, "(isWifiConnect)无网络连接1");
+                } else {
+                    Log.i(TAG, "onCreate: " + "未联网");
+                    connectWifi();
+                    ToastUtil.showToast(this, "(isWifiConnect)无网络连接2");
+                }
             }
         }
+
         checkPhonePermission();
         JPushInterface.initCrashHandler(this);
-        //        acquireWakeLock();
-//        checkNetState();
+        acquireWakeLock();
+        checkNetState();
         mRid = JPushInterface.getRegistrationID(getApplicationContext());
         if (NetWorkUtil.isWifiConn(this)) {
             Timer timer = new Timer();
@@ -158,48 +179,55 @@ public class MainActivity extends BaseActivity {
                     Log.i(TAG, "run: time" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(SystemClock.currentThreadTimeMillis()));
                 }
             }, 0, 180000);//多级重复一次?
+        } else {
+            ToastUtil.showToast(this, "无网络连接3");
         }
 //        ToyLogin(mDeviceId);
     }
 
-    private boolean isConnectNetWork() {
+    //    判断wifi是否连接上
+    private boolean isWifiConnect() {
         ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+//        Log.i(TAG, "isWifiConnect: activeNetworkInfo" + activeNetworkInfo.toString());
         if (activeNetworkInfo != null) {
             return activeNetworkInfo.isAvailable();
         }
         return false;
     }
 
+    //    判断wifi的开关是否打开?
     private boolean isWifeEnable() {
         mWifiManager = (WifiManager) this.getSystemService(WIFI_SERVICE);
         return mWifiManager.isWifiEnabled();
     }
 
-    //打开服务区设置wifi信息
+    //    打开服务,设置wifi信息(通过声波接收)
     private void connectWifi() {
+        Log.i(TAG, "connectWifi: 跳转前");
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, ConnectInternetService.class);
-        startService(intent);
+        intent.setClass(MainActivity.this, WifiSoundListenerActivity.class);
+        startActivity(intent);
+        Log.i(TAG, "connectWifi: 跳转后");
     }
 
-    //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
-//    private void acquireWakeLock() {
-//        if (null == wakeLock) {
-//            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-//            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "PostLocationService");
-//            if (null != wakeLock) {
-//                wakeLock.acquire();
-//            }
-//        }
-//    }
+    //    获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
+    private void acquireWakeLock() {
+        if (null == wakeLock) {
+            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "PostLocationService");
+            if (null != wakeLock) {
+                wakeLock.acquire();
+            }
+        }
+    }
 
-//    private void checkNetState() {
-//        //开服务,去后台,不断的循环判断网络状态;
-//        Intent intent = new Intent();
-//        intent.setClass(this, ChargeNetWorkStateService.class);
-//        startService(intent);
-//    }
+    private void checkNetState() {
+        //开服务,去后台,不断的循环判断网络状态;
+        Intent intent = new Intent();
+        intent.setClass(this, CheckNetWorkStateService.class);
+        startService(intent);
+    }
 
     private void checkPhonePermission() {
         Log.i(TAG, "checkPhonePermission: " + "RECORD_AUDIO权限");
@@ -238,7 +266,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    //获取当前设备的电量
+    //    获取当前设备的电量
     public class BatteryReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -249,7 +277,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    //first step 让玩具和服务器产生关联 激活玩具
+    //    first step 让玩具和服务器产生关联 激活玩具
     private void ToyLogin(String deviceId) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.baseUrl)
@@ -285,90 +313,6 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    //初始化玩具的信息 (信号<wifi,4g>,音量<音乐,通话>,电量,麦克风,摄像头)
-//    private void initDeviceInfo() {
-//
-//        WifiManager systemService = (WifiManager) getSystemService(WIFI_SERVICE);
-//        //获取wifi信息API
-//        WifiInfo connectionInfo = systemService.getConnectionInfo();
-//        //wifi信号强度
-//        mWifiRssi = connectionInfo.getRssi();
-//        Log.d(TAG, "init: wifi" + mWifiRssi);
-//
-//        //获取音量API
-//        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-//        //当前音乐音量
-//        mMusicVoice = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-//        //当前通话音量
-//        int callVoice = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
-//        //当前铃声音量
-//        int ringVoice = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-//        //当前提示音音量
-//        int alarmVoice = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
-//        //当前系统音量
-//        mSystemVoice = audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM);
-//        Log.d(TAG, "init: musicvoice=" + mMusicVoice + ";callvoice=" + callVoice + ";ringvoice=" + ringVoice + ";alarmvoice=" + alarmVoice);
-//        Log.i(TAG, "onCreate: " + mDeviceId + ";");
-//
-//        //获取版本信息:
-//        PackageManager packageManager = getPackageManager();
-//        try {
-//            PackageInfo packageInfo = packageManager.getPackageInfo(this.getPackageName(), 0);
-//            mVersionCode = packageInfo.versionCode;
-//            mVersionName = packageInfo.versionName;
-//            Log.d(TAG, "init: packinfo:versioncode:" + mVersionCode + ",versionname:" + mVersionName);
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-////        AudioManager audioManager = getSystemService(AUDIO_SERVICE);
-//        //判断麦克风是否打开?
-//        boolean microphoneMute = audioManager.isMicrophoneMute();
-//        if (microphoneMute) {
-//            mMic = "1";
-//        } else {
-//            mMic = "2";
-//        }
-//        //通过broadcastreceiver获取当前设备的电量
-//        BatteryReceiver batteryReceiver = new BatteryReceiver();
-//        IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
-//        registerReceiver(batteryReceiver, intentFilter);
-//
-//    }
-
-    //心跳接口3.4.6
-//    private void toyHeart(String versionName, int wifiRssi, String rid, String token) {
-//
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(Constants.baseUrl)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        MyInterface myInterface = retrofit.create(MyInterface.class);
-//        ActiveToyReqBean.BODYBean bodyBean = new ActiveToyReqBean.BODYBean("A", "TOY", versionName, mCurrentBattery + "",
-//                wifiRssi + "", mMic, "", mMusicVoice + "", mRid);
-//        ActiveToyReqBean activeToyReqBean = new ActiveToyReqBean("REQ", "HEART", "", new SimpleDateFormat
-//                ("yyyyMMddHHmmssSSS").format(new Date()), bodyBean, "", token, "1");
-//        Gson gson = new Gson();
-//        String s = gson.toJson(activeToyReqBean);
-//        Log.d(TAG, "toyHeart: 数据信息:" + s.toString());
-//        Call<ActiveToyResBean> activeToyResBeanCall = myInterface.ACTIVE_TOY_RES_BEAN_CALL(s);
-//        activeToyResBeanCall.enqueue(new Callback<ActiveToyResBean>() {
-//            @Override
-//            public void onResponse(Call<ActiveToyResBean> call, Response<ActiveToyResBean> response) {
-//
-//                Log.i(TAG, "onResponse:init toy" + response.message());
-//                Log.i(TAG, "onResponse:init toy " + response.body().toString());
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ActiveToyResBean> call, Throwable t) {
-//                Log.i(TAG, "onFailure: " + t);
-//            }
-//        });
-//    }
-
 
     @Override
     protected void onDestroy() {
@@ -398,8 +342,8 @@ public class MainActivity extends BaseActivity {
         toyLogoutResBeanCall.enqueue(new Callback<ToyLogoutResBean>() {
             @Override
             public void onResponse(Call<ToyLogoutResBean> call, Response<ToyLogoutResBean> response) {
-                Log.d(TAG, "onResponse(KeepLiveService): " + response.body().getMSG());
-                Log.d(TAG, "onResponse(KeepLiveService): " + response.body().toString());
+//                Log.d(TAG, "onResponse(KeepLiveService): " + response.body().getMSG());
+//                Log.d(TAG, "onResponse(KeepLiveService): " + response.body().toString());
             }
 
             @Override
@@ -412,6 +356,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         isForeground = true;
+
         super.onResume();
     }
 
@@ -420,7 +365,6 @@ public class MainActivity extends BaseActivity {
         isForeground = false;
         super.onPause();
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
