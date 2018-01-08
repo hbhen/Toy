@@ -54,7 +54,8 @@ public class KeepLiveService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+//        throw new UnsupportedOperationException("Not yet implemented");
+        return null;
     }
 
     @Override
@@ -78,7 +79,7 @@ public class KeepLiveService extends Service {
         Log.d(TAG, "onDestroy(KeepLiveService) went");
         super.onDestroy();
         stopSelf();
-        toyLogout();
+//        toyLogout();
     }
 
     private void toyLogout() {
@@ -97,6 +98,7 @@ public class KeepLiveService extends Service {
             public void onResponse(Call<ToyLogoutResBean> call, Response<ToyLogoutResBean> response) {
 //                Log.d(TAG, "onResponse(KeepLiveService): " + response.body().getMSG());
             }
+
             @Override
             public void onFailure(Call<ToyLogoutResBean> call, Throwable t) {
                 Log.d(TAG, "onFailure(KeepLiveService): " + t.toString());

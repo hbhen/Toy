@@ -16,9 +16,8 @@ import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
 import toy.android.com.toy.activity.ListenerManager;
-import toy.android.com.toy.activity.WifiActivity;
 import toy.android.com.toy.service.ControlPlayService;
-import toy.android.com.toy.service.VideoService2;
+import toy.android.com.toy.service.VideoServiceUse;
 import toy.android.com.toy.utils.ToastUtil;
 
 //拿到myreceiver以后,在里面设置开启各个功能的开关.
@@ -126,12 +125,13 @@ public class MyReceiver extends BroadcastReceiver {
 
                 //语音视频通话
                 else if (cmd.equals("contact_toy")) {
+                    ListenerManager.getInstance().sendBroadCast("contact_toy", params);
                     String method = params.getString("method");
                     mRoomId = params.getString("room");
                     Log.i(TAG, "method: " + method);
 //                    switch (videoControlMethod) {
 //                        case 1://连接房间
-                    intent.setClass(context, VideoService2.class);
+                    intent.setClass(context, VideoServiceUse.class);
 //                            intent.putExtra("method", 1);
 //                            intent.putExtra("roomid", mRoomId);
 //                            context.startService(intent);
@@ -195,6 +195,7 @@ public class MyReceiver extends BroadcastReceiver {
                 else if (cmd.equals("update")) {
                     ListenerManager.getInstance().sendBroadCast("update", params);
                     String updateUrl = params.getString("url");//更新地址
+
                     /**
                      *拿到地址开始下载 开启服务
                      *  1,后台自动下载
@@ -208,19 +209,15 @@ public class MyReceiver extends BroadcastReceiver {
                     //设置免打扰时间
                     ToastUtil.showToast(context, params.toString());
                     Log.i(TAG, "onReceive: params" + params.toString());
-                    //
-
                 } else if (cmd.equals("准备接收网络指令")) {
                     //开启一个service,等待用户发送指令
                 } else if (cmd.equals("接收指令并比对填充wlan")) {
                     //1,开启的是声波解码activity,拿到wlan的名称,和密码.
                     Intent wlanIntent = new Intent();
-                    wlanIntent.setClass(context, WifiActivity.class);
-                    wlanIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    wlanIntent.setClass(context, WifiActivity.class);
+//                    wlanIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(wlanIntent);
-
                     //2,拿到密码去设置,不对,发出未连接成功声音.对,发出连接成功的声音
-
                 }
 
             } catch (JSONException e) {
@@ -232,7 +229,7 @@ public class MyReceiver extends BroadcastReceiver {
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
-            //打开自定义的Activity
+//          打开自定义的Activity
 //        	Intent i = new Intent(context, TestActivity.class);
 //        	i.putExtras(bundle);
 //        	//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

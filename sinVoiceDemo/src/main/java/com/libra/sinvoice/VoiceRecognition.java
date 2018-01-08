@@ -26,7 +26,8 @@ public class VoiceRecognition {
     private final static int STEP1 = 1;
     private final static int STEP2 = 2;
     private final static int INDEX[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1,
-            -1, 13, -1, -1, -1, -1, 12, -1, -1, -1, 11, -1, -1, 10, -1, -1, 9, -1, -1, 8, -1, -1, 7, -1, -1, 6, -1, -1, 5, -1, -1, 4, -1, -1, 3,
+            -1, 13, -1, -1, -1, -1, 12, -1, -1, -1, 11, -1, -1, 10, -1, -1, 9,
+            -1, -1, 8, -1, -1, 7, -1, -1, 6, -1, -1, 5, -1, -1, 4, -1, -1, 3,
             -1, -1, 2, -1, -1, 1, -1, -1, 0};
     private final static int MAX_SAMPLING_POINT_COUNT = 52;
     private final static int MIN_REG_CIRCLE_COUNT = 10;
@@ -171,60 +172,93 @@ public class VoiceRecognition {
         }
     }
 
-    private int preReg(int samplingPointCount) {
-        switch (samplingPointCount) {
-        case 8:
-        case 9:
-        case 10:
-        case 11:
-        case 12:
-            samplingPointCount = 10;
-            break;
+    private int preReg(int circleCount) {
+        switch (circleCount) {
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+                circleCount = 10;
+                break;
 
-        case 13:
-        case 14:
-        case 15:
-        case 16:
-        case 17:
-            samplingPointCount = 15;
-            break;
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+                circleCount = 15;
+                break;
 
-        case 18:
-        case 19:
-        case 20:
-            samplingPointCount = 19;
-            break;
+            case 18:
+            case 19:
+            case 20:
+                circleCount = 19;
+                break;
 
-        case 21:
-        case 22:
-        case 23:
-            samplingPointCount = 22;
-            break;
+            case 21:
+            case 22:
+            case 23:
+                circleCount = 22;
+                break;
 
-        case 24:
-        case 25:
-        case 26:
-            samplingPointCount = 25;
-            break;
+            case 24:
+            case 25:
+            case 26:
+                circleCount = 25;
+                break;
 
-        case 27:
-        case 28:
-        case 29:
-            samplingPointCount = 28;
-            break;
-
-        case 30:
-        case 31:
-        case 32:
-            samplingPointCount = 31;
-            break;
-
-        default:
-            samplingPointCount = 0;
-            break;
+            case 27:
+            case 28:
+            case 29:
+                circleCount = 28;
+                break;
+            case 30:
+            case 31:
+            case 32:
+                circleCount = 31;
+                break;
+            case 33:
+            case 34:
+            case 35:
+                circleCount = 34;
+                break;
+            case 36:
+            case 37:
+            case 38:
+                circleCount = 37;
+                break;
+            case 39:
+            case 40:
+            case 41:
+                circleCount = 40;
+                break;
+            case 42:
+            case 43:
+            case 44:
+                circleCount = 43;
+                break;
+            case 45:
+            case 46:
+            case 47:
+                circleCount = 46;
+                break;
+            case 48:
+            case 49:
+            case 50:
+                circleCount = 49;
+                break;
+            case 51:
+            case 52:
+            case 53:
+                circleCount = 52;
+                break;
+            default:
+                circleCount = 0;
+                break;
         }
 
-        return samplingPointCount;
+        return circleCount;
     }
 
     private void reg(int samplingPointCount) {

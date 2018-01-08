@@ -29,7 +29,6 @@ public class CheckNetWorkStateService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -65,8 +64,7 @@ public class CheckNetWorkStateService extends Service {
                     Log.d(TAG, "没有可用网络");
 //                    doSomething()
                     Intent intent1 = new Intent();
-                    intent1.setClass(context, WifiKeyListenerService.class);
-
+                    intent1.setClass(context, WifiSoundListenerService.class);
                 }
             }
         }

@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.libra.sinvoice.LogHelper;
@@ -35,44 +32,15 @@ public class MainActivity extends Activity implements SinVoiceRecognition.Listen
 
         mRecognition = new SinVoiceRecognition(CODEBOOK);
         mRecognition.setListener(this);
+        mRecognition.start();
+//        final TextView playTextView = (TextView) findViewById(R.id.playtext);
+//        TextView recognisedTextView = (TextView) findViewById(R.id.regtext);
+        mHanlder = new RegHandler();
+//        mHanlder = new RegHandler(recognisedTextView);
 
-        final TextView playTextView = (TextView) findViewById(R.id.playtext);
-        TextView recognisedTextView = (TextView) findViewById(R.id.regtext);
-        mHanlder = new RegHandler(recognisedTextView);
 
-        Button playStart = (Button) this.findViewById(R.id.start_play);
-        playStart.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                String text = genText(7);
-                playTextView.setText(text);
-                mSinVoicePlayer.play(text, true, 1000);
-            }
-        });
 
-        Button playStop = (Button) this.findViewById(R.id.stop_play);
-        playStop.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                mSinVoicePlayer.stop();
-            }
-        });
 
-        Button recognitionStart = (Button) this.findViewById(R.id.start_reg);
-        recognitionStart.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                mRecognition.start();
-            }
-        });
-
-        Button recognitionStop = (Button) this.findViewById(R.id.stop_reg);
-        recognitionStop.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                mRecognition.stop();
-            }
-        });
     }
 
     private String genText(int count) {
@@ -94,8 +62,11 @@ public class MainActivity extends Activity implements SinVoiceRecognition.Listen
         private StringBuilder mTextBuilder = new StringBuilder();
         private TextView mRecognisedTextView;
 
-        public RegHandler(TextView textView) {
-            mRecognisedTextView = textView;
+//        public RegHandler(TextView textView) {
+//            mRecognisedTextView = textView;
+//        }
+        public RegHandler() {
+
         }
 
         @Override
@@ -105,7 +76,7 @@ public class MainActivity extends Activity implements SinVoiceRecognition.Listen
                 char ch = (char) msg.arg1;
                 mTextBuilder.append(ch);
                 if (null != mRecognisedTextView) {
-                    mRecognisedTextView.setText(mTextBuilder.toString());
+//                    mRecognisedTextView.setText(mTextBuilder.toString());
                 }
                 break;
 

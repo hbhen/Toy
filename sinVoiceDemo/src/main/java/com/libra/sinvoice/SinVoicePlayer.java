@@ -16,13 +16,13 @@
  */
 package com.libra.sinvoice;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.media.AudioFormat;
 import android.text.TextUtils;
 
 import com.libra.sinvoice.Buffer.BufferData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SinVoicePlayer implements Encoder.Listener, Encoder.Callback, PcmPlayer.Listener, PcmPlayer.Callback {
     private final static String TAG = "SinVoicePlayer";
@@ -31,7 +31,7 @@ public class SinVoicePlayer implements Encoder.Listener, Encoder.Callback, PcmPl
     private final static int STATE_STOP = 2;
     private final static int STATE_PENDING = 3;
 
-    private final static int DEFAULT_GEN_DURATION = 100;
+    private final static int DEFAULT_GEN_DURATION = 150;
 
     private String mCodeBook;
     private List<Integer> mCodes = new ArrayList<Integer>();

@@ -184,12 +184,12 @@
         "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable\\notification_icon_background.xml"
     },
     {
-        "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\public_white_round_pressed.xml",
-        "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\drawable\\public_white_round_pressed.xml"
-    },
-    {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\paintpad_clear_selector.xml",
         "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\drawable\\paintpad_clear_selector.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\public_white_round_pressed.xml",
+        "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\drawable\\public_white_round_pressed.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",

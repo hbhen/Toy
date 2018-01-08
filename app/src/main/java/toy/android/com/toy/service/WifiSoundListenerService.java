@@ -10,12 +10,15 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
 import com.libra.sinvoice.SinVoicePlayer;
 import com.libra.sinvoice.SinVoiceRecognition;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
+
 import toy.android.com.toy.utils.SPUtils;
 
 public class WifiSoundListenerService extends Service implements SinVoiceRecognition.Listener, SinVoicePlayer.Listener {
@@ -48,9 +51,7 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "onStartCommand: (wifisoundlistenerservice)" + "走一个走一个");
-        mSinVoicePlayer = new SinVoicePlayer(CODEBOOK);
         mSinVoiceRecognition = new SinVoiceRecognition(CODEBOOK);
-        mSinVoicePlayer.setListener(this);
         mSinVoiceRecognition.setListener(this);
         mSinVoiceRecognition.start();
         Log.i(TAG, "onStartCommand: 点击了recognition");
@@ -71,7 +72,7 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
                             String wlananme = SPUtils.getString(WifiSoundListenerService.this, "wlananme", "");
                             String wlankey = SPUtils.getString(WifiSoundListenerService.this, "wlankey", "");
                             Log.i(TAG, "handleMessage: 拿到wifi的名字和密码了");
-                            setWlan(wlananme, wlankey);
+//                            setWlan(wlananme, wlankey);
                         }
                         break;
                     case MSG_SET_RECG_TEXT:
@@ -84,6 +85,7 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
                         break;
 
                     case MSG_RECG_END:
+//                        应该在接收数据结束的时候设置wifi信息
                         Log.i(TAG, "recognition end");
                         break;
                     default:
@@ -196,6 +198,7 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
         decodeWifiInfo();
         regText = "";
         substring = "";
+        mSinVoiceRecognition.stop();
     }
 
     private void decodeWifiInfo() {
@@ -225,6 +228,7 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
                 Log.i(TAG, "onCreate----decodeWlanName:" + decodeWlanName + "和 decodeWlanSecret:" + decodeWlanSecret + " ;");
                 SPUtils.putString(this, "wifiname", decodeWlanName);
                 SPUtils.putString(this, "wifikey", decodeWlanSecret);
+                setWlan(decodeWlanName, decodeWlanSecret);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

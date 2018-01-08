@@ -2,6 +2,7 @@ package toy.android.com.toy.utils;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -17,6 +18,7 @@ public class NetWorkUtil {
     private static final int CURRENT_NETWORK_STATES_WIFI = 1;//1：WIFI网络
     private static final int CURRENT_NETWORK_STATES_WAP = 2;//2：wap网络
     private static final int CURRENT_NETWORK_STATES_NET = 3;//3：net网络
+    private static Intent mKeepLiveIntent;
 
     public static int getAPNType(Context context) {
         int netType = CURRENT_NETWORK_STATES_NO;
@@ -35,6 +37,7 @@ public class NetWorkUtil {
         }
         return netType;
     }
+
     /**
      * 判断WiFi网络是否可用
      *
@@ -53,6 +56,7 @@ public class NetWorkUtil {
         }
         return false;
     }
+
     /**
      * 判断数据流量是否可用
      *
@@ -90,6 +94,7 @@ public class NetWorkUtil {
         }
         return false;
     }
+
     //判断当前的进行或者服务是否存在（是否运行）
     public static boolean isServiceRunning(Context mContext, String className) {
         ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
