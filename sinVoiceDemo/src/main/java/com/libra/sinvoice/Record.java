@@ -33,8 +33,7 @@ public class Record {
     public final static int CHANNEL_1 = 1;
     public final static int CHANNEL_2 = 2;
 
-    private int mState;
-
+    private int mState = 2;
     private int mFrequence = 8000;
     private int mChannel = CHANNEL_1;
     private int mBits = BITS_8;
@@ -75,27 +74,28 @@ public class Record {
     public void start() {
         if (STATE_STOP == mState) {
             switch (mChannel) {
-            case CHANNEL_1:
-                mChannelConfig = AudioFormat.CHANNEL_IN_MONO;
-                break;
-            case CHANNEL_2:
-                mChannelConfig = AudioFormat.CHANNEL_IN_STEREO;
-                break;
+                case CHANNEL_1:
+                    mChannelConfig = AudioFormat.CHANNEL_IN_MONO;
+                    break;
+                case CHANNEL_2:
+                    mChannelConfig = AudioFormat.CHANNEL_IN_STEREO;
+                    break;
             }
 
             switch (mBits) {
-            case BITS_8:
-                mAudioEncoding = AudioFormat.ENCODING_PCM_8BIT;
-                break;
+                case BITS_8:
+                    mAudioEncoding = AudioFormat.ENCODING_PCM_8BIT;
+                    break;
 
-            case BITS_16:
-                mAudioEncoding = AudioFormat.ENCODING_PCM_16BIT;
-                break;
+                case BITS_16:
+                    mAudioEncoding = AudioFormat.ENCODING_PCM_16BIT;
+                    break;
             }
 
             int minBufferSize = AudioRecord.getMinBufferSize(mFrequence, mChannelConfig, mAudioEncoding);
             LogHelper.d(TAG, "minBufferSize:" + minBufferSize);
-            if ( mBufferSize >= minBufferSize ) {
+
+            if (mBufferSize >= minBufferSize) {
                 AudioRecord record = new AudioRecord(MediaRecorder.AudioSource.MIC, mFrequence, mChannelConfig, mAudioEncoding, mBufferSize);
                 if (null != record) {
                     try {
@@ -110,6 +110,7 @@ public class Record {
 
                             while (STATE_START == mState) {
                                 BufferData data = mCallback.getRecordBuffer();
+
                                 if (null != data) {
                                     if (null != data.mData) {
                                         int bufferReadResult = record.read(data.mData, 0, mBufferSize);
@@ -126,17 +127,15 @@ public class Record {
                                     break;
                                 }
                             }
-
-                            if (null != mListener) {
+                            if (mListener != null) {
                                 mListener.onStopRecord();
                             }
                         }
-
                         record.stop();
                         record.release();
 
                         LogHelper.d(TAG, "record stop");
-                    } catch ( IllegalStateException e) {
+                    } catch (IllegalStateException e) {
                         e.printStackTrace();
                         LogHelper.e(TAG, "start record error");
                     }
@@ -146,6 +145,7 @@ public class Record {
                 LogHelper.e(TAG, "bufferSize is too small");
             }
         }
+
     }
 
     public int getState() {

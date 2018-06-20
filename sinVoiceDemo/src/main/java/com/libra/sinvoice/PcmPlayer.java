@@ -64,7 +64,7 @@ public class PcmPlayer {
                 mState = STATE_START;
                 LogHelper.d(TAG, "start");
                 if (null != mListener) {
-                    mListener.onPlayStart();
+                   mListener.onPlayStart();
                 }
                 while (STATE_START == mState) {
                     LogHelper.d(TAG, "start getbuffer");
@@ -94,13 +94,17 @@ public class PcmPlayer {
                     mAudio.pause();
                     mAudio.flush();
                     mAudio.stop();
+                    mAudio.release();
                 }
                 mState = STATE_STOP;
                 if (null != mListener) {
                     mListener.onPlayStop();
+                    return;
                 }
                 LogHelper.d(TAG, "end");
+                return;
             }
+            throw new IllegalArgumentException("PcmCallback can't be null");
         }
     }
 

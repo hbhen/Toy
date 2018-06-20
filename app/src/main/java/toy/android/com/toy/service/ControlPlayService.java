@@ -38,7 +38,7 @@ public class ControlPlayService extends Service {
     private boolean flag;
 
     private SharedPreferences mSp;
-//    private boolean isStop = false;
+    //    private boolean isStop = false;
     private boolean isPrepared = false;
     private boolean isPlaying = false;
 
@@ -49,6 +49,18 @@ public class ControlPlayService extends Service {
         return mMediaPlayer;
     }
 
+    public static ControlPlayService sControlPlayService;
+
+    public ControlPlayService() {
+    }
+
+    public static synchronized ControlPlayService getInstance() {
+        if (sControlPlayService == null) {
+            sControlPlayService = new ControlPlayService();
+        }
+        return sControlPlayService;
+    }
+
     @Override
     public void onCreate() {
         mSp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -57,7 +69,7 @@ public class ControlPlayService extends Service {
         }
     }
 
-    //开启服务是为了播放音乐
+    //开启服务 是 为了播放音乐
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String playurl = intent.getStringExtra("url");
@@ -79,22 +91,28 @@ public class ControlPlayService extends Service {
                 break;
             case 3:
                 Log.i(TAG, "STOP_MUSIC: went ");
-                if (getMediaPlayer().isPlaying()) {
-                    stopMusic();
-                }
+                stopMusic();
                 break;
             default:
                 break;
         }
         //获取音乐播放列表,这里只需要播放的url即可
         //如果当前正在播放,给服务器提示正在播放,并且不允许播放别的音乐.直到当前的音乐播放完成,才播放别的音乐,可以考虑用数据库,来保存服务器推送过来的url.并通过指针,注意播放,添加进来的音乐.
-        return START_REDELIVER_INTENT;
+        return super.onStartCommand(intent, flags, startId);
     }
 
     private void stopMusic() {
         Log.i(TAG, "stopMusic: 4");
         MediaPlayer mediaPlayer = getMediaPlayer();
+        mediaPlayer.seekTo(0);
         mediaPlayer.stop();
+        try {
+            mediaPlayer.prepare();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         isPlaying = false;
     }
 
@@ -124,6 +142,7 @@ public class ControlPlayService extends Service {
         Log.i(TAG, "PlayMusic: 1");
         MediaPlayer mediaPlayer = getMediaPlayer();
         mediaPlayer.start();
+
 //        mediaPlayer.setLooping(true);
         isPlaying = true;
     }
@@ -135,4 +154,21 @@ public class ControlPlayService extends Service {
         return null;
     }
 
+    @Override
+    public void onDestroy() {
+//        日期:2018年3月6日 改
+        MediaPlayer mediaPlayer = getMediaPlayer();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+            isPlaying = false;
+        }
+//        stopSelf();
+        super.onDestroy();
+    }
+
+    interface onMusicPlaying {
+        void shutDownService(ControlPlayService controlPlayService, MediaPlayer mediaPlayer);
+    }
 }

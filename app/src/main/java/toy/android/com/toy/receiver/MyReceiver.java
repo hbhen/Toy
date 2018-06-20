@@ -14,7 +14,6 @@ import org.json.JSONObject;
 import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
-import toy.android.com.toy.activity.ListenerManager;
 import toy.android.com.toy.service.AppUpdateService;
 import toy.android.com.toy.service.ControlPlayService;
 import toy.android.com.toy.service.VideoServiceUse;
@@ -125,7 +124,7 @@ public class MyReceiver extends BroadcastReceiver {
 
                 //语音视频通话
                 else if (cmd.equals("contact_toy")) {
-                    ListenerManager.getInstance().sendBroadCast("contact_toy", params);
+//                    ListenerManager.getInstance().sendBroadCast("contact_toy", params);
                     String method = params.getString("method");
                     mRoomId = params.getString("room");
                     Log.i(TAG, "method: " + method);
@@ -162,7 +161,7 @@ public class MyReceiver extends BroadcastReceiver {
 
                 //控制录音
                 else if (cmd.equals("recordvolume")) {
-                    ListenerManager.getInstance().sendBroadCast("recordvolume", params);
+//                    ListenerManager.getInstance().sendBroadCast("recordvolume", params);
                     String methodString = params.getString("method");
                     String recordUrl = params.getString("url");
                     int methodInt = Integer.parseInt(methodString);
@@ -193,11 +192,9 @@ public class MyReceiver extends BroadcastReceiver {
 
                 //更新版本
                 else if (cmd.equals("update")) {
-                    ListenerManager.getInstance().sendBroadCast("update", params);
+//                    ListenerManager.getInstance().sendBroadCast("update", params);
                     Log.i(TAG, "onReceive: update......我要去更新了");
                     String updateUrl = params.getString("url");//更新地址
-//                    updateUrl="http://192.168.1.107:8080/update/toy2.0.apk";
-                    updateUrl="http://192.168.137.1:8080/update/toy2.0.apk";
                     Log.i(TAG, "onReceive: update......更新的地址是:" + updateUrl);
 
                     /**
@@ -214,6 +211,8 @@ public class MyReceiver extends BroadcastReceiver {
                     Log.i(TAG, "onReceive: start_updateToy_service");
 
                 } else if (cmd.equals("TOYSP")) {
+
+                    Log.i("toysp",params.toString());
                     //设置免打扰时间
                     ToastUtil.showToast(context, params.toString());
                     Log.i(TAG, "onReceive: params" + params.toString());

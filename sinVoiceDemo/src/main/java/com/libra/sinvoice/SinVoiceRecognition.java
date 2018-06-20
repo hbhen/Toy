@@ -45,6 +45,7 @@ public class SinVoiceRecognition implements Record.Listener, Record.Callback, Vo
         void onRecognition(char ch);
 
         void onRecognitionEnd();
+
     }
 
     public SinVoiceRecognition() {
@@ -63,10 +64,9 @@ public class SinVoiceRecognition implements Record.Listener, Record.Callback, Vo
         mRecord.setListener(this);
         mRecognition = new VoiceRecognition(this, sampleRate, Record.CHANNEL_1, Record.BITS_16);
         mRecognition.setListener(this);
-
         mMaxCodeIndex = Encoder.getMaxCodeCount() - 2;
-
         setCodeBook(codeBook);
+
     }
 
     public void setListener(Listener listener) {
@@ -81,23 +81,25 @@ public class SinVoiceRecognition implements Record.Listener, Record.Callback, Vo
 
     public void start() {
         if (STATE_STOP == mState) {
-            mState = STATE_PENDING;
+            mState = STATE_PENDING;//等待状态.
 
             mRecognitionThread = new Thread() {
                 @Override
                 public void run() {
+                    LogUtils.i(TAG,"(SinVoiceRecgnition : mRecognitionThread) start");
                     mRecognition.start();
                 }
             };
             if (null != mRecognitionThread) {
                 mRecognitionThread.start();
+                LogHelper.i(TAG, mRecognitionThread.getName());
             }
 
             mRecordThread = new Thread() {
                 @Override
                 public void run() {
                     mRecord.start();
-
+                    LogUtils.i(TAG,"(SinVoiceRecgnition : mRecordThread) start");
 //                    LogHelper.d(TAG, "record thread end");
 //                    LogHelper.d(TAG, "stop recognition start");
                     stopRecognition();
@@ -106,13 +108,13 @@ public class SinVoiceRecognition implements Record.Listener, Record.Callback, Vo
             };
             if (null != mRecordThread) {
                 mRecordThread.start();
+                LogHelper.i(TAG, mRecordThread.getName());
             }
-
             mState = STATE_START;
         }
     }
 
-    private void stopRecognition() {
+    public void stopRecognition() {
         mRecognition.stop();
 
         // put end buffer
@@ -121,6 +123,7 @@ public class SinVoiceRecognition implements Record.Listener, Record.Callback, Vo
 
         if (null != mRecognitionThread) {
             try {
+                LogUtils.i(TAG,"(SinVoiceRecgnition : mRecognitionThread) join");
                 mRecognitionThread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -130,16 +133,20 @@ public class SinVoiceRecognition implements Record.Listener, Record.Callback, Vo
         }
 
         mBuffer.reset();
+        LogUtils.i(TAG,"(SinVoiceRecgnition : mBuffer) reset");
+
     }
 
     public void stop() {
-        if (STATE_START == mState) {
+        if (STATE_START == mState) {//如果是开始状态,编程pending状态
             mState = STATE_PENDING;
-
+//只是在pending状态才能开始或者暂停?
 //            LogHelper.d(TAG, "force stop start");
+            LogUtils.i(TAG,"(SinVoiceRecgnition : mRecord) stop");
             mRecord.stop();
             if (null != mRecordThread) {
                 try {
+                    LogUtils.i(TAG,"(SinVoiceRecgnition : mRecordThread) join");
                     mRecordThread.join();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -151,23 +158,24 @@ public class SinVoiceRecognition implements Record.Listener, Record.Callback, Vo
             mState = STATE_STOP;
 //            LogHelper.d(TAG, "force stop end");
         }
+
     }
 
     @Override
     public void onStartRecord() {
-//        LogHelper.d(TAG, "start record");
+        LogHelper.d(TAG, "start record");
     }
 
     @Override
     public void onStopRecord() {
-//        LogHelper.d(TAG, "stop record");
+        LogHelper.d(TAG, "stop record");
     }
 
     @Override
     public BufferData getRecordBuffer() {
         BufferData buffer = mBuffer.getEmpty();
         if (null == buffer) {
-//            LogHelper.e(TAG, "get null empty buffer");
+            LogHelper.e(TAG, "get null empty buffer");
         }
         return buffer;
     }
@@ -185,7 +193,7 @@ public class SinVoiceRecognition implements Record.Listener, Record.Callback, Vo
     public BufferData getRecognitionBuffer() {
         BufferData buffer = mBuffer.getFull();
         if (null == buffer) {
-//            LogHelper.e(TAG, "get null full buffer");
+            LogHelper.e(TAG, "get null full buffer");
         }
         return buffer;
     }
@@ -194,22 +202,26 @@ public class SinVoiceRecognition implements Record.Listener, Record.Callback, Vo
     public void freeRecognitionBuffer(BufferData buffer) {
         if (null != buffer) {
             if (!mBuffer.putEmpty(buffer)) {
-//                LogHelper.e(TAG, "put empty buffer failed");
+                LogHelper.e(TAG, "put empty buffer failed");
             }
         }
     }
 
     @Override
     public void onStartRecognition() {
-//        LogHelper.d(TAG, "start recognition");
+        LogHelper.d(TAG, "start recognition");
+        LogHelper.i(TAG, "走了几次,我想知道!! : (onStartRecognition)");
     }
 
     @Override
     public void onRecognition(int index) {
-//        LogHelper.d(TAG, "recognition:" + index);
+        LogHelper.d(TAG, "recognition:" + index);
         if (null != mListener) {
             if (Common.START_TOKEN == index) {
                 mListener.onRecognitionStart();
+                LogHelper.i(TAG, "走了几次,我想知道!! : (onRecognition)");
+
+
             } else if (Common.STOP_TOKEN == index) {
                 mListener.onRecognitionEnd();
             } else if (index > 0 && index <= mMaxCodeIndex) {
@@ -222,6 +234,7 @@ public class SinVoiceRecognition implements Record.Listener, Record.Callback, Vo
     @Override
     public void onStopRecognition() {
         LogHelper.d(TAG, "stop recognition");
+        LogHelper.i(TAG, "走了几次,我想知道!! : (onStopRecognition)");
     }
 
 }

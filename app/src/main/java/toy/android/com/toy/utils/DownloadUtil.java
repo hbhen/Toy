@@ -55,9 +55,7 @@ public class DownloadUtil {
                     is = response.body().byteStream();
                     long total = response.body().contentLength();
 //                    File file = new File(savePath, getNameFromUrl(url));
-                    File file = new File(savePath, "咿吖.apk");
-                    file.getName();
-                    Log.i(TAG, "onResponse: file.getname():" + file.getName());
+                    File file = new File(savePath, "toy.apk");
                     fos = new FileOutputStream(file);
                     long sum = 0;
                     while ((len = is.read(buf)) != -1) {

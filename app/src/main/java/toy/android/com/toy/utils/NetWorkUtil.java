@@ -14,6 +14,7 @@ import java.util.List;
 
 public class NetWorkUtil {
     //获取当前的网络状态
+    private static final int CURRENT_NETWORK_STATES_MOBILE = 0;//移动网络
     private static final int CURRENT_NETWORK_STATES_NO = -1;//-1：没有网络
     private static final int CURRENT_NETWORK_STATES_WIFI = 1;//1：WIFI网络
     private static final int CURRENT_NETWORK_STATES_WAP = 2;//2：wap网络
@@ -113,4 +114,33 @@ public class NetWorkUtil {
         }
         return isRunning;
     }
+
+    public static int getNetWorkState(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+            if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                return CURRENT_NETWORK_STATES_WIFI;
+            } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                return CURRENT_NETWORK_STATES_MOBILE;
+            }
+        } else {
+            return CURRENT_NETWORK_STATES_NO;
+        }
+        return CURRENT_NETWORK_STATES_NO;
+    }
+
+    /*
+    * @params available :网络是否可用
+    *       (0:表示当前无网络 1:表示当前有网络)
+    * */
+    public void setIsNetworkAvailable(int available) {
+
+        if (available == 0) {
+
+        } else if (available == 1) {
+
+        }
+    }
+
 }

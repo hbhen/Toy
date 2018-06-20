@@ -7,11 +7,11 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import java.util.HashMap;
 import java.util.Map;
-
+@Deprecated
 /**
  * Created by DTC on 2018/1/1815:50.
  */
-
+//辅助模式的安装服务
 public class MyAccessibilityService extends AccessibilityService {
     private static final String TAG = "accessibility";
     private Map<Integer, Boolean> handleMap = new HashMap<>();

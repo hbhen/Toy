@@ -16,7 +16,12 @@
 #   public *;
 #}
 -dontoptimize
+#Android不需要preverify，去掉这一步可加快混淆速度
 -dontpreverify
 
 -dontwarn cn.jpush.**
 -keep class cn.jpush.** { *; }
+-keep class * extends cn.jpush.android.helpers.JPushMessageReceiver { *; }
+
+-dontwarn cn.jiguang.**
+-keep class cn.jiguang.** { *; }

@@ -3,6 +3,7 @@ package toy.android.com.toy.service;
 import android.app.IntentService;
 import android.content.Intent;
 import android.hardware.Camera;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -21,7 +22,7 @@ import toy.android.com.toy.utils.ToastUtil;
  * Created by DTC on 2017/10/2816:48.
  */
 
-public class VideoServiceUse extends IntentService implements SessionInterface {
+public class VideoServiceUse extends IntentService implements SessionInterface, ControlPlayService.onMusicPlaying {
 
     private static final String TAG = "VideoServiceUse";
     static public int WEIYI_VIDEO_OUT_SLOW = 1;       //视频发送速度慢
@@ -124,7 +125,7 @@ public class VideoServiceUse extends IntentService implements SessionInterface {
         * */
 //        Session.getInstance().joinmeeting(ip, port, mUserFlag + uid, meetingId, "", uid, 0, null);
         Session.getInstance().joinmeeting(ip, port, mUserFlag, meetingId, "", uid, 0, null);
-
+        shutDownService(ControlPlayService.getInstance(),ControlPlayService.getMediaPlayer());
     }
 
     private void seeMe() {
@@ -361,16 +362,15 @@ public class VideoServiceUse extends IntentService implements SessionInterface {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         Log.d(TAG, "onDestroy: ***************");
 //        PackageManager packageManager=getPackageManager();
 //        packageManager.setComponentEnabledSetting(new ComponentName("toy.android.com.toy",MyReceiver.class.getName()),PackageManager
 // .COMPONENT_ENABLED_STATE_DISABLEDPackageManager.DONT_KILL_APP);
         stop();
-        this.stopSelf();
+        //这里调用这个没有用
 
-        //通知服务器,退出  需不需要通知???
-//        StopCallServer();
+        this.stopSelf();
+        super.onDestroy();
     }
 
     private void stop() {
@@ -383,5 +383,12 @@ public class VideoServiceUse extends IntentService implements SessionInterface {
         _userList.clear();
     }
 
+    //控制音频和视频的冲突
+    @Override
+    public void shutDownService(ControlPlayService controlPlayService, MediaPlayer mediaPlayer) {
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
 
+        }
+    }
 }

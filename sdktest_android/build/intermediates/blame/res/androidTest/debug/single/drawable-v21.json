@@ -1,18 +1,18 @@
 [
     {
         "merged": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-v21\\notification_action_background.xml",
-        "source": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-v21\\notification_action_background.xml"
+        "source": "C:\\Users\\DTC\\.android\\build-cache\\ee21f34cce3e6644dd27b713121701d912f86fe7\\output\\res\\drawable-v21\\notification_action_background.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-v21\\abc_btn_colored_material.xml",
-        "source": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-v21\\abc_btn_colored_material.xml"
+        "source": "C:\\Users\\DTC\\.android\\build-cache\\ee21f34cce3e6644dd27b713121701d912f86fe7\\output\\res\\drawable-v21\\abc_btn_colored_material.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-v21\\abc_action_bar_item_background_material.xml",
-        "source": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-v21\\abc_action_bar_item_background_material.xml"
+        "source": "C:\\Users\\DTC\\.android\\build-cache\\ee21f34cce3e6644dd27b713121701d912f86fe7\\output\\res\\drawable-v21\\abc_action_bar_item_background_material.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-v21\\abc_edit_text_material.xml",
-        "source": "D:\\AndroidPro\\Toy\\sdktest_android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\drawable-v21\\abc_edit_text_material.xml"
+        "source": "C:\\Users\\DTC\\.android\\build-cache\\ee21f34cce3e6644dd27b713121701d912f86fe7\\output\\res\\drawable-v21\\abc_edit_text_material.xml"
     }
 ]

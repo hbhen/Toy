@@ -1,10 +1,10 @@
 [
     {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
-        "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+        "source": "C:\\Users\\DTC\\.android\\build-cache\\ee21f34cce3e6644dd27b713121701d912f86fe7\\output\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
-        "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+        "source": "C:\\Users\\DTC\\.android\\build-cache\\ee21f34cce3e6644dd27b713121701d912f86fe7\\output\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
     }
 ]

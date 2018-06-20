@@ -10,9 +10,9 @@ import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -32,10 +32,12 @@ import toy.android.com.toy.bean.ToyLogoutReqBean;
 import toy.android.com.toy.bean.ToyLogoutResBean;
 import toy.android.com.toy.interf.MyInterface;
 import toy.android.com.toy.internet.Constants;
+import toy.android.com.toy.utils.LogUtil;
 import toy.android.com.toy.utils.SPUtils;
 
 public class KeepLiveService extends Service {
-    private static final String TAG = "tag";
+    private static final String TAG = "MainActivity";
+    //    private static final String TAG = KeepLiveService.class.getSimpleName();
     private String mDevicecode;
     private String mDeviceid;
     private String mMic;
@@ -46,40 +48,56 @@ public class KeepLiveService extends Service {
     private int mMusicVoice;
     private int mSystemVoice;
     private String mToken;
-
+    private String mSerial;
+    //    private final IBinder mIBinder = new KeepLiveBinder();
+    public static KeepLiveService mSingleton;
 
     public KeepLiveService() {
     }
 
+    public static synchronized KeepLiveService getInstance() {
+        if (mSingleton == null) {
+            mSingleton = new KeepLiveService();
+        }
+        return mSingleton;
+    }
+
+
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-//        throw new UnsupportedOperationException("Not yet implemented");
+//        mDevicecode = intent.getStringExtra("devicecode");
+//        return mIBinder;
         return null;
     }
+
+//    public class KeepLiveBinder extends Binder {
+//        public KeepLiveService getService() {
+//            return KeepLiveService.this;
+//        }
+//    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "onCreate(KeepLiveService) went");
+        LogUtil.d(TAG, "onCreate(KeepLiveService) went");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "onStartCommand(KeepLiveService) went");
-//        mDeviceid = intent.getStringExtra("deviceid");
+        LogUtil.d(TAG, "onStartCommand(KeepLiveService) went");
+        mDeviceid = intent.getStringExtra("deviceid");
         mDevicecode = intent.getStringExtra("devicecode");
         initDeviceInfo();
         ToyLogin();
+//        return super.onStartCommand(intent, flags, startId);
         return START_REDELIVER_INTENT;
+
     }
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "onDestroy(KeepLiveService) went");
+        LogUtil.i(TAG, "onDestroy(KeepLiveService) went");
         super.onDestroy();
-        stopSelf();
-//        toyLogout();
     }
 
     private void toyLogout() {
@@ -96,62 +114,71 @@ public class KeepLiveService extends Service {
         toyLogoutResBeanCall.enqueue(new Callback<ToyLogoutResBean>() {
             @Override
             public void onResponse(Call<ToyLogoutResBean> call, Response<ToyLogoutResBean> response) {
-//                Log.d(TAG, "onResponse(KeepLiveService): " + response.body().getMSG());
+//                LogUtil.d(TAG, "onResponse(KeepLiveService): " + response.body().getMSG());
             }
 
             @Override
             public void onFailure(Call<ToyLogoutResBean> call, Throwable t) {
-                Log.d(TAG, "onFailure(KeepLiveService): " + t.toString());
+                LogUtil.d(TAG, "onFailure(KeepLiveService): " + t.toString());
             }
         });
     }
 
     private void ToyLogin() {
+        ToyLoginReqBean.BODYBean mBodyBean;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         MyInterface anInterface = retrofit.create(MyInterface.class);
-        ToyLoginReqBean.BODYBean bodyBean = new ToyLoginReqBean.BODYBean(mDeviceid, "", mDevicecode, "A",
+        if (mDeviceid == null || mDeviceid.equals("")) {
+
+            mBodyBean = new ToyLoginReqBean.BODYBean(mSerial, "", mDevicecode, "A",
 //                mVersionName);
-                "1.0");
+                    "1.0");
+        } else {
+            mBodyBean = new ToyLoginReqBean.BODYBean(mDeviceid, "", mDevicecode, "A",
+//                mVersionName);
+                    "1.0");
+        }
         ToyLoginReqBean toyLoginReqBean = new ToyLoginReqBean("REQ", "LOG", "", new SimpleDateFormat
-                ("yyyyMMddHHmmssSSS").format(new Date()), bodyBean, "", "", "1");
+                ("yyyyMMddHHmmssSSS").format(new Date()), mBodyBean, "", "", "1");
         Gson gson = new Gson();
         String s = gson.toJson(toyLoginReqBean);
-        Log.i(TAG, s);
+        LogUtil.i(TAG, s);
         Call<ToyLoginResBean> toyLoginResBeanCall = anInterface.TOY_LOGIN_RES_BEAN_CALL(s);
-
         toyLoginResBeanCall.enqueue(new Callback<ToyLoginResBean>() {
             @Override
             public void onResponse(Call<ToyLoginResBean> call, Response<ToyLoginResBean> response) {
 //                ToastUtil.showToast(MainActivity.this, response.message());
-                Log.i(TAG, "onResponse: toy login" + response.body().getTOKEN());
-                Log.i(TAG, "onResponse: toy login" + response.body().getBODY());
-                Log.i(TAG, "onResponse: toy login" + "成功了");
+                LogUtil.i(TAG, "onResponse: toy login" + response.body().getTOKEN());
+                LogUtil.i(TAG, "onResponse: toy login" + response.body().getBODY());
+                LogUtil.i(TAG, "onResponse: toy login" + "成功了");
                 mToken = response.body().getTOKEN().toString();
                 SPUtils.putString(KeepLiveService.this, "token", mToken);
+//                保活
                 toyHeart(mVersionName, mWifiRssi, mDevicecode, mToken);
             }
 
             @Override
             public void onFailure(Call<ToyLoginResBean> call, Throwable t) {
-                Log.i(TAG, "onFailure: " + t);
+                LogUtil.i(TAG, "onFailure: " + t);
             }
         });
     }
 
     //初始化玩具的信息 (信号<wifi,4g>,音量<音乐,通话>,电量,麦克风,摄像头)
     private void initDeviceInfo() {
+        mSerial = Build.SERIAL;
         //获取deviceid
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         mDeviceid = telephonyManager.getDeviceId();
-        WifiManager systemService = (WifiManager) getSystemService(WIFI_SERVICE);
+        WifiManager systemService = (WifiManager) this.getApplicationContext().getSystemService(WIFI_SERVICE);
         //获取wifi信息API
         WifiInfo connectionInfo = systemService.getConnectionInfo();
         //wifi信号强度
         mWifiRssi = connectionInfo.getRssi();
-        Log.d(TAG, "init: wifi" + mWifiRssi);
+        LogUtil.d(TAG, "init: wifi" + mWifiRssi);
 
         //获取音量API
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -165,8 +192,8 @@ public class KeepLiveService extends Service {
         int alarmVoice = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
         //当前系统音量
         mSystemVoice = audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM);
-        Log.d(TAG, "init: musicvoice=" + mMusicVoice + ";callvoice=" + callVoice + ";ringvoice=" + ringVoice + ";alarmvoice=" + alarmVoice);
-        Log.i(TAG, "onCreate: " + mDeviceid + ";");
+        LogUtil.d(TAG, "init: musicvoice=" + mMusicVoice + ";callvoice=" + callVoice + ";ringvoice=" + ringVoice + ";alarmvoice=" + alarmVoice);
+        LogUtil.i(TAG, "onCreate: " + mDeviceid + ";");
 
         //获取版本信息:
         PackageManager packageManager = getPackageManager();
@@ -174,7 +201,7 @@ public class KeepLiveService extends Service {
             PackageInfo packageInfo = packageManager.getPackageInfo(this.getPackageName(), 0);
             mVersionCode = packageInfo.versionCode;
             mVersionName = packageInfo.versionName;
-            Log.d(TAG, "init: packinfo:versioncode:" + mVersionCode + ",versionname:" + mVersionName);
+            LogUtil.d(TAG, "init: packinfo:versioncode:" + mVersionCode + ",versionname:" + mVersionName);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -203,14 +230,14 @@ public class KeepLiveService extends Service {
         public void onReceive(Context context, Intent intent) {
             mCurrent = intent.getIntExtra("level", -1);
             int total = intent.getIntExtra("scale", -1);
-            Log.d(TAG, "onReceive的currentBattery:" + mCurrent + "total:" + total);
+            LogUtil.d(TAG, "onReceive的currentBattery:" + mCurrent + "total:" + total);
             unregisterReceiver(this);
         }
+
     }
 
     //心跳接口3.4.6
     private void toyHeart(String versionName, int wifiRssi, String rid, String token) {
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -222,22 +249,26 @@ public class KeepLiveService extends Service {
                 ("yyyyMMddHHmmssSSS").format(new Date()), bodyBean, "", token, "1");
         Gson gson = new Gson();
         String s = gson.toJson(activeToyReqBean);
-        Log.d(TAG, "toyHeart: 数据信息:" + s.toString());
+        LogUtil.d(TAG, "toyHeart: 数据信息:" + s.toString());
         Call<ActiveToyResBean> activeToyResBeanCall = myInterface.ACTIVE_TOY_RES_BEAN_CALL(s);
         activeToyResBeanCall.enqueue(new Callback<ActiveToyResBean>() {
             @Override
             public void onResponse(Call<ActiveToyResBean> call, Response<ActiveToyResBean> response) {
-
-                Log.i(TAG, "onResponse:init toy" + response.message());
-                Log.i(TAG, "onResponse:init toy " + response.body().toString());
+                LogUtil.i(TAG, "onResponse:init toy : " + response.message());
+                LogUtil.i(TAG, "onResponse:init toy : " + response.body().toString());
 
             }
 
             @Override
             public void onFailure(Call<ActiveToyResBean> call, Throwable t) {
-                Log.i(TAG, "onFailure: " + t);
+                LogUtil.i(TAG, "onFailure: " + t);
             }
         });
     }
 
+    @Override
+    public boolean onUnbind(Intent intent) {
+        LogUtil.i("mainactivity", " onUnbind went");
+        return super.onUnbind(intent);
+    }
 }

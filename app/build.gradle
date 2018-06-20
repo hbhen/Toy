@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     sourceSets.main {
         jniLibs.srcDirs = ['libs'] // <-- Set your folder here!
     }
@@ -10,12 +10,12 @@ android {
         applicationId "toy.android.com.toy"
 
         minSdkVersion 17
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
-            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a','x86', 'x86_64','mips', 'mips64'
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a', 'x86', 'x86_64', 'mips', 'mips64'
         }
         manifestPlaceholders = [
                 JPUSH_PKGNAME: "toy.android.com.toy",
@@ -55,4 +55,5 @@ dependencies {
     compile project(':outInterFace')
     compile project(':sdktest_android')
     compile project(':sinVoiceDemo')
+    compile 'org.greenrobot:eventbus:3.1.1'
 }

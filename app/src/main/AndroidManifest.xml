@@ -24,6 +24,10 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.DEVICE_POWER"/>
+    <!--<uses-permission android:name="android.permission.RESTART_PACKAGES"/>-->
+    <!--<uses-permission android:name="android.permission.INSTALL_PACKAGES"/>-->
+
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"/>
 
     <application
         android:name=".activity.App"
@@ -36,15 +40,19 @@
         <activity
             android:name=".activity.MainActivity"
             android:clearTaskOnLaunch="true"
+            android:enabled="true"
+            android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
+                <!--<action android:name="android.intent.action.PACKAGE_FIRST_LAUNCH"/>-->
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <receiver android:name=".service.AppUpdateService$InstallBroadcastReceiver">
+
+        <receiver android:name=".receiver.InstallBroadcastReceiver">
         </receiver>
+
         <service
             android:name=".service.MyAccessibilityService"
             android:label="AutoInstall"
@@ -52,22 +60,29 @@
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService"/>
             </intent-filter>
+
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service"/>
         </service>
-        <!--<provider-->
-        <!--android:authorities="com.app.pro.fileprovider" android:name="android.support.v4.content.FileProvider"-->
-        <!--android:grantUriPermissions="true"-->
-        <!--android:exported="false">-->
-        <!--<meta-data android:name="android.support.FILE_PROVIDER_PATHS"-->
-        <!--android:resource="@xml/file_paths"/>-->
-        <!--</provider>-->
-        <receiver android:name=".receiver.AutoOpenReceiver">
+        <!-- <provider -->
+        <!-- android:authorities="com.app.pro.fileprovider" android:name="android.support.v4.content.FileProvider" -->
+        <!-- android:grantUriPermissions="true" -->
+        <!-- android:exported="false"> -->
+        <!-- <meta-data android:name="android.support.FILE_PROVIDER_PATHS" -->
+        <!-- android:resource="@xml/file_paths"/> -->
+        <!-- </provider> -->
+        <receiver
+            android:name=".receiver.AutoOpenReceiver"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
-                <!-- <category android:name="android.intent.category.DEFAULT"/> -->
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             </intent-filter>
         </receiver>
         <!-- Required SDK 核心功能 -->
@@ -97,12 +112,11 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
             <!-- Optional -->
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED"/>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
-
-                <data android:scheme="package"/>
-            </intent-filter>
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.PACKAGE_ADDED"/>-->
+            <!--<action android:name="android.intent.action.PACKAGE_REMOVED"/>-->
+            <!--<data android:scheme="package"/>-->
+            <!--</intent-filter>-->
         </receiver>
         <!-- Required SDK核心功能 -->
         <activity
@@ -130,6 +144,7 @@
         </activity>
 
         <!-- Required SDK核心功能 -->
+
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
@@ -180,28 +195,53 @@
             android:exported="true">
         </service>
 
-        <!-- <receiver -->
-        <!-- android:name=".receiver.WifiStateChangeReceiver" -->
-        <!-- android:enabled="true" -->
-        <!-- android:exported="true"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/> -->
-        <!-- <action android:name="android.net.wifi.STATE_CHANGE"/> -->
-        <!-- <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/> -->
-        <!-- </intent-filter> -->
-        <!-- </receiver> -->
-        <service
-            android:name=".service.TestService"
-            android:enabled="true"
-            android:exported="true">
-        </service>
+
+        <!--<service-->
+        <!--android:name=".service.TestService"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="true">-->
+        <!--</service>-->
         <service
             android:name=".service.AppUpdateService"
             android:exported="false">
         </service>
 
-        <activity android:name=".activity.Jump"/>
-        <receiver android:name=".receiver.CompleteInstallBroadcastReceiver"/>
+        <activity android:name=".activity.InstallUpdate"/>
+
+        <receiver
+            android:name=".receiver.CompleteInstallBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <!--<action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>-->
+                <data android:scheme="package"/>
+
+            </intent-filter>
+        </receiver>
+        <!--wifi状态改变,有音乐-->
+        <receiver
+            android:name=".receiver.WifiStateChangeReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
+                <action android:name="android.net.wifi.STATE_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <service android:name=".activity.DemoService"/>
+        <!--wifi状态改变,无音乐-->
+        <!--<receiver-->
+            <!--android:name=".receiver.WlanConnectedBroadcastReceiver"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->
+                <!--<action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>-->
+                <!--<action android:name="android.net.wifi.STATE_CHANGE"/>-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
     </application>
 
 </manifest>

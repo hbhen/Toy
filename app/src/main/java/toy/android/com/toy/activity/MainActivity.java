@@ -1,19 +1,17 @@
 package toy.android.com.toy.activity;
 
-import android.Manifest;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.SystemClock;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -36,15 +34,17 @@ import toy.android.com.toy.bean.ToyLogoutReqBean;
 import toy.android.com.toy.bean.ToyLogoutResBean;
 import toy.android.com.toy.interf.MyInterface;
 import toy.android.com.toy.internet.Constants;
-import toy.android.com.toy.service.CheckNetWorkStateService;
 import toy.android.com.toy.service.KeepLiveService;
 import toy.android.com.toy.service.WifiSoundListenerService;
+import toy.android.com.toy.utils.LogUtil;
+import toy.android.com.toy.utils.MusicManager;
 import toy.android.com.toy.utils.NetWorkUtil;
 import toy.android.com.toy.utils.SPUtils;
+import toy.android.com.toy.utils.VersionCodeAndVersionNameUtils;
 
 public class MainActivity extends BaseActivity {
 
-    private final String TAG = "Main";
+    private final String TAG = MainActivity.class.getSimpleName();
     public static boolean isForeground = false;
     private String mDeviceId;
     private String mRid;
@@ -57,6 +57,10 @@ public class MainActivity extends BaseActivity {
     private WifiManager mWifiManager;
     private TextView mShow_wifi;
 
+    private KeepLiveService mKeepLiveService;
+    private ServiceConnection mKeepLiveConnection;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,62 +70,151 @@ public class MainActivity extends BaseActivity {
         getWindow().addFlags(flagKeepScreenOn);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        mShow_wifi = (TextView) findViewById(R.id.tv_show_wifi);
-        boolean isfirstOpen = SPUtils.getBoolean(this, "isfirstopen", true);
-        mWifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+        LogUtil.i(TAG, "onCreate  went  ");
+
+        init();
+
+
+    }
+
+    private void init() {
         acquireWakeLock();
+        LogUtil.i(TAG, "onStart: went");
+        int localVersionCode = VersionCodeAndVersionNameUtils.getLocalVersionCode(this);
+        String localVersionName = VersionCodeAndVersionNameUtils.getLocalVersionName(this);
+        mShow_wifi = (TextView) findViewById(R.id.tv_show_wifi);
+        mShow_wifi.setText("localVersionName:" + localVersionName + "localVersionCode:" + localVersionCode);
+        boolean isfirstOpen = SPUtils.getBoolean(this, "isfirstopen", true);
+        mWifiManager = (WifiManager) this.getApplicationContext().getSystemService(WIFI_SERVICE);
         JPushInterface.initCrashHandler(this);
+        mKeepLiveIntent = new Intent();
+        mKeepLiveIntent.setClass(MainActivity.this, KeepLiveService.class);
 //        判断是不是第一次进入软件:第一次:只做两件事:1,设置权限 2,联网
         if (isfirstOpen) {
 //            检查并设置权限(question:只需要在第一次进入app的时候检查权限么?)
-            checkPhonePermission();
+//            checkPhonePermission();不用检查权限了,因为定制的系统,默认授权所有的权限
 //            TODO 1.播放一段友好的欢迎话语
+//            playWelcomeMusic();
+            playWelcomeMusic1();
 
-//            2.直接打开wifi开关
-            mWifiManager.setWifiEnabled(true);
-//            3.打开wifi开关以后,去做联网的操作.(这一步很不和谐,以后,应该是等待联网的指令再联网,也就是通过MyReceiver的指令);
-            Log.i(TAG, "onCreate: 第一次进入app,设置wifi");
-            getWifiKey();
-            SPUtils.putBoolean(this, "isfirstopen", false);
         } else {
+            LogUtil.i(TAG, "onStart: fff");
             //非第一次进入app
             mWifiManager.setWifiEnabled(true);
             mRid = JPushInterface.getRegistrationID(getApplicationContext());
-            if (NetWorkUtil.isNetworkConn(this)) {//有网络连接
-                Log.i(TAG, "onCreate: networkconnect?:yes");
+            LogUtil.i(TAG, "onStart(main): " + App.isNetWorkAvailable);
+            if (NetWorkUtil.isNetworkConn(this)) {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                App.isNetWorkAvailable = true;
+            }
+            if (NetWorkUtil.isNetworkConn(this) && App.isNetWorkAvailable) {
+                //有网络连接
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                MediaPlayer musicPlayer = MusicManager.getMusicPlayer();
+                musicPlayer = MusicManager.playConnected(musicPlayer, MainActivity.this);
+                LogUtil.i(TAG, "onCreate: networkconnect?:yes");
+
+//                有网络,每隔一段时间去保活.
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        Log.i(TAG, "run: zouzou");
-                        mKeepLiveIntent = new Intent();
-                        mKeepLiveIntent.setClass(MainActivity.this, KeepLiveService.class);
+                        LogUtil.i(TAG, "run: zouzou");
+//                        mKeepLiveIntent.setClass(MainActivity.this, KeepLiveService.class);
                         mKeepLiveIntent.putExtra("devicecode", mRid);
                         startService(mKeepLiveIntent);
-                        Log.i(TAG, "run: time" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(SystemClock.currentThreadTimeMillis()));
+                        LogUtil.i(TAG, "run: time" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(SystemClock.currentThreadTimeMillis()));
                     }
-                }, 0, 180000);//多级重复一次?
-                Log.i(TAG, "onCreate: networkwificonnect?:" + NetWorkUtil.isNetworkConn(this));
-            } else {//无网络连接
-                Log.i(TAG, "onCreate: networkwificonnect?:nope");
+                }, 0, 90000);//多久重复一次?
+                LogUtil.i(TAG, "onCreate: networkwificonnect?:" + NetWorkUtil.isNetworkConn(this));
+            } else {
+                //无网络连接
+                MediaPlayer musicPlayer = MusicManager.getMusicPlayer();
+                musicPlayer = MusicManager.playDisconnected(musicPlayer, MainActivity.this);
+                LogUtil.i(TAG, "onCreate: networkwificonnect?:nope");
                 getWifiKey();
-                Log.i(TAG, "onCreate: networkwificonnect?:" + NetWorkUtil.isNetworkConn(this));
+                LogUtil.i(TAG, "onCreate: networkwificonnect?:" + NetWorkUtil.isNetworkConn(this));
             }
         }
 //        checkNetState();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//      什么操作都不做了,改到oncreate里面做逻辑,因为,如果每次重启,会多加载一次网络的监听录音,造成多次开启,声波编码失败)
+        LogUtil.i(TAG, "onStart went ");
 
     }
 
+    private void playWelcomeMusic1() {
+        MediaPlayer musicPlayer = MusicManager.getMusicPlayer();
+//        musicPlayer.reset();
+
+        musicPlayer = MusicManager.playWelcomeMusic(musicPlayer, this);
+        mWifiManager.setWifiEnabled(true);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        getWifiKey();
+        musicPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.stop();
+                mp.release();
+                //            2.直接打开wifi开关
+//            3.打开wifi开关以后,去做联网的操作.(这一步很不和谐,以后,应该是等待联网的指令再联网,也就是通过MyReceiver的指令);
+                LogUtil.i(TAG, "onCreate: 第一次进入app,设置wifi");
+//                先不打开改变是否是第一次进入app的状态,现在是测试阶段,我要知道每次打开app播放音乐的情况,是否冲突!!!!!
+                SPUtils.putBoolean(MainActivity.this, "isfirstopen", false);
+            }
+        });
+    }
+
+    private void playWelcomeMusic() {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.reset();
+        mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.welcome);
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        final MediaPlayer finalMediaPlayer = mediaPlayer;
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.stop();
+                mp.release();
+
+                //            2.直接打开wifi开关
+                mWifiManager.setWifiEnabled(true);
+//            3.打开wifi开关以后,去做联网的操作.(这一步很不和谐,以后,应该是等待联网的指令再联网,也就是通过MyReceiver的指令);
+                LogUtil.i(TAG, "onCreate: 第一次进入app,设置wifi");
+                getWifiKey();
+//                先不打开改变是否是第一次进入app的状态,现在是测试阶段,我要知道每次打开app播放音乐的情况,是否冲突!!!!!
+//                SPUtils.putBoolean(MainActivity.this, "isfirstopen", false);
+
+            }
+        });
+    }
+
     private void getWifiKey() {
-        Intent intent = new Intent();
-//        intent.setClass(this, TestService.class);
-        intent.setClass(this, WifiSoundListenerService.class);
-        startService(intent);
+        Intent wifiSoundListenerServiceIntent = new Intent();
+        wifiSoundListenerServiceIntent.setClass(this, WifiSoundListenerService.class);
+        startService(wifiSoundListenerServiceIntent);
     }
 
     //    判断wifi的开关是否打开?
     private boolean isWifeEnable() {
-        mWifiManager = (WifiManager) this.getSystemService(WIFI_SERVICE);
+        mWifiManager = (WifiManager) this.getApplicationContext().getSystemService(WIFI_SERVICE);
         return mWifiManager.isWifiEnabled();
     }
 
@@ -134,50 +227,7 @@ public class MainActivity extends BaseActivity {
                 wakeLock.acquire();
             }
         }
-    }
 
-    private void checkNetState() {
-        //开服务,去后台,不断的循环判断网络状态;
-        Intent intent = new Intent();
-        intent.setClass(this, CheckNetWorkStateService.class);
-        startService(intent);
-    }
-
-    private void checkPhonePermission() {
-        Log.i(TAG, "checkPhonePermission: " + "RECORD_AUDIO权限");
-        Log.i(TAG, "checkPhonePermission: " + "CAMERA权限");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int permissionCheck = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission
-                    .READ_PHONE_STATE);
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
-            } else {
-                Log.i(TAG, "onRequestPermissionsResult: REQUEST_READ_PHONE_STATE" + "请求");
-                TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                mDeviceId = telephonyManager.getDeviceId();
-//                ToastUtil.showToast(this, "mDeviced" + mDeviceId);
-                Log.i(TAG, "deviced---" + mDeviceId);
-            }
-            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                Log.i(TAG, "checkPhonePermission: " + "CAMERA未启用");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA);
-            } else {
-                Log.i(TAG, "checkPhonePermission: " + "CAMERA启用");
-            }
-            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                Log.i(TAG, "checkPhonePermission: " + "RECORD_AUDIO未启用");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO);
-            } else {
-                Log.i(TAG, "checkPhonePermission: " + "RECORD_AUDIO启用");
-            }
-        } else {
-            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            mDeviceId = telephonyManager.getDeviceId();
-//            ToastUtil.showToast(this, "mDeviced" + mDeviceId);
-            Log.i(TAG, "deviced---" + mDeviceId);
-            Log.i(TAG, "checkPhonePermission: " + "RECORD_AUDIO启用3");
-            Log.i(TAG, "checkPhonePermission: " + "CAMERA启用3");
-        }
     }
 
     //    获取当前设备的电量
@@ -186,18 +236,9 @@ public class MainActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             mCurrent = intent.getIntExtra("level", -1);
             int total = intent.getIntExtra("scale", -1);
-            Log.d(TAG, "onReceive的currentBattery:" + mCurrent + "total:" + total);
+            LogUtil.d(TAG, "onReceive的currentBattery:" + mCurrent + "total:" + total);
             unregisterReceiver(this);
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG, "onDestroy: went");
-        //退出登录|
-        this.stopService(mKeepLiveIntent);
-        toyLogout();
     }
 
     private void toyLogout() {
@@ -214,28 +255,60 @@ public class MainActivity extends BaseActivity {
         toyLogoutResBeanCall.enqueue(new Callback<ToyLogoutResBean>() {
             @Override
             public void onResponse(Call<ToyLogoutResBean> call, Response<ToyLogoutResBean> response) {
-//                Log.d(TAG, "onResponse(KeepLiveService): " + response.body().getMSG());
-//                Log.d(TAG, "onResponse(KeepLiveService): " + response.body().toString());
+//                if (response == null) {
+//                    LogUtil.i(TAG,"response 空");
+//                    return;
+//                } else {
+//                    LogUtil.i(TAG,"不空");
+//                    LogUtil.i(TAG,"onResponse(KeepLiveService): " + response.body().toString());
+//                    LogUtil.i(TAG, "onResponse(KeepLiveService): " + response.body().getBODY().toString());
+//                    LogUtil.i(TAG, "onResponse(KeepLiveService): " + response.body().getMSG());
+//                    LogUtil.i(TAG, "onResponse(KeepLiveService): " + response.body().toString());
+//
+//                }
             }
 
             @Override
             public void onFailure(Call<ToyLogoutResBean> call, Throwable t) {
-                Log.d(TAG, "onFailure(KeepLiveService): " + t.toString());
+                LogUtil.d(TAG, "onFailure(KeepLiveService): " + t.toString());
             }
         });
     }
 
     @Override
     protected void onResume() {
+        LogUtil.i(TAG, "onResume: went");
         isForeground = true;
+        JPushInterface.onResume(getApplicationContext());
         super.onResume();
     }
 
     @Override
     protected void onPause() {
+        LogUtil.i(TAG, "onPause: went");
         isForeground = false;
         super.onPause();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        toyLogout();
+        stopService(mKeepLiveIntent);
+        stopService(new Intent(this,WifiSoundListenerService.class));
+        LogUtil.i(TAG, "onStop: went");
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        LogUtil.i(TAG, "onDestroy: went");
+        super.onDestroy();
+        //退出登录|
+//        this.stopService(mKeepLiveIntent);
+//        toyLogout();
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -243,17 +316,17 @@ public class MainActivity extends BaseActivity {
         switch (requestCode) {
             case REQUEST_READ_PHONE_STATE:
                 if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    Log.i(TAG, "onRequestPermissionsResult: REQUEST_READ_PHONE_STATE" + "允许");
+                    LogUtil.i(TAG, "onRequestPermissionsResult: REQUEST_READ_PHONE_STATE" + "允许");
                 }
                 break;
             case CAMERA:
                 if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    Log.i(TAG, "onRequestPermissionsResult: CAMERA" + "允许");
+                    LogUtil.i(TAG, "onRequestPermissionsResult: CAMERA" + "允许");
                 }
                 break;
             case RECORD_AUDIO:
                 if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    Log.i(TAG, "onRequestPermissionsResult: RECORD_AUDIO" + "允许");
+                    LogUtil.i(TAG, "onRequestPermissionsResult: RECORD_AUDIO" + "允许");
                 }
                 break;
             default:
