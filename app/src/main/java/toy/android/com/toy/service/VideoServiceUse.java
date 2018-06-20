@@ -213,25 +213,28 @@ public class VideoServiceUse extends IntentService implements SessionInterface {
         String name = user.getName();
         Log.d(TAG, "onUserIn: name" + name);
         Log.d(TAG, "onUserIn: peerId" + peerId);
-        if (name.equals("phone")) {
-            Log.d(TAG, "onUserIn: phone??走");
-            toyId = peerId;
-//            seeMe();
-            seeYou();
-        }
-        if (name.equals("toy")) {
-            Log.d(TAG, "onUserIn: toy??走");
-            toyId = peerId;
-            seeYou();
-//            seeMe();
-        }
-        if (name.equals("tv")) {
-            Log.d(TAG, "onUserIn: tv??走");
-            tvId = peerId;
-            seeYou();
+        toyId = peerId;
+        seeYou();
+//        if (name.equals("phone")) {
+//            Log.d(TAG, "onUserIn: phone??走");
+//            toyId = peerId;
+////            seeMe();
+//            seeYou();
+//        }
+//        if (name.equals("toy")) {
+//            Log.d(TAG, "onUserIn: toy??走");
+//            toyId = peerId;
+//            seeYou();
+////            seeMe();
+//        }
+//        if (name.equals("tv")) {
+//            Log.d(TAG, "onUserIn: tv??走");
+//            tvId = peerId;
+//            seeYou();
 //            seeMe();
 //            Session.getInstance().PlayVideo(toyId, true, mMy_video, 0, 0, 1, 1, 0, false, 1, 0);
-        }
+//    }
+
     }
 
     @Override

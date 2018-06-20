@@ -1,6 +1,5 @@
 package toy.android.com.toy.receiver;
 
-import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +15,7 @@ import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
 import toy.android.com.toy.activity.ListenerManager;
+import toy.android.com.toy.service.AppUpdateService;
 import toy.android.com.toy.service.ControlPlayService;
 import toy.android.com.toy.service.VideoServiceUse;
 import toy.android.com.toy.utils.ToastUtil;
@@ -194,7 +194,11 @@ public class MyReceiver extends BroadcastReceiver {
                 //更新版本
                 else if (cmd.equals("update")) {
                     ListenerManager.getInstance().sendBroadCast("update", params);
+                    Log.i(TAG, "onReceive: update......我要去更新了");
                     String updateUrl = params.getString("url");//更新地址
+//                    updateUrl="http://192.168.1.107:8080/update/toy2.0.apk";
+                    updateUrl="http://192.168.137.1:8080/update/toy2.0.apk";
+                    Log.i(TAG, "onReceive: update......更新的地址是:" + updateUrl);
 
                     /**
                      *拿到地址开始下载 开启服务
@@ -203,7 +207,11 @@ public class MyReceiver extends BroadcastReceiver {
                      *  3,安装好之后自动启动
                      */
 
-                    DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+                    Intent appUpdateIntent = new Intent();
+                    appUpdateIntent.putExtra("updateurl", updateUrl);
+                    appUpdateIntent.setClass(context, AppUpdateService.class);
+                    context.startService(appUpdateIntent);
+                    Log.i(TAG, "onReceive: start_updateToy_service");
 
                 } else if (cmd.equals("TOYSP")) {
                     //设置免打扰时间

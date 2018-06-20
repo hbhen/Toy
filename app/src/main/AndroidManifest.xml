@@ -43,7 +43,26 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
+        <receiver android:name=".service.AppUpdateService$InstallBroadcastReceiver">
+        </receiver>
+        <service
+            android:name=".service.MyAccessibilityService"
+            android:label="AutoInstall"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service"/>
+        </service>
+        <!--<provider-->
+        <!--android:authorities="com.app.pro.fileprovider" android:name="android.support.v4.content.FileProvider"-->
+        <!--android:grantUriPermissions="true"-->
+        <!--android:exported="false">-->
+        <!--<meta-data android:name="android.support.FILE_PROVIDER_PATHS"-->
+        <!--android:resource="@xml/file_paths"/>-->
+        <!--</provider>-->
         <receiver android:name=".receiver.AutoOpenReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
@@ -148,36 +167,41 @@
 
         <service android:name=".service.VideoServiceUse"/>
         <service android:name=".service.ControlPlayService"/>
-        <!--<service android:name=".service.CheckNetWorkStateService"/>-->
+        <!-- <service android:name=".service.CheckNetWorkStateService"/> -->
 
         <service
             android:name=".service.KeepLiveService"
             android:enabled="true"
             android:exported="true">
         </service>
-
-
         <service
             android:name=".service.WifiSoundListenerService"
             android:enabled="true"
             android:exported="true">
         </service>
 
-        <!--<receiver-->
-            <!--android:name=".receiver.WifiStateChangeReceiver"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="true">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->
-                <!--<action android:name="android.net.wifi.STATE_CHANGE"/>-->
-                <!--<action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
+        <!-- <receiver -->
+        <!-- android:name=".receiver.WifiStateChangeReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/> -->
+        <!-- <action android:name="android.net.wifi.STATE_CHANGE"/> -->
+        <!-- <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
         <service
             android:name=".service.TestService"
             android:enabled="true"
             android:exported="true">
         </service>
+        <service
+            android:name=".service.AppUpdateService"
+            android:exported="false">
+        </service>
+
+        <activity android:name=".activity.Jump"/>
+        <receiver android:name=".receiver.CompleteInstallBroadcastReceiver"/>
     </application>
 
 </manifest>

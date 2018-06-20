@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         int flagShowWhenLocked = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
         int flagKeepScreenOn = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-//        getWindow().addFlags(flagShowWhenLocked);
+        getWindow().addFlags(flagShowWhenLocked);
         getWindow().addFlags(flagKeepScreenOn);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);

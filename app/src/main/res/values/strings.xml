@@ -13,4 +13,5 @@
     <string name="logining">程序在后台执行, 请查看日志！</string>
     <string name="setting_su">设置成功</string>
     <string name="jump_to_wifiactivity">jump to wifiactivity</string>
+    <string name="desc">智能安装app功能演示</string>
 </resources>
