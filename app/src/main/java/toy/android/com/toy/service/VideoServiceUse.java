@@ -321,6 +321,7 @@ public class VideoServiceUse extends IntentService implements SessionInterface, 
 
     @Override
     public void onPresentComplete() {
+
         Session.getInstance().requestSpeaking(_myPeerID);
 
     }

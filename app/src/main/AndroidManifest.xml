@@ -45,11 +45,24 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-                <!--<action android:name="android.intent.action.PACKAGE_FIRST_LAUNCH"/>-->
+                <category android:name="android.intent.category.HOME"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!--开机自启动broadcast-->
+        <!--<receiver-->
+        <!--android:name=".receiver.AutoOpenReceiver"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="true">-->
+        <!--<intent-filter>-->
+        <!--&lt;!&ndash;<action android:name="android.intent.action.MAIN"/>&ndash;&gt;-->
+        <!--<action android:name="android.intent.action.PACKAGE_REPLACED"/>-->
+        <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
 
+        <!--<category android:name="android.intent.category.DEFAULT"/>-->
+        <!--&lt;!&ndash;<category android:name="android.intent.category.LAUNCHER"/>&ndash;&gt;-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
         <receiver android:name=".receiver.InstallBroadcastReceiver">
         </receiver>
 
@@ -72,19 +85,7 @@
         <!-- <meta-data android:name="android.support.FILE_PROVIDER_PATHS" -->
         <!-- android:resource="@xml/file_paths"/> -->
         <!-- </provider> -->
-        <receiver
-            android:name=".receiver.AutoOpenReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <!--<action android:name="android.intent.action.MAIN"/>-->
-                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            </intent-filter>
-        </receiver>
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
@@ -233,14 +234,14 @@
         <service android:name=".activity.DemoService"/>
         <!--wifi状态改变,无音乐-->
         <!--<receiver-->
-            <!--android:name=".receiver.WlanConnectedBroadcastReceiver"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="true">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->
-                <!--<action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>-->
-                <!--<action android:name="android.net.wifi.STATE_CHANGE"/>-->
-            <!--</intent-filter>-->
+        <!--android:name=".receiver.WlanConnectedBroadcastReceiver"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="true">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->
+        <!--<action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>-->
+        <!--<action android:name="android.net.wifi.STATE_CHANGE"/>-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
     </application>
 

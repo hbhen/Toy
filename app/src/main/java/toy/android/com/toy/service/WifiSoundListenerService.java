@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.libra.sinvoice.Buffer;
@@ -70,7 +71,6 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
     @Override
     public void onCreate() {
         super.onCreate();
-
         LogUtil.i(TAG, "onCreate: wifi开始了");
     }
 
@@ -233,7 +233,14 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
             config.wepKeys[0] = "\"" + "\"";
             config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);//有个问题,有什么快捷的方式来知道,应该填哪些参数?
         } else if (type == WifiType.WIFICIPHER_WEP) {
-            config.wepKeys[0] = "\"" + Password + "\"";
+            if (!TextUtils.isEmpty(Password)) {
+                if (isHexWepKey(Password)) {
+                    config.wepKeys[0] = Password;
+                } else {
+                    config.wepKeys[0] = "\"" + Password + "\"";
+                }
+            }
+
             config.hiddenSSID = true;
             config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
             config.allowedAuthAlgorithms.set(WifiConfiguration.GroupCipher.CCMP);
@@ -265,6 +272,23 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
         mHandler.sendEmptyMessage(MSG_RECG_START);
     }
 
+    private static boolean isHexWepKey(String wepkey) {
+        int len = wepkey.length();
+        if (len == 10 || len == 26 || len == 58) {
+            return isHex(wepkey);
+        }
+        return false;
+    }
+
+    private static boolean isHex(String key) {
+        for (int i = key.length() - 1; i >= 0; i--) {
+            char c = key.charAt(i);
+            if ((c < '0' || c > '9') && ((c < 'A' || c > 'F') && (c < 'a' || c > 'f'))) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override
     public void onRecognition(char ch) {

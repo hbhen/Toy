@@ -39,7 +39,9 @@ import toy.android.com.toy.service.WifiSoundListenerService;
 import toy.android.com.toy.utils.LogUtil;
 import toy.android.com.toy.utils.MusicManager;
 import toy.android.com.toy.utils.NetWorkUtil;
+import toy.android.com.toy.utils.PingNetWorkUtils;
 import toy.android.com.toy.utils.SPUtils;
+import toy.android.com.toy.utils.ToastUtil;
 import toy.android.com.toy.utils.VersionCodeAndVersionNameUtils;
 
 public class MainActivity extends BaseActivity {
@@ -91,6 +93,7 @@ public class MainActivity extends BaseActivity {
         mKeepLiveIntent.setClass(MainActivity.this, KeepLiveService.class);
 //        判断是不是第一次进入软件:第一次:只做两件事:1,设置权限 2,联网
         if (isfirstOpen) {
+
 //            检查并设置权限(question:只需要在第一次进入app的时候检查权限么?)
 //            checkPhonePermission();不用检查权限了,因为定制的系统,默认授权所有的权限
 //            TODO 1.播放一段友好的欢迎话语
@@ -145,6 +148,16 @@ public class MainActivity extends BaseActivity {
             }
         }
 //        checkNetState();
+    }
+
+    private void checkWifiStatus() {
+        boolean ping = PingNetWorkUtils.ping();
+        if (ping) {
+            ToastUtil.showToast(this, "ping 通");
+        } else {
+            ToastUtil.showToast(this, "ping 不通");
+        }
+
     }
 
     @Override
@@ -295,7 +308,7 @@ public class MainActivity extends BaseActivity {
         super.onStop();
         toyLogout();
         stopService(mKeepLiveIntent);
-        stopService(new Intent(this,WifiSoundListenerService.class));
+        stopService(new Intent(this, WifiSoundListenerService.class));
         LogUtil.i(TAG, "onStop: went");
     }
 

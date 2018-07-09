@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.util.Log;
 
 import toy.android.com.toy.activity.MainActivity;
+import toy.android.com.toy.utils.LogUtil;
 import toy.android.com.toy.utils.ToastUtil;
 
 public class CompleteInstallBroadcastReceiver extends BroadcastReceiver {
@@ -53,12 +54,13 @@ public class CompleteInstallBroadcastReceiver extends BroadcastReceiver {
 //                context.unregisterReceiver(this);
                     ToastUtil.showToast(context, "安装了 " + packageName + "包名的程序");
                     Log.i(TAG, "onReceive: 安装了: " + packageName + "包名的程序");
+//                    DeleteApkUtils.removeApk();
+                    LogUtil.i(TAG,"进行了删除apk的操作");
                 }
             }
         }
 
         if (intent.getAction().equals("android.intent.action.PACKAGE_REMOVED")) {
-//            CommUtils.removeFile();
             ToastUtil.showToast(context, "监听到系统广播移除");
         }
 

@@ -6,8 +6,13 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.SystemClock;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.text.SimpleDateFormat;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 import toy.android.com.toy.R;
@@ -38,18 +43,14 @@ public class WifiStateChangeReceiver extends BroadcastReceiver {
             LogUtil.i(TAG, "connectivity_action  check  .");
             check(intent, context);
         }
-        if (intent.getAction().equals("android.net.wifi.WIFI_STATE_CHANGED")){
+        if (intent.getAction().equals("android.net.wifi.WIFI_STATE_CHANGED")) {
             LogUtil.i(TAG, "connectivity_action  WIFI_STATE_CHANGED  .");
-//            check(intent, context);
-        }
-        if (intent.getAction().equals("android.net.wifi.WIFI_STATE_CHANGED")){
-            LogUtil.i(TAG, "android.net.wifi.STATE_CHANGE  .");
 //            check(intent, context);
         }
     }
 
     //    这里有问题,App.isNetWorkAvailable
-    private void check(Intent intent, final Context context) {
+    private void check(final Intent intent, final Context context) {
         mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 //        判断是否有可用的网络
         network = mConnectivityManager.getActiveNetworkInfo();
@@ -58,17 +59,32 @@ public class WifiStateChangeReceiver extends BroadcastReceiver {
 //            LogUtil.i(TAG,network.isAvailable()+"(down1)");
             LogUtil.i(TAG, "check:  上" + App.isNetWorkAvailable);
             if (!App.isNetWorkAvailable) {
-                LogUtil.i(TAG,"!APP");
+                LogUtil.i(TAG, "!APP");
 //                isNetworkAvailable = true;
                 App.isNetWorkAvailable = true;
                 EventBus.getDefault().post(new HasConnectedEvent(App.isNetWorkAvailable));
                 String registrationID = JPushInterface.getRegistrationID(context);
                 playOnAlarm(context, mp);
 
-                intent.putExtra("devicecode", registrationID);
-                intent.setClass(context, KeepLiveService.class);
-                context.startService(intent);
+//                intent.putExtra("devicecode", registrationID);
+//                intent.setClass(context, KeepLiveService.class);//这里的方法只走了一次,所以,他不能实现持久登陆状态.这才是原因.
+//                context.startService(intent);
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        final Intent keepLiveIntent = intent;
 
+                        LogUtil.i(TAG, "run: zouzou");
+                        keepLiveIntent.putExtra("devicecode", JPushInterface.getRegistrationID(context));
+                        keepLiveIntent.setClass(context, KeepLiveService.class);
+                        context.startService(keepLiveIntent);
+                        LogUtil.i(TAG, "receiver: time" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(SystemClock.currentThreadTimeMillis()));
+                        LogUtil.i(TAG,"wifi测试,在WifiStateChangeReveiver里面能不能实现,每五秒发送一次keeplive的指令,也就是看看,timer算不算是耗时操作,这是在子线程中实现的" );
+                    }
+                }, 0, 90000);//多久重复一次?
+
+                LogUtil.i(TAG, "wifistatechangereciever的check方法,跳转到keeplive.class去,保持登录状态");
                 mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
