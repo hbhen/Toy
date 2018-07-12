@@ -86,6 +86,7 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
         mSinVoiceRecognition.stopRecognition();
         mSinVoiceRecognition.start();
         LogUtil.i(TAG, "onStartCommand: 点击了recognition");
+
 //       在这里控制
         mHandler = new Handler() {
             @Override

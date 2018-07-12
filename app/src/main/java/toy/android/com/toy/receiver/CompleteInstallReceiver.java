@@ -10,15 +10,15 @@ import toy.android.com.toy.activity.MainActivity;
 import toy.android.com.toy.utils.LogUtil;
 import toy.android.com.toy.utils.ToastUtil;
 
-public class CompleteInstallBroadcastReceiver extends BroadcastReceiver {
+public class CompleteInstallReceiver extends BroadcastReceiver {
     private static final String TAG = "updateservice";
 
-    public CompleteInstallBroadcastReceiver() {
+    public CompleteInstallReceiver() {
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i(TAG, "onReceive(CompleteInstallBroadcastReceiver): " + intent.getAction());
+        Log.i(TAG, "onReceive(CompleteInstallReceiver): " + intent.getAction());
         //接收安装广播
         if (intent == null) {
             Log.i(TAG, "onReceive: intent 为空!");
@@ -84,7 +84,7 @@ public class CompleteInstallBroadcastReceiver extends BroadcastReceiver {
 //                }
 //            }
 //            String packageName = intent.getDataString();
-//            Log.i(TAG, "onReceive(CompleteInstallBroadcastReceiver):卸载了: " + packageName + "包名的程序");
+//            Log.i(TAG, "onReceive(CompleteInstallReceiver):卸载了: " + packageName + "包名的程序");
 //            System.out.println("卸载了:" + packageName + "包名的程序");
 //        }
 

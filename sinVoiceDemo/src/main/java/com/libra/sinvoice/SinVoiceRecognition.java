@@ -59,7 +59,6 @@ public class SinVoiceRecognition implements Record.Listener, Record.Callback, Vo
     public SinVoiceRecognition(String codeBook, int sampleRate, int bufferSize, int bufferCount) {
         mState = STATE_STOP;
         mBuffer = new Buffer(bufferCount, bufferSize);
-
         mRecord = new Record(this, sampleRate, Record.CHANNEL_1, Record.BITS_16, bufferSize);
         mRecord.setListener(this);
         mRecognition = new VoiceRecognition(this, sampleRate, Record.CHANNEL_1, Record.BITS_16);

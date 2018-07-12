@@ -24,6 +24,7 @@ import java.util.List;
 * 3/将保存的wifi的name和密码,设置到系统wifi上
 * 4/如果wifi设置成功,关闭当前的service(依据什么判断wifi连接成功??)
 * */
+@Deprecated
 public class TestService extends Service implements SinVoiceRecognition.Listener {
     private final static String TAG = "MainActivity";
     private final static int MAX_NUMBER = 5;

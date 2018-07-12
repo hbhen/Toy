@@ -16,6 +16,7 @@ import android.util.Log;
  * 改变wifi状态的service
  * 这里面去打开一个receiver
  */
+@Deprecated
 public class CheckNetWorkStateService extends Service {
     private static final String TAG = "tag";
     private ConnectivityManager connectivityManager;

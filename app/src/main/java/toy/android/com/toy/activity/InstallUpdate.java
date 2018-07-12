@@ -19,7 +19,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.InputStreamReader;
 
-import toy.android.com.toy.receiver.InstallBroadcastReceiver;
+import toy.android.com.toy.receiver.InstallReceiver;
 
 import static toy.android.com.toy.activity.App.mContext;
 
@@ -83,9 +83,9 @@ public class InstallUpdate extends AppCompatActivity {
                             IntentFilter intentFilter = new IntentFilter();
 //                            intentFilter.addAction("android.intent.action.PACKAGE_REMOVED");
 //                            intentFilter.addAction("android.intent.action.PACKAGE_ADDED");
-                            InstallBroadcastReceiver installBroadcastReceiver = new InstallBroadcastReceiver();
+                            InstallReceiver installReceiver = new InstallReceiver();
 
-                            InstallUpdate.this.registerReceiver(installBroadcastReceiver, intentFilter);
+                            InstallUpdate.this.registerReceiver(installReceiver, intentFilter);
                             File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator +
                                     "toy.apk");
                             if (file.exists()) {

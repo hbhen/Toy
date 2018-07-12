@@ -8,7 +8,7 @@ import android.util.Log;
 import toy.android.com.toy.activity.MainActivity;
 import toy.android.com.toy.utils.LogUtil;
 import toy.android.com.toy.utils.ToastUtil;
-
+@Deprecated
 public class AutoOpenReceiver extends BroadcastReceiver {
     //    private static final String TAG = AutoOpenReceiver.class.getSimpleName();
     public static final String TAG = "updateservice(auto)";

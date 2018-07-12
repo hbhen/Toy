@@ -12,6 +12,7 @@ import java.nio.charset.Charset;
  * Created by DTC on 2018/1/2210:00.
  */
 //静默安装
+@Deprecated
 public class SilentInstall {
     private static final String TAG = "updateservice";
 

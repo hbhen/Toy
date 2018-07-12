@@ -10,7 +10,7 @@ import android.util.Log;
 /**
  * Created by DTC on 2018/6/11.
  */
-
+@Deprecated
 public class DemoService extends Service {
     private static final String TAG="MainActivity-tag";
     private final IBinder mIBinder=new MyBinder();

@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 /**
  * Created by Android on 2017/9/20.
  */
-
+@Deprecated
 public class ControlPlayTask extends AsyncTask<String,Integer,Boolean> {
     @Override
     protected void onPreExecute() {

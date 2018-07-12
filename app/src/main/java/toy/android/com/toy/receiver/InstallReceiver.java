@@ -18,7 +18,7 @@ import static android.content.ContentValues.TAG;
  * Created by DTC on 2018/1/29.
  */
 
-public class InstallBroadcastReceiver extends BroadcastReceiver {
+public class InstallReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {

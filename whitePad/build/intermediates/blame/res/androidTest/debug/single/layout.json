@@ -1,19 +1,19 @@
 [
     {
-        "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_activity_chooser_view.xml",
-        "source": "C:\\Users\\DTC\\.android\\build-cache\\ee21f34cce3e6644dd27b713121701d912f86fe7\\output\\res\\layout\\abc_activity_chooser_view.xml"
-    },
-    {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\notification_template_part_chronometer.xml",
         "source": "C:\\Users\\DTC\\.android\\build-cache\\ee21f34cce3e6644dd27b713121701d912f86fe7\\output\\res\\layout\\notification_template_part_chronometer.xml"
     },
     {
-        "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_screen_content_include.xml",
-        "source": "C:\\Users\\DTC\\.android\\build-cache\\ee21f34cce3e6644dd27b713121701d912f86fe7\\output\\res\\layout\\abc_screen_content_include.xml"
+        "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_activity_chooser_view.xml",
+        "source": "C:\\Users\\DTC\\.android\\build-cache\\ee21f34cce3e6644dd27b713121701d912f86fe7\\output\\res\\layout\\abc_activity_chooser_view.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_popup_menu_item_layout.xml",
         "source": "C:\\Users\\DTC\\.android\\build-cache\\ee21f34cce3e6644dd27b713121701d912f86fe7\\output\\res\\layout\\abc_popup_menu_item_layout.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_screen_content_include.xml",
+        "source": "C:\\Users\\DTC\\.android\\build-cache\\ee21f34cce3e6644dd27b713121701d912f86fe7\\output\\res\\layout\\abc_screen_content_include.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\layout_text.xml",

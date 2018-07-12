@@ -8,12 +8,12 @@
         "source": "C:\\Users\\DTC\\.android\\build-cache\\ee21f34cce3e6644dd27b713121701d912f86fe7\\output\\res\\drawable\\abc_cab_background_top_material.xml"
     },
     {
-        "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\round_color_peach.xml",
-        "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\drawable\\round_color_peach.xml"
-    },
-    {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\round_color_dark_blue.xml",
         "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\drawable\\round_color_dark_blue.xml"
+    },
+    {
+        "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\round_color_peach.xml",
+        "source": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\bundles\\debug\\res\\drawable\\round_color_peach.xml"
     },
     {
         "merged": "D:\\AndroidPro\\Toy\\whitePad\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_tab_indicator_material.xml",

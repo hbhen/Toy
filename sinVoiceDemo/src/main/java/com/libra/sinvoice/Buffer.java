@@ -32,7 +32,7 @@ public class Buffer {
         public byte mData[];
         private int mFilledSize;
         private int mMaxBufferSize;
-        private static BufferData sEmptyBuffer = new BufferData(0);
+        private static BufferData sEmptyBuffer = new BufferData(0);//max为0；
 
         public BufferData(int maxBufferSize) {
             mMaxBufferSize = maxBufferSize;
