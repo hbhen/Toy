@@ -89,9 +89,10 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
 
 //       在这里控制
         mHandler = new Handler() {
+            StringBuilder textBuilder = new StringBuilder();
+
             @Override
             public void handleMessage(Message msg) {
-                StringBuilder mTextBuilder = new StringBuilder();
                 switch (msg.what) {
                     case MSG_SET_FULL_REG_TEXT:
                         String obj = (String) msg.obj;
@@ -110,28 +111,31 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
                         }
                         break;
                     case MSG_SET_RECG_TEXT:
-                        char ch = (char) msg.arg1;
-                        mTextBuilder.append(ch);
-                        List<StringBuilder> stringBuilders = Arrays.asList(mTextBuilder);
+                        textBuilder.append((char) msg.arg1);
+                        // TODO textbuilder要不要显示监听到的字符??
+                    /*
+                     2018/07/12 注释掉
+                     List<StringBuilder> stringBuilders = Arrays.asList(textBuilder);
                         String ss = "";
                         for (StringBuilder s : stringBuilders) {
                             ss = ss + s;
                             LogUtil.i(TAG, s + "");
                         }
                         LogUtil.i(TAG, "enenen++" + ss);
-                        LogUtil.i(TAG, "MSG_SET_RECG_TEXT : " + mTextBuilder.toString());
+                        LogUtil.i(TAG, "MSG_SET_RECG_TEXT : " + textBuilder.toString());*/
                         break;
 
                     case MSG_RECG_START:
-                        mTextBuilder.delete(0, mTextBuilder.length());
-                        LogUtil.i(TAG, "MSG_RECG_START : " + mTextBuilder.toString());
-                        break;
+                        textBuilder.delete(0, textBuilder.length());
+                        LogUtil.i(TAG, "MSG_RECG_START : " + textBuilder.toString());
+                        return;
 
                     case MSG_RECG_END:
 //                        应该在接收数据结束的时候设置wifi信息
                         LogUtil.i(TAG, "recognition end");
-//                        decodeWifiInfo();
                         LogUtil.i(TAG, "MSG_RECG_END: (regText)=" + regText);
+                       /*
+                        2018/07/12 15:55分注释掉  ,使用ListenerManager来掌控网络的连接的状态
                         arr.clear();
                         for (int i = 0; i < regText.length(); i++) {
                             arr.add(String.valueOf(regText.charAt(i)));
@@ -152,8 +156,37 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
                             newregText = newregText + arr.get(i);
                         }
                         LogUtil.i(TAG, "MSG_RECG_END: (newregText)" + newregText);
-                        decodeWifiInfo(newregText);
-                        break;
+                        decodeWifiInfo(newregText);*/
+
+
+//                        try {
+//                            JSONObject jsonObject = new JSONObject();
+//                            jsonObject.put("wifi", textBuilder.toString());
+//                            ListenerManager.getInstance().sendBroadCast("connectWifi", jsonObject);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        } finally {
+//                            textBuilder.delete(0, textBuilder.length());
+//                        }
+                        String XX = "";
+                        String YY = "";
+                        String result = "";
+                        for (int i = 0; i < textBuilder.length(); i += 2) {
+                            String alpha = "";
+                            String s = textBuilder.substring(i, i + 1);
+                            String x = textBuilder.substring(i + 1, i + 2);
+                            if (s.equals("￥") || s.equals("$")) {
+                                s = YY;
+                            }
+                            XX = s;
+                            if (x.equals("￥") || x.equals("$")) {
+                                x = XX;
+                            }
+                            YY = x;
+                            result = result + ((String) arrayList.get(Integer.parseInt(alpha + s + x)));
+                        }
+                        textBuilder.delete(0, textBuilder.length());
+                        return;
                     default:
                         break;
                 }

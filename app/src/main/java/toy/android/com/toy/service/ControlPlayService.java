@@ -41,6 +41,8 @@ public class ControlPlayService extends Service {
     //    private boolean isStop = false;
     private boolean isPrepared = false;
     private boolean isPlaying = false;
+    private int mMethod;
+    private String mPlayurl;
 
     public static MediaPlayer getMediaPlayer() {
         if (mMediaPlayer == null) {
@@ -72,17 +74,20 @@ public class ControlPlayService extends Service {
     //开启服务 是 为了播放音乐
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String playurl = intent.getStringExtra("url");
-        String stringExtra = intent.getStringExtra("method");
-        int method = Integer.parseInt(stringExtra);
-        Log.i(TAG, "serviceMethod: " + method);
-        Log.i(TAG, "onStartCommand: playurl" + playurl);
-        switch (method) {
+        if (intent!=null){
+            mPlayurl = intent.getStringExtra("url");
+            String stringExtra = intent.getStringExtra("method");
+            mMethod = Integer.parseInt(stringExtra);
+            Log.i(TAG, "serviceMethod: " + mMethod);
+            Log.i(TAG, "onStartCommand: playurl" + mPlayurl);
+        }
+
+        switch (mMethod) {
             case 1:
                 Log.i(TAG, "PLAY_MUSIC: went ");
-                Log.i(TAG, "play_music: playurl" + playurl);
-                PrepareMusic(playurl);
-                PlayMusic(playurl);
+                Log.i(TAG, "play_music: playurl" + mPlayurl);
+                PrepareMusic(mPlayurl);
+                PlayMusic(mPlayurl);
 //                }
                 break;
             case 2:
@@ -171,4 +176,5 @@ public class ControlPlayService extends Service {
     interface onMusicPlaying {
         void shutDownService(ControlPlayService controlPlayService, MediaPlayer mediaPlayer);
     }
+
 }
