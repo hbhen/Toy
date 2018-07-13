@@ -27,6 +27,8 @@ import toy.android.com.toy.activity.App;
 import toy.android.com.toy.utils.LogUtil;
 import toy.android.com.toy.utils.NetWorkUtil;
 import toy.android.com.toy.utils.SPUtils;
+import toy.android.com.toy.utils.ToastUtil;
+import toy.android.com.toy.utils.WifiAutoConnectManager;
 
 public class WifiSoundListenerService extends Service implements SinVoiceRecognition.Listener, VoiceRecognition.Callback {
     private final static String TAG = WifiSoundListenerService.class.getSimpleName();
@@ -45,7 +47,7 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
     private SinVoicePlayer mSinVoicePlayer;
     private Handler mHandler;
     private WifiManager mWifiManager;
-    private SinVoiceRecognition mSinVoiceRecognition;
+    private SinVoiceRecognition mSinVoiceRecognition = null;
     private ArrayList<String> arr = new ArrayList<String>();
     String regText = "";
     String substring = "";
@@ -80,6 +82,9 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
         App.serviceCount++;
         LogUtil.i(TAG, "++" + App.serviceCount + ";");
         LogUtil.i(TAG, "onStartCommand: (wifisoundlistenerservice)" + "走一个走一个");
+        if (mSinVoiceRecognition != null) {
+            mSinVoiceRecognition = null;
+        }
         mSinVoiceRecognition = new SinVoiceRecognition(CODEBOOK);
         mSinVoiceRecognition.setListener(this);
         mSinVoiceRecognition.stop();
@@ -123,7 +128,7 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
                         }
                         LogUtil.i(TAG, "enenen++" + ss);
                         LogUtil.i(TAG, "MSG_SET_RECG_TEXT : " + textBuilder.toString());*/
-                        break;
+                        return;
 
                     case MSG_RECG_START:
                         textBuilder.delete(0, textBuilder.length());
@@ -132,7 +137,7 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
 
                     case MSG_RECG_END:
 //                        应该在接收数据结束的时候设置wifi信息
-                        LogUtil.i(TAG, "recognition end");
+//                        LogUtil.i(TAG, "recognition end");
                         LogUtil.i(TAG, "MSG_RECG_END: (regText)=" + regText);
                        /*
                         2018/07/12 15:55分注释掉  ,使用ListenerManager来掌控网络的连接的状态
@@ -168,24 +173,24 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
 //                        } finally {
 //                            textBuilder.delete(0, textBuilder.length());
 //                        }
-                        String XX = "";
-                        String YY = "";
-                        String result = "";
-                        for (int i = 0; i < textBuilder.length(); i += 2) {
-                            String alpha = "";
-                            String s = textBuilder.substring(i, i + 1);
-                            String x = textBuilder.substring(i + 1, i + 2);
-                            if (s.equals("￥") || s.equals("$")) {
-                                s = YY;
-                            }
-                            XX = s;
-                            if (x.equals("￥") || x.equals("$")) {
-                                x = XX;
-                            }
-                            YY = x;
-                            result = result + ((String) arrayList.get(Integer.parseInt(alpha + s + x)));
+                        String wifiInfo = textBuilder.toString();
+                        if (wifiInfo.length() > 4 && wifiInfo.length() % 2 == 0) {
+
+                            wifiInfo = parseString(wifiInfo);
+                            LogUtil.i(TAG, "wifiInfo:" + wifiInfo);
                         }
+                        String[] temp = wifiInfo.split("\\|");
+                        if (temp.length < 2) {
+                            ToastUtil.showToast(WifiSoundListenerService.this, "请输入密码");
+                            return;
+                        }
+                        temp[0] = temp[0].replace("-", " ");
+                        connectWifi(toURLDecoded(temp[0]), toURLDecoded(temp[1]));
+                        mSinVoiceRecognition.stop();
+                        mSinVoiceRecognition.stopRecognition();
                         textBuilder.delete(0, textBuilder.length());
+                        stopSelf();
+                        LogUtil.i(TAG, "没了");
                         return;
                     default:
                         break;
@@ -195,6 +200,29 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
         };
 //        return START_REDELIVER_INTENT;
         return super.onStartCommand(intent, flags, startId);//
+    }
+
+    private void connectWifi(String ssid, String psd) {
+        WifiAutoConnectManager wifiAutoConnectManager = new WifiAutoConnectManager((WifiManager) getSystemService(WIFI_SERVICE));
+        try {
+            wifiAutoConnectManager.connect(ssid, psd, psd.equals("") ? WifiAutoConnectManager.WifiCipherType.WIFICIPHER_NOPASS : WifiAutoConnectManager.WifiCipherType.WIFICIPHER_WPA);
+        } catch (Exception e) {
+            LogUtil.i(TAG, "connectwifi exception: " + e);
+        }
+
+    }
+
+    public String toURLDecoded(String paramString) {
+        if (paramString == null || paramString.equals("")) {
+            LogUtil.i(TAG, "wifi : " + paramString);
+            return "";
+        }
+        try {
+            return URLDecoder.decode(new String(paramString.getBytes(), "UTF-8"), "UTF-8");
+        } catch (Exception localException) {
+            LogUtil.i(TAG, "wifi : + errlr" + localException);
+            return "";
+        }
     }
 
     @Override
@@ -300,12 +328,6 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
     }
 
 
-    @Override
-    public void onRecognitionStart() {
-        regText = "";
-        mHandler.sendEmptyMessage(MSG_RECG_START);
-    }
-
     private static boolean isHexWepKey(String wepkey) {
         int len = wepkey.length();
         if (len == 10 || len == 26 || len == 58) {
@@ -325,9 +347,18 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
     }
 
     @Override
+    public void onRecognitionStart() {
+        regText = "";
+        LogUtil.i(TAG, "onRecongnitionStart ");
+        mHandler.sendEmptyMessage(MSG_RECG_START);
+    }
+
+    @Override
     public void onRecognition(char ch) {
 //        在这里做操作
-        LogUtil.i(TAG, "onRecognition: 看看走了几次");
+
+      /* 注释的时间 2018年7月13日14:51:06
+       (LogUtil.i(TAG, "onRecognition: 看看走了几次");
         LogUtil.i(TAG, "onRecognition: THREAD信息 : " + Thread.activeCount() + ";" + Thread.currentThread() + ".");
         LogUtil.i(TAG, "onRecognition: regtext(前) : " + regText);
         LogUtil.i(TAG, "onRecognition: char" + ch);
@@ -343,13 +374,15 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
         } else {
             LogUtil.i(TAG, ch + "");
             mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_RECG_TEXT, ch, 0));
-        }
+        })*/
+        LogUtil.i(TAG, "onRecognition: regtext(前) : " + regText);
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_RECG_TEXT, ch, 0));
     }
 
     //Main_ConnectService
     @Override
     public void onRecognitionEnd() {
-        LogUtil.i(TAG, "MSG_RECG_END");
+        LogUtil.i(TAG, "onRecognitionEnd");
         mHandler.sendEmptyMessage(MSG_RECG_END);
     }
 //    解析wifi信息  这里会不会有问题?比如说是其中一个循环除了问题,后面的都不能用?
@@ -401,6 +434,28 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
             }
             mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_FULL_REG_TEXT, text));
         }
+    }
+
+    private String parseString(String text) {
+        String XX = "";
+        String YY = "";
+        String result = "";
+        for (int i = 0; i < text.length(); i += 2) {
+            String alpha = "";
+            String s = text.substring(i, i + 1);
+            String x = text.substring(i + 1, i + 2);
+            if (s.equals("￥") || s.equals("$")) {
+                s = YY;
+            }
+            XX = s;
+            if (x.equals("￥") || x.equals("$")) {
+                x = XX;
+            }
+            YY = x;
+            result = result + ((String) arrayList.get(Integer.parseInt(alpha + s + x)));
+
+        }
+        return result;
     }
 
 
