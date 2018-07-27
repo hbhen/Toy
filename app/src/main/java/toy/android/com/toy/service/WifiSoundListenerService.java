@@ -184,7 +184,7 @@ public class WifiSoundListenerService extends Service implements SinVoiceRecogni
                             ToastUtil.showToast(WifiSoundListenerService.this, "请输入密码");
                             return;
                         }
-                        temp[0] = temp[0].replace("-", " ");
+//                        temp[0] = temp[0].replace("-", " ");
                         connectWifi(toURLDecoded(temp[0]), toURLDecoded(temp[1]));
                         mSinVoiceRecognition.stop();
                         mSinVoiceRecognition.stopRecognition();

@@ -81,7 +81,7 @@ public class VideoServiceUse extends IntentService implements SessionInterface, 
             ToastUtil.showToast(this, "method:1");
             Log.d(TAG, "onCreate: method:1");
             //TODO 开发上线的时候把true改为false :不将日志写入文件.
-            usefront = hasfront = Session.getInstance().Init(this, "demo", "", true);
+            usefront = hasfront = Session.getInstance().Init(this, "demo", "", false);
             mCams = Session.getInstance().getCameraInfo();
             Session.getInstance().setRotate(0);
             EnterMeeting();
