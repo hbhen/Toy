@@ -194,13 +194,14 @@ public class MultiVideoServiceUse extends IntentService implements SessionInterf
             LogUtil.i(TAG, "seeYou: _watchingPeerID==0");
             int peerID = _userList.get(0);
 //            Session.getInstance().PlayVideo(peerID, true, mMy_video, 0, 0, 1, 1, 0, false, 1, 0);
-//            Session.getInstance().requestSpeaking(peerID);
+            Session.getInstance().requestSpeaking(peerID);
             LogUtil.i(TAG, "_watchingPeerID : 判断条件 ");
             _watchingPeerID = peerID;
         } else {
             LogUtil.i(TAG, "seeYou: _watchingPeerID!=0");
 //            Session.getInstance().PlayVideo(_watchingPeerID, true, mMy_video, 0, 0, 1, 1, 0, false, 1, 0);
-//            Session.getInstance().requestSpeaking(_watchingPeerID);
+
+            Session.getInstance().requestSpeaking(_watchingPeerID);
             _watchingPeerID = 0;
         }
     }
@@ -252,7 +253,7 @@ public class MultiVideoServiceUse extends IntentService implements SessionInterf
         LogUtil.i(TAG, "onUserIn: name" + name);
         LogUtil.i(TAG, "onUserIn: peerId" + peerId);
         toyId = peerId;
-        Session.getInstance().playAudio(_myPeerID);
+//        Session.getInstance().playAudio(_myPeerID);//加了这句话以后,手机端就听不到玩具的声音了 .
         seeYou();
 //        if (name.equals("phone")) {
 //            LogUtil.i(TAG, "onUserIn: phone??走");

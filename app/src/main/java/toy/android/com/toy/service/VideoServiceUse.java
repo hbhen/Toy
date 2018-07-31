@@ -157,6 +157,7 @@ public class VideoServiceUse extends IntentService implements SessionInterface, 
             int peerID = _userList.get(0);
 //            Session.getInstance().PlayVideo(peerID, true, mMy_video, 0, 0, 1, 1, 0, false, 1, 0);
             Session.getInstance().requestSpeaking(peerID);
+
             Log.d(TAG, "_watchingPeerID : 判断条件 ");
             _watchingPeerID = peerID;
         } else {
