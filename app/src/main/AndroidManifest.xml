@@ -45,6 +45,7 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.HOME"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
@@ -204,6 +205,10 @@
         <!--</service>-->
         <service
             android:name=".service.AppUpdateService"
+            android:exported="false">
+        </service>
+        <service
+            android:name=".service.MultiVideoServiceUse"
             android:exported="false">
         </service>
 
