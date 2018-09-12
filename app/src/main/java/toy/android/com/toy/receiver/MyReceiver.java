@@ -17,6 +17,7 @@ import cn.jpush.android.api.JPushInterface;
 import toy.android.com.toy.service.AppUpdateService;
 import toy.android.com.toy.service.ControlPlayService;
 import toy.android.com.toy.service.VideoServiceUse;
+import toy.android.com.toy.utils.LogUtil;
 import toy.android.com.toy.utils.ToastUtil;
 
 //拿到myreceiver以后,在里面设置开启各个功能的开关.
@@ -40,10 +41,13 @@ public class MyReceiver extends BroadcastReceiver {
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
             String result = bundle.getString(JPushInterface.EXTRA_ALERT);
+            LogUtil.i(TAG, "result: " + result);
             try {
                 JSONObject obj = new JSONObject(result);
                 final JSONObject params = obj.getJSONObject("param");
+                LogUtil.i(TAG, params.toString());
                 String cmd = obj.get("cmd").toString();//从服务器返回的cmd 当前的任务
+                LogUtil.i(TAG, cmd.toString());
                 //控制播放
                 if (cmd.equals("control_play")) {
                     String playUrl = (String) params.get("url");
@@ -212,7 +216,7 @@ public class MyReceiver extends BroadcastReceiver {
 
                 } else if (cmd.equals("TOYSP")) {
 
-                    Log.i("toysp",params.toString());
+                    Log.i("toysp", params.toString());
                     //设置免打扰时间
                     ToastUtil.showToast(context, params.toString());
                     Log.i(TAG, "onReceive: params" + params.toString());
