@@ -155,6 +155,8 @@ public class KeepLiveService extends Service {
                 LogUtil.i(TAG, "onResponse: toy login" + response.body().getBODY());
                 LogUtil.i(TAG, "onResponse: toy login" + "成功了");
                 mToken = response.body().getTOKEN().toString();
+                String toyId = response.body().getBODY().getID();
+                SPUtils.putString(KeepLiveService.this,"toyid",toyId);
                 SPUtils.putString(KeepLiveService.this, "token", mToken);
 //                保活
                 toyHeart(mVersionName, mWifiRssi, mDevicecode, mToken);

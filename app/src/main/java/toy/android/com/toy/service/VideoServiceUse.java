@@ -16,6 +16,8 @@ import info.emm.meeting.MeetingUser;
 import info.emm.meeting.Session;
 import info.emm.meeting.SessionInterface;
 import toy.android.com.toy.R;
+import toy.android.com.toy.utils.LogUtil;
+import toy.android.com.toy.utils.SPUtils;
 import toy.android.com.toy.utils.ToastUtil;
 
 /**
@@ -24,7 +26,7 @@ import toy.android.com.toy.utils.ToastUtil;
 
 public class VideoServiceUse extends IntentService implements SessionInterface, ControlPlayService.onMusicPlaying {
 
-    private static final String TAG = "VideoServiceUse";
+    private static final String TAG = VideoServiceUse.class.getSimpleName();
     static public int WEIYI_VIDEO_OUT_SLOW = 1;       //视频发送速度慢
     static public int WEIYI_VIDEO_OUT_DISCONNECT = 2; //视频发送连接断开重连
     static public int WEIYI_VIDEO_IN_SLOW = 3;        //视频接收速度慢
@@ -81,7 +83,7 @@ public class VideoServiceUse extends IntentService implements SessionInterface, 
             ToastUtil.showToast(this, "method:1");
             Log.d(TAG, "onCreate: method:1");
             //TODO 开发上线的时候把true改为false :不将日志写入文件.
-            usefront = hasfront = Session.getInstance().Init(this, "demo", "", true);
+            usefront = hasfront = Session.getInstance().Init(this, "demo", "", false);
             mCams = Session.getInstance().getCameraInfo();
             Session.getInstance().setRotate(0);
             EnterMeeting();
@@ -106,6 +108,8 @@ public class VideoServiceUse extends IntentService implements SessionInterface, 
         _codec = codec;
         _warningtime = 0;
         uid = (int) (Math.random() * 100000);
+        String uidFlagStr = SPUtils.getString(VideoServiceUse.this, "toyid", uid + "");
+        LogUtil.i(TAG, "uidflagstr" + uidFlagStr);
         String ip = "www.weiyicloud.com";
         int port = 80;
         String meetingId = mRoomid;
@@ -125,7 +129,8 @@ public class VideoServiceUse extends IntentService implements SessionInterface, 
         * */
 //        Session.getInstance().joinmeeting(ip, port, mUserFlag + uid, meetingId, "", uid, 0, null);
         Session.getInstance().joinmeeting(ip, port, mUserFlag, meetingId, "", uid, 0, null);
-        shutDownService(ControlPlayService.getInstance(),ControlPlayService.getMediaPlayer());
+//        Session.getInstance().joinmeeting(ip, port, mUserFlag + uidFlagStr, meetingId, "", uid, 0, null);
+        shutDownService(ControlPlayService.getInstance(), ControlPlayService.getMediaPlayer());
     }
 
     private void seeMe() {
@@ -152,10 +157,11 @@ public class VideoServiceUse extends IntentService implements SessionInterface, 
             int peerID = _userList.get(0);
 //            Session.getInstance().PlayVideo(peerID, true, mMy_video, 0, 0, 1, 1, 0, false, 1, 0);
             Session.getInstance().requestSpeaking(peerID);
+
             Log.d(TAG, "_watchingPeerID : 判断条件 ");
             _watchingPeerID = peerID;
         } else {
-            Log.d(TAG, "seeYou: _watchingPeerID!=0");
+            LogUtil.d(TAG, "seeYou: _watchingPeerID!=0");
 //            Session.getInstance().PlayVideo(_watchingPeerID, true, mMy_video, 0, 0, 1, 1, 0, false, 1, 0);
             Session.getInstance().requestSpeaking(_watchingPeerID);
             _watchingPeerID = 0;
@@ -212,8 +218,8 @@ public class VideoServiceUse extends IntentService implements SessionInterface, 
         _userList.add(peerId);
         MeetingUser user = Session.getInstance().getM_thisUserMgr().getUser(peerId);
         String name = user.getName();
-        Log.d(TAG, "onUserIn: name" + name);
-        Log.d(TAG, "onUserIn: peerId" + peerId);
+        Log.i(TAG, "onUserIn: name" + name);
+        Log.i(TAG, "onUserIn: peerId" + peerId);
         toyId = peerId;
         seeYou();
 //        if (name.equals("phone")) {

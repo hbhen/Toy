@@ -16,6 +16,7 @@ import java.util.Iterator;
 import cn.jpush.android.api.JPushInterface;
 import toy.android.com.toy.service.AppUpdateService;
 import toy.android.com.toy.service.ControlPlayService;
+import toy.android.com.toy.service.MultiVideoServiceUse;
 import toy.android.com.toy.service.VideoServiceUse;
 import toy.android.com.toy.utils.LogUtil;
 import toy.android.com.toy.utils.ToastUtil;
@@ -44,12 +45,57 @@ public class MyReceiver extends BroadcastReceiver {
             LogUtil.i(TAG, "result: " + result);
             try {
                 JSONObject obj = new JSONObject(result);
+<<<<<<< HEAD
                 final JSONObject params = obj.getJSONObject("param");
                 LogUtil.i(TAG, params.toString());
                 String cmd = obj.get("cmd").toString();//从服务器返回的cmd 当前的任务
                 LogUtil.i(TAG, cmd.toString());
+=======
+                LogUtil.i(TAGD, "obj : " + obj);
+                //小cmd命令
+                String cmd = obj.get("cmd").toString();//从服务器返回的cmd 当前的任务
+                final JSONObject params = obj.getJSONObject("param");
+                LogUtil.i(TAGD, "params: " + params);
+//                语音视频通话  (一对一通话收到后台推送)
+                if (cmd.equals("contact_toy")) {
+//                    ListenerManager.getInstance().sendBroadCast("contact_toy", params);
+                    String method = params.getString("method");
+                    mRoomId = params.getString("room");
+                    Log.i(TAG, "method: " + method);
+//                    switch (videoControlMethod) {
+//                        case 1://连接房间
+                    intent.setClass(context, VideoServiceUse.class);
+//                            intent.putExtra("method", 1);
+//                            intent.putExtra("roomid", mRoomId);
+//                            context.startService(intent);
+//                            Log.i("context", "video" + videoControlMethod);
+////                            //把房间号传到videoactivity里面去
+//                            ToastUtil.showToast(context, "开始通话" + mRoomId);
+//                            Log.i(TAG, "开始通话" + mRoomId);
+//                            break;
+                    intent.putExtra("method", method);
+                    intent.putExtra("roomid", mRoomId);
+                    context.startService(intent);
+//                    ToastUtil.showToast(context, "通话" + mRoomId);
+                    Log.d(TAGD, "(MyReceiver)onReceive: went" + method);
+//                        case 2://关闭通话
+//                            Log.i("context", "video" + videoControlMethod);
+//                            ToastUtil.showToast(context, "关闭通话" + mRoomId);
+//                            Log.i(TAG, "关闭通话" + mRoomId);
+//                            break;
+//                        case 3:
+//                            Log.i("context", "video" + videoControlMethod);
+//                            ToastUtil.showToast(context, "未知" + mRoomId);
+//                            Log.i(TAG, "未知" + mRoomId);
+//                            break;
+//                        default:
+//                            break;
+//                    }
+                }
+
+>>>>>>> toy2
                 //控制播放
-                if (cmd.equals("control_play")) {
+                else if (cmd.equals("control_play")) {
                     String playUrl = (String) params.get("url");
                     Log.i(TAG, "onReceive: resid" + playUrl);
                     String method = params.getString("method");
@@ -126,42 +172,6 @@ public class MyReceiver extends BroadcastReceiver {
                     }
                 }
 
-                //语音视频通话
-                else if (cmd.equals("contact_toy")) {
-//                    ListenerManager.getInstance().sendBroadCast("contact_toy", params);
-                    String method = params.getString("method");
-                    mRoomId = params.getString("room");
-                    Log.i(TAG, "method: " + method);
-//                    switch (videoControlMethod) {
-//                        case 1://连接房间
-                    intent.setClass(context, VideoServiceUse.class);
-//                            intent.putExtra("method", 1);
-//                            intent.putExtra("roomid", mRoomId);
-//                            context.startService(intent);
-//                            Log.i("context", "video" + videoControlMethod);
-////                            //把房间号传到videoactivity里面去
-//                            ToastUtil.showToast(context, "开始通话" + mRoomId);
-//                            Log.i(TAG, "开始通话" + mRoomId);
-//                            break;
-                    intent.putExtra("method", method);
-                    intent.putExtra("roomid", mRoomId);
-                    context.startService(intent);
-//                    ToastUtil.showToast(context, "通话" + mRoomId);
-                    Log.d(TAGD, "(MyReceiver)onReceive: went" + method);
-//                        case 2://关闭通话
-//                            Log.i("context", "video" + videoControlMethod);
-//                            ToastUtil.showToast(context, "关闭通话" + mRoomId);
-//                            Log.i(TAG, "关闭通话" + mRoomId);
-//                            break;
-//                        case 3:
-//                            Log.i("context", "video" + videoControlMethod);
-//                            ToastUtil.showToast(context, "未知" + mRoomId);
-//                            Log.i(TAG, "未知" + mRoomId);
-//                            break;
-//                        default:
-//                            break;
-//                    }
-                }
 
                 //控制录音
                 else if (cmd.equals("recordvolume")) {
@@ -234,6 +244,42 @@ public class MyReceiver extends BroadcastReceiver {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            JSONObject bigOBJ = null;
+            try {
+                bigOBJ = new JSONObject(result);
+                //大cmd命令
+                String CMD = bigOBJ.get("CMD").toString();
+                JSONObject body = bigOBJ.getJSONObject("BODY");
+                LogUtil.i(TAGD, "params (body)  :" + body);
+
+                //视频通话(一对多视频通话)
+                // 1.1功能:添加玩具进入会议室
+                if (CMD.equals("JOINMEETING")) {
+                    String roomid = body.getString("ROOMID");
+                    String password = body.getString("PASSWORD");
+                    intent.setClass(context, MultiVideoServiceUse.class);
+                    intent.putExtra("method", "1");
+                    intent.putExtra("roomid", roomid);
+                    context.startService(intent);
+                    LogUtil.i(TAGD, "收到的通知中,cmd的参数是: " + CMD);
+
+                }
+                // 1.2功能:将玩具踢出会议室
+                else if (CMD.equals("QUITMEETING")) {
+                    String roomid = body.getString("ROOMID");
+                    String password = body.getString("PASSWORD");
+                    intent.setClass(context, MultiVideoServiceUse.class);
+                    intent.putExtra("method", "2");
+                    intent.putExtra("roomid", roomid);
+                    context.startService(intent);
+                    ToastUtil.showToast(context, "cmd　：　" + CMD);
+                    LogUtil.i(TAGD, "收到的通知中,cmd的参数是: " + CMD);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
 
 //			if (map.get())
 //			ListenerManager.getInstance().sendBroadCast("control_play",map);
