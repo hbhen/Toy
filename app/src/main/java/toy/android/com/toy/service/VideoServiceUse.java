@@ -57,7 +57,7 @@ public class VideoServiceUse extends IntentService implements SessionInterface, 
     private int tvId;
     private String mToken;
     private String mToyid;
-
+    public static boolean isVideo=false;
     public VideoServiceUse() {
         super("video");
     }
@@ -210,6 +210,7 @@ public class VideoServiceUse extends IntentService implements SessionInterface, 
         _watchingPeerID = 0;
         uid = 0;
         _userList.clear();
+        isVideo=false;
     }
 
     @Override
@@ -327,7 +328,8 @@ public class VideoServiceUse extends IntentService implements SessionInterface, 
 
     @Override
     public void onPresentComplete() {
-
+        isVideo=true;
+        LogUtil.i("JPush","videouse(JPush)");
         Session.getInstance().requestSpeaking(_myPeerID);
 
     }

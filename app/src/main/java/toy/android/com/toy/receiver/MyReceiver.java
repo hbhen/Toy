@@ -45,16 +45,12 @@ public class MyReceiver extends BroadcastReceiver {
             LogUtil.i(TAG, "result: " + result);
             try {
                 JSONObject obj = new JSONObject(result);
-<<<<<<< HEAD
                 final JSONObject params = obj.getJSONObject("param");
                 LogUtil.i(TAG, params.toString());
-                String cmd = obj.get("cmd").toString();//从服务器返回的cmd 当前的任务
-                LogUtil.i(TAG, cmd.toString());
-=======
-                LogUtil.i(TAGD, "obj : " + obj);
                 //小cmd命令
                 String cmd = obj.get("cmd").toString();//从服务器返回的cmd 当前的任务
-                final JSONObject params = obj.getJSONObject("param");
+                LogUtil.i(TAG, cmd.toString());
+                LogUtil.i(TAGD, "obj : " + obj);
                 LogUtil.i(TAGD, "params: " + params);
 //                语音视频通话  (一对一通话收到后台推送)
                 if (cmd.equals("contact_toy")) {
@@ -92,8 +88,6 @@ public class MyReceiver extends BroadcastReceiver {
 //                            break;
 //                    }
                 }
-
->>>>>>> toy2
                 //控制播放
                 else if (cmd.equals("control_play")) {
                     String playUrl = (String) params.get("url");
@@ -150,9 +144,10 @@ public class MyReceiver extends BroadcastReceiver {
                 //调节玩具音量 这里有个问题,就是音量的值应该怎么取舍??
                 else if (cmd.equals("volume")) {
                     //然后设置  设置系统,多媒体,通话的音量的api  不用service吧  ,用通知就行了.
-                    boolean isVideo = true;
-                    boolean isMedia = true;
-                    if (isVideo) {
+//                    boolean isVideo = true;
+//                    boolean isMedia = true;
+                    LogUtil.i(TAG,"isVideo : "+ VideoServiceUse.isVideo);
+                    if (VideoServiceUse.isVideo) {
                         String valueS = params.getString("value");
                         int value = Integer.parseInt(valueS);
                         int calvalue = value * 15 / 100;
@@ -161,7 +156,7 @@ public class MyReceiver extends BroadcastReceiver {
                         audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, calvalue, audioManager
                                 .FLAG_PLAY_SOUND
                                 | AudioManager.FLAG_SHOW_UI);
-                    } else if (isMedia) {
+                    } else if (ControlPlayService.getMediaPlayer().isPlaying()) {
                         String valueS = params.getString("value");
                         int value = Integer.parseInt(valueS);
                         int calvalue = value * 15 / 100;
